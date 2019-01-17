@@ -1,5 +1,7 @@
 {
   "name": "ZeroD",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

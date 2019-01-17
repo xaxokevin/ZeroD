@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+  <ion-title>Nueva Alerta</ion-title>
+  </ion-toolbar>
+  </ion-header>
+  <ion-content padding>
+  <form [formGroup]="alerta" (ngSubmit)="uploadForm()">
+  <ion-item>
+  <ion-label>Alerta</ion-label>
+  <ion-input type="text" formControlName="descripcion"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Tipo de alerta</ion-label>
+    <ion-select placeholder="Selecciona una" formControlName="alertType">
+      <ion-select-option value="accidente">Accidente</ion-select-option>
+      <ion-select-option value="meteorologia">Meteorología</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button shape="round" color="primary" fill="outline"
+  type="submit" [disabled]="!alerta.valid">Submit</ion-button>
+  </form>
+  </ion-content>
