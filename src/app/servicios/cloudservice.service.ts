@@ -12,6 +12,7 @@ export class CloudserviceService {
 
   accidenteCollection: AngularFirestoreCollection<any>;
   meteorologiaCollection: AngularFirestoreCollection<any>;
+  
 
   /*Variables para el infiniteScroll de la pestaña Accidentes*/
   lastAccidentLoaded = null;  //último accidente cargado
@@ -30,6 +31,8 @@ export class CloudserviceService {
     operaciones CRUD*/
     this.accidenteCollection = fireStore.collection<any>(environment.accidenteColeccion);
     this.meteorologiaCollection = fireStore.collection<any>(environment.meteorologiaColeccion);
+    
+
 
   }
   /*

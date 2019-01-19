@@ -6,6 +6,11 @@ import { Component, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, IonSlides } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { iMeteorology } from '../model/iMeteorology';
+import { CustomLoading } from '../custom-modal/custom-loading';
+
+
+
+
 
 @Component({
   selector: 'app-tab1',
@@ -25,46 +30,61 @@ export class Tab1Page {
 
   constructor(private route: ActivatedRoute,
     private cloudS: CloudserviceService,
-    //private loading: CustomLoadingModule,
-    private cmm: CustomModalModule,
+    private loading: CustomLoading,
+    private back: BackbuttonService
+  ) {
     
-    private back: BackbuttonService) {
+
+     
 
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     console.log("ENTRO")
     this.SwipedTabsIndicator = document.getElementById("indicator");
     this.SwipedTabsSlider.length().then(l => {  //no sería necesario aquí, solo en ngOnInit
       this.ntabs = l;
     });
     console.log("FIn entro");
-  }
-
-  ngOnInit() {
-    this.updateAllAccident();  //solo la primera vez, por fluidez no cargamos si navegamos por las tabs
+    this.updateAllAccident(); 
     this.updateAllMeteorology();
   }
+  
+
+  ngOnInit() {
+    //this.updateAllAccident();  //solo la primera vez, por fluidez no cargamos si navegamos por las tabs
+    //this.updateAllMeteorology();
+    
+    
+  }
+
+
+  
+
+ 
 
 
   //Carga todos los accidentes en el listado accidentes
   updateAllAccident(event?) {
-   //this.loading.show("");
+  this.loading.show("");
     
       this.cloudS.getAccident(true).then(d => {
         
         this.listadoAccidentes = d;
-        //this.loading.hide();
+        
         if (event) {
           event.target.complete();
         }
       })
+
+      this.loading.hide();  
+      console.log("fin cargando");
     
   }
 // actualiza la lista de accidentes
   updateAccident(event?, reload?) {
     if (!event)
-      //this.loading.show("");
+      this.loading.show("");
     this.cloudS.getAccident(reload).then(d => {
       
       if (reload) {
@@ -75,7 +95,7 @@ export class Tab1Page {
         });
       }
       if (!event)
-        //this.loading.hide();
+        this.loading.hide();
       if (event) {
         event.target.complete();
       }
@@ -90,18 +110,19 @@ export class Tab1Page {
        this.cloudS.getMeteorology(true).then(d => {
          
          this.listadoMeteorologia = d;
-         //this.loading.hide();
+         
          if (event) {
            event.target.complete();
          }
        })
+       //this.loading.hide();
      
    }
  
    //actualiza la lista dea visos por meteorologia
    updateMeteorology(event?, reload?) {
      if (!event)
-       //this.loading.show("");
+       this.loading.show("");
      this.cloudS.getMeteorology(reload).then(d => {
        
        if (reload) {
@@ -112,7 +133,7 @@ export class Tab1Page {
          });
        }
        if (!event)
-         //this.loading.hide();
+         this.loading.hide();
        if (event) {
          event.target.complete();
        }
@@ -139,7 +160,7 @@ export class Tab1Page {
   }
   /* El método que anima la "rayita" mientras nos estamos deslizando por el slide*/
   animateIndicator(e) {
-    //console.log(e.target.swiper.progress);
+    console.log(e.target.swiper.progress);
     if (this.SwipedTabsIndicator)
       this.SwipedTabsIndicator.style.webkitTransform = 'translate3d(' +
         ((e.target.swiper.progress * (this.ntabs - 1)) * 100) + '%,0,0)';

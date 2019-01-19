@@ -10,10 +10,15 @@
 <ion-content>
 
   <div id="map" style="width:100%; height:100%;"></div>
+  
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="addMark()">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+    <ion-fab-button  color="light">
+      <ion-icon name="md-locate" color="primary" (click)=" locateme()"></ion-icon>
     </ion-fab-button>
+    <ion-fab-button>
+      <ion-icon name="add" (click)="addMark()"></ion-icon>
+    </ion-fab-button>
+    
   </ion-fab>
 </ion-content>

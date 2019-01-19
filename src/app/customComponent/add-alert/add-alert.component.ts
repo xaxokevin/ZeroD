@@ -1,9 +1,11 @@
+
 import { CloudserviceService } from '../../servicios/cloudservice.service';
 import { ModalController, LoadingController, NavParams } from
   '@ionic/angular';
 import { Component, OnInit } from '@angular/core'; 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-alert',
@@ -24,7 +26,7 @@ export class AddAlertComponent implements OnInit {
     private CloudS: CloudserviceService,
     private router: Router,
     public loadingController: LoadingController, public navparams:
-      NavParams) {
+      NavParams, ) {
 
     //recuperamos a traves de NavParams, la clave valor que tenemos en la marca
     this.longitud = this.navparams.get('longitude');
@@ -74,6 +76,7 @@ export class AddAlertComponent implements OnInit {
     this.CloudS.anadirA(data)
       .then((docRef) => {
         /* Cerramos el cargando...*/
+       
         this.loadingController.dismiss();
         /*Cerramos el modal*/
         this.dismiss();

@@ -1,3 +1,5 @@
+import { CustomToast } from './custom-modal/custom-toast';
+import { CustomLoading } from './custom-modal/custom-loading';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -12,11 +14,14 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from 'src/environments/environment';
 import { AddAlertComponent } from './customComponent/add-alert/add-alert.component';
 
+
+
+
 @NgModule({
   declarations: [AppComponent, AddAlertComponent],
   entryComponents: [AddAlertComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,FormsModule,
+    AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,
     ReactiveFormsModule,],
   providers: [
     StatusBar,

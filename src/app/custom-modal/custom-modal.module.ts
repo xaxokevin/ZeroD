@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 import { BackbuttonService } from 'src/app/servicios/backbutton.service';
 
+
 @NgModule({
   declarations: [],
   imports: [
@@ -14,7 +15,7 @@ export class CustomModalModule {
 
   constructor(public modalCtrl: ModalController, private back: BackbuttonService) { }
 
-  async show(component, latitude,longitude, callback) {
+  async show(component, latitude,longitude, callback): Promise <any> {
     this.back.openModal = true;
     const modal = await this.modalCtrl.create({
       cssClass: "my-modal",
@@ -22,14 +23,19 @@ export class CustomModalModule {
       component: component,  //El componente que se inyecta en la ventana modal
       componentProps: {latitude,longitude} //Los parámetros que se le pasan a la ventana modal
     });
+    
     modal.onDidDismiss().then((d) => {
       //returns true so callback 
       this.back.openModal = false;
       if (d.data) {
         if (callback.onModalClose)
           callback.onModalClose(d.data)
+          
       }   //Evento que queremos que haga cuando se cierre, ver más eventos
     });
+    
+    
     return await modal.present();
   }
+  
 }

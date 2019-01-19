@@ -7,10 +7,12 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { Tab2Page } from './tab2.page';
 
 
+
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
+  
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild([{ path: '', component: Tab2Page }])
