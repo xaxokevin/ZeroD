@@ -1,4 +1,4 @@
-
+import { CustomModalModule } from './../custom-modal/custom-modal.module';
 import { iAccidente } from './../model/iAccident';
 import { BackbuttonService } from './../servicios/backbutton.service';
 import { CloudserviceService } from './../servicios/cloudservice.service';
@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { iMeteorology } from '../model/iMeteorology';
 import { CustomLoading } from '../custom-modal/custom-loading';
 import { WeatherService } from '../servicios/weather.service';
+import { ViewCardComponent } from '../customComponent/view-card/view-card.component';
 
 
 
@@ -39,43 +40,28 @@ export class Tab1Page {
     private loading: CustomLoading,
     private back: BackbuttonService,
     private aemet: WeatherService,
+    private cmm: CustomModalModule
    
-  ) {
-    
-
-     
-
-  }
+  ) {}
 
   ionViewWillEnter() {
     console.log("ENTRO")
     this.SwipedTabsIndicator = document.getElementById("indicator");
-    this.SwipedTabsSlider.length().then(l => {  //no sería necesario aquí, solo en ngOnInit
+    this.SwipedTabsSlider.length().then(l => {  
       this.ntabs = l;
     });
     console.log("FIn entro");
+    //carga los datos de accidente y meteorologia
     this.updateAllAccident(); 
     this.updateAllMeteorology();
+    //obtiene los datos de aemet (Falta implementacion)
     this.aemet.getRemoteData();
   }
   
 
-  ngOnInit() {
-    //this.updateAllAccident();  //solo la primera vez, por fluidez no cargamos si navegamos por las tabs
-    //this.updateAllMeteorology();
-    
-    
-  }
-
-  
-
-
-  
-
- 
-
 
   //Carga todos los accidentes en el listado accidentes
+  //mostramos el loading al iniciar la carga y se quita cuando se complete
   updateAllAccident(event?) {
   this.loading.show("");
     
@@ -89,10 +75,12 @@ export class Tab1Page {
       })
 
       this.loading.hide();  
-      console.log("fin cargando");
+      
     
   }
+
 // actualiza la lista de accidentes
+//al accionar el refresher
   updateAccident(event?, reload?) {
     if (!event)
       this.loading.show("");
@@ -116,7 +104,6 @@ export class Tab1Page {
 
   //Carga todos los avisos de meteorologia en el listado meteorologia
   updateAllMeteorology(event?) {
-    //this.loading.show("");
      
        this.cloudS.getMeteorology(true).then(d => {
          
@@ -126,11 +113,10 @@ export class Tab1Page {
            event.target.complete();
          }
        })
-       //this.loading.hide();
-     
+   
    }
  
-   //actualiza la lista dea visos por meteorologia
+   //actualiza la lista de avisos por meteorologia al accionar el refresher
    updateMeteorology(event?, reload?) {
      if (!event)
        this.loading.show("");
@@ -175,6 +161,15 @@ export class Tab1Page {
     if (this.SwipedTabsIndicator)
       this.SwipedTabsIndicator.style.webkitTransform = 'translate3d(' +
         ((e.target.swiper.progress * (this.ntabs - 1)) * 100) + '%,0,0)';
+  }
+
+
+
+  //acciona el modal que muestra la informacion completa de la alerta
+  //Recibe por parametros todos los campos de nuestra alerta
+  showInfo(descripcion: any, tipo: any, hora: any, latitud: any, longitud:any){
+
+    this.cmm.showInfo(ViewCardComponent, descripcion,tipo, hora, latitud, longitud,this)
   }
   
 }

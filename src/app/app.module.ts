@@ -1,3 +1,4 @@
+
 import {  HttpClientModule} from '@angular/common/http';
 import { CustomToast } from './custom-modal/custom-toast';
 import { CustomLoading } from './custom-modal/custom-loading';
@@ -15,6 +16,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from 'src/environments/environment';
 import { AddAlertComponent } from './customComponent/add-alert/add-alert.component';
 import { WeatherService } from './servicios/weather.service';
+import { ViewCardComponent } from './customComponent/view-card/view-card.component';
 
 
 
@@ -25,8 +27,8 @@ import { WeatherService } from './servicios/weather.service';
 
 
 @NgModule({
-  declarations: [AppComponent, AddAlertComponent,],
-  entryComponents: [AddAlertComponent],
+  declarations: [AppComponent, AddAlertComponent, ViewCardComponent,],
+  entryComponents: [AddAlertComponent,ViewCardComponent,],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,
     ReactiveFormsModule, HttpClientModule],

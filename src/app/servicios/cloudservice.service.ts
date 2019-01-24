@@ -76,18 +76,14 @@ export class CloudserviceService {
       query.then((d) => {
         d.forEach((u) => {
           let x = { "descripcion": u.id, ...u.data() };
-
+          /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
+          el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
           let horaLocal = new Date().valueOf();
 
-          
-
-          if(x.hora+3600000<= horaLocal){
-
-            console.log("no se añade");
+          if(x.hora+3600000 <= horaLocal){
 
           }else{
-            console.log("se añade");
-
+  
             lreq.push(x);
 
           }
@@ -106,31 +102,27 @@ export class CloudserviceService {
     })
   }
 
+  /* Carga de accidentes en el mapa (Crea los marcadores) unicamente se mostraran hasta 1000 avisos*/
   getMarkAccident(): Promise<iAccidente[]>{
 
-   
     return new Promise((resolve, reject) => {
       let lreq: iAccidente[] = [];
       let query;
-      
-        
-      query = this.accidenteCollection.ref.orderBy("descripcion", "asc").limit(100).get();
+ 
+      query = this.accidenteCollection.ref.orderBy("descripcion", "asc").limit(1000).get();
 
       
       query.then((d) => {
         d.forEach((u) => {
           let x = { "descripcion": u.id, ...u.data() };
+          /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
+          el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
           let horaLocal = new Date().valueOf();
 
-          
-
           if(x.hora+3600000<= horaLocal){
 
-            console.log("no se añade");
-
           }else{
-            console.log("se añade");
 
             lreq.push(x);
 
@@ -186,17 +178,14 @@ export class CloudserviceService {
           let x = { "descripcion": u.id, ...u.data() };
           let horaLocal = new Date().valueOf();
 
-          
+          /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
+          el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
           if(x.hora+3600000<= horaLocal){
 
-            console.log("no se añade");
-
           }else{
-            console.log("se añade");
-
+            
             lreq.push(x);
-
           }
         });
         this.lastlastMeteorologyLoaded = d.docs[d.docs.length - 1];
@@ -211,6 +200,8 @@ export class CloudserviceService {
     })
   }
 
+
+//Carga las marcas de meteorologia en el mapa. Como maximo se van a maracar 1000 marcas
   getMarkMeteorology(): Promise<iAccidente[]>{
 
    
@@ -219,7 +210,7 @@ export class CloudserviceService {
       let query;
       
         
-      query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").limit(100).get();
+      query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").limit(1000).get();
 
       
       query.then((d) => {
@@ -227,16 +218,13 @@ export class CloudserviceService {
           let x = { "descripcion": u.id, ...u.data() };
 
           let horaLocal = new Date().valueOf();
-
-          
+/*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
+          el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
           if(x.hora+3600000<= horaLocal){
 
-            console.log("no se añade");
-
           }else{
-            console.log("se añade");
-
+           
             lreq.push(x);
 
           }

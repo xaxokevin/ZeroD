@@ -35,7 +35,7 @@
         </ion-refresher>
         
         
-          <ion-card *ngFor="let item of listadoAccidentes;let i = index" >
+          <ion-card *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
           <ion-label class="tamano"> 
             <ion-icon name="ios-car" slot="start"  ></ion-icon>
             {{item.descripcion}}
@@ -63,7 +63,7 @@
         </ion-refresher>
         
         
-          <ion-card *ngFor="let item of listadoMeteorologia;let i = index" >
+          <ion-card *ngFor="let item of listadoMeteorologia;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
           <ion-label class="tamano"> 
             <ion-icon name="ios-umbrella" slot="start"  ></ion-icon>
             {{item.descripcion}}

@@ -1,10 +1,11 @@
+import { CustomToast } from './../../custom-modal/custom-toast';
 
+import { CustomLoading } from './../../custom-modal/custom-loading';
 import { CloudserviceService } from '../../servicios/cloudservice.service';
-import { ModalController, LoadingController, NavParams } from
-  '@ionic/angular';
+import { ModalController, NavParams } from'@ionic/angular';
 import { Component, OnInit } from '@angular/core'; 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -13,20 +14,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-alert.component.scss']
 })
 export class AddAlertComponent implements OnInit {
+  ngOnInit(): void {
+    
+  }
 
-  private alerta: FormGroup; //Instancia del FormGroup de nueva.page.html
-  myloading: any; //mejorable con un servicio destinado a estos menesteres...
-  //Lo usamos para mostrar un cargando mientras se realiza la operación.
+  private alerta: FormGroup; 
   longitud: any;
   latitud: any;
-  temporal: any;
-  //variables que vamos a recuperar del mapa para poder crear un aviso
+ 
 
-  constructor(public modalcontroller: ModalController, private formBuilder: FormBuilder,
+  constructor(public modalcontroller: ModalController, 
+    private formBuilder: FormBuilder,
     private CloudS: CloudserviceService,
-    private router: Router,
-    public loadingController: LoadingController, public navparams:
-      NavParams, ) {
+    public loading: CustomLoading, 
+    public navparams:NavParams,
+    public toast: CustomToast  ) {
 
     //recuperamos a traves de NavParams, la clave valor que tenemos en la marca
     this.longitud = this.navparams.get('longitude');
@@ -40,12 +42,6 @@ export class AddAlertComponent implements OnInit {
 
   }
 
-
-
-  ngOnInit() {
-  }
-
-
   //método que quita el modal
   dismiss() {
     this.modalcontroller.dismiss();
@@ -56,7 +52,7 @@ export class AddAlertComponent implements OnInit {
   servicio. Gestiona la
   Promise para sincronizar la interfaz. */
   uploadForm() {
-    console.log(this.alerta);
+ 
     let data = {
       descripcion: this.alerta.get("descripcion").value,
       alert: this.alerta.get("alertType").value,
@@ -65,61 +61,53 @@ export class AddAlertComponent implements OnInit {
       hora: new Date().valueOf()
 
     };
-    
 
     if (data.alert == 'accidente'){
       
 
       /* Mostramos el cargando... */
-    //this.myloading = this.presentLoading();
+      this.loading.show("");
     // Llamamos al metodo anadir pasandole  los datos 
-    console.log("dentro de accidente");
+
     this.CloudS.anadirA(data)
       .then((docRef) => {
         /* Cerramos el cargando...*/
-       
-        this.loadingController.dismiss();
+       this.loading.hide();
         /*Cerramos el modal*/
         this.dismiss();
       })
       .catch((error) => {
         console.error("Error insertando documento: ", error);
         /* Cerramos el cargando...*/
-        //this.loadingController.dismiss();
-        /* Mostramos un mensaje de error */
-        /* A desarrollar, se aconseja emplear un componente denominado
-        toast */
+        this.loading.hide();
+        this.toast.show("");
+       
+
+
       });
 
     }else{
 
     /* Mostramos el cargando... */
-    this.myloading = this.presentLoading();
+    this.loading.show("");
     // Llamamos al metodo anadir pasandole  los datos 
     console.log("dentro de meteo");
     this.CloudS.anadirM(data)
       .then((docRef) => {
         /* Cerramos el cargando...*/
-        this.loadingController.dismiss();
+        this.loading.hide();
         /*Cerramos el modal*/
         this.dismiss();
+        
       })
       .catch((error) => {
         console.error("Error insertando documento: ", error);
         /* Cerramos el cargando...*/
-        this.loadingController.dismiss();
-        /* Mostramos un mensaje de error */
-        /* A desarrollar, se aconseja emplear un componente denominado
-        toast */
+        this.loading.hide();
+        this.toast.show("");
+        
       });
     }
   }
   
-  /* Es un componente de la interfaz IONIC v4 */
-  async presentLoading() {
-    this.myloading = await this.loadingController.create({
-      message: 'Guardando'
-    });
-    return await this.myloading.present();
-  }
 }

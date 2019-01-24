@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
     CommonModule
   ]
 })
-export class CustomLoading { 
+export class CustomLoading { //Clase que crea nuestro loading personalizado
   myloading:any;
   timeout;
 
@@ -21,10 +21,12 @@ export class CustomLoading {
     //private translate:TranslateService
     ){
   }
+  
+  //metodo que muestra el loading
   async show(msg) {
     this.myloading = await this.loadingController.create({
     message:msg,
-    spinner:null,
+    spinner:"crescent",
     leaveAnimation:null
     });
     this.timeout=setTimeout(()=>{
@@ -33,6 +35,8 @@ export class CustomLoading {
     },environment.timemaxloading);
     await this.myloading.present(); 
   }
+
+  //metodo que oculta el loading
   hide(){
     if(this.myloading){
       clearTimeout(this.timeout);

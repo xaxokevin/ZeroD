@@ -41,24 +41,7 @@ export class BackbuttonService {
       }
     });
 
-    //this.router.events.subscribe((event) => {
-      //if (event instanceof NavigationEnd) {  //es lanzado cuando se termina de navegar
-        //this.currentURL = event.url;
-        //if (this.haspressB) {  //Si se pulsó atrás
-         // if (this.authS.isLogged()) {
-            //if (this.authS.getRole() == "prof") {  //si soy profe me voy al home de profe
-              //this.navCtrl.navigateRoot(['/profesor/home'], { animationDirection: "back" });
-            //} else {  //si soy alumno me voy al home de alumno
-             // this.navCtrl.navigateRoot(['/usuario/home'], { animationDirection: "back" });
-            //}
-          //} else {  //Este no debe ser alcanzado nunca, es por si acaso
-           // this.navCtrl.navigateRoot(['/'], { animationDirection: "back" });
-         // }
-
-          //this.haspressB = !this.haspressB;  //Ya he gestionado la acción, dejo de indicar que se pulsó atrás
-        //}
-      //}
-    //});
+    
 
   }
 }
