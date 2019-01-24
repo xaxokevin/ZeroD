@@ -1,11 +1,11 @@
-<ion-header>
+<ion-header >
   <ion-toolbar>
     <ion-title>
-      Alerts
+      ZeroD
     </ion-title>
   </ion-toolbar>
   <ion-segment [(ngModel)]="category" (ionChange)="slides.slideTo(category)" style="background-color:white"
-  color=" primary">
+  color="primary">
   <ion-segment-button layout="icon-start" value="0" style="--padding-end:0px;--padding-start:0px">
     <ion-icon name="ios-car" style="margin-right:1px;zoom:1"></ion-icon>
     <ion-label></ion-label>
@@ -26,26 +26,25 @@
     (ionSlideWillChange)="updateIndicatorPosition()" (ionSlideDidChange)="updateIndicatorPosition()" #SwipedTabsSlider
     (ionSlideDrag)="animateIndicator($event)">
     <ion-slide>
-      <ion-content class="fixed-scroll">
+      <ion-content class="fixed-scroll" >
         <ion-refresher (ionRefresh)="this.updateAccident($event,true)">
           <ion-refresher-content pullingIcon="arrow-dropdown" 
-            refreshingSpinner="null" refreshingText="">
+            refreshingSpinner="null" refreshingText="Cargandoo">
             
           </ion-refresher-content>
         </ion-refresher>
         
-        <ion-item *ngFor="let item of listadoAccidentes;let i = index" >
-          <ion-card>
-          <ion-label maxlength="30" > 
+        
+          <ion-card *ngFor="let item of listadoAccidentes;let i = index" >
+          <ion-label class="tamano"> 
             <ion-icon name="ios-car" slot="start"  ></ion-icon>
             {{item.descripcion}}
           </ion-label>
-          <ion-label >
-            <h5>Latitud: {{item.latitud}}, Longitud: {{item.longitud}}</h5>
-          </ion-label>
+            <h5>Lat: {{item.latitud}}, Long: {{item.longitud}}</h5>
+          
         </ion-card>
           
-        </ion-item>
+        
       
         <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateAccident($event,false)">
           <ion-infinite-scroll-content loadingSpinner="null" loadingText="Cargando">
@@ -55,35 +54,30 @@
       </ion-content>
     </ion-slide>
     <ion-slide>
-      <ion-content class="fixed-scroll">
-
-          <ion-refresher (ionRefresh)="this.updateMeteorologia($event,true)">
-              <ion-refresher-content pullingIcon="arrow-dropdown" 
-                refreshingSpinner="null" refreshingText="">
-                
-              </ion-refresher-content>
-            </ion-refresher>
-            <ion-item *ngFor="let item of listadoMeteorologia;let i = index" >
-             
-              <ion-card>
-                <ion-label> 
-                  <ion-icon name="ios-umbrella" slot="start"></ion-icon>
-                  {{item.descripcion}}
-                </ion-label>
-                <ion-label >
-                  <h5>Latitud: {{item.latitud}}, Longitud: {{item.longitud}}</h5>
-                </ion-label>
-              </ion-card>
-              
-            </ion-item>
-            <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateMeteorologia($event,false)">
-              <ion-infinite-scroll-content loadingSpinner="null" loadingText="Cargando">
-                
-              </ion-infinite-scroll-content>
-            </ion-infinite-scroll>
+      <ion-content class="fixed-scroll" >
+        <ion-refresher (ionRefresh)="this.updateMeteorology($event,true)">
+          <ion-refresher-content pullingIcon="arrow-dropdown" 
+            refreshingSpinner="null" refreshingText="Cargandoo">
+            
+          </ion-refresher-content>
+        </ion-refresher>
         
         
+          <ion-card *ngFor="let item of listadoMeteorologia;let i = index" >
+          <ion-label class="tamano"> 
+            <ion-icon name="ios-umbrella" slot="start"  ></ion-icon>
+            {{item.descripcion}}
+          </ion-label>
+            <h5>Lat: {{item.latitud}}, Long: {{item.longitud}}</h5>
+        </ion-card>
+          
         
+      
+        <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateMeteorology($event,false)">
+          <ion-infinite-scroll-content loadingSpinner="null" loadingText="Cargando">
+            
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </ion-content>
     </ion-slide>
   </ion-slides>

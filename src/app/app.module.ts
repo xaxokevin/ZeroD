@@ -1,3 +1,4 @@
+import {  HttpClientModule} from '@angular/common/http';
 import { CustomToast } from './custom-modal/custom-toast';
 import { CustomLoading } from './custom-modal/custom-loading';
 import { NgModule } from '@angular/core';
@@ -13,19 +14,28 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from 'src/environments/environment';
 import { AddAlertComponent } from './customComponent/add-alert/add-alert.component';
+import { WeatherService } from './servicios/weather.service';
+
+
+
+
+
 
 
 
 
 @NgModule({
-  declarations: [AppComponent, AddAlertComponent],
+  declarations: [AppComponent, AddAlertComponent,],
   entryComponents: [AddAlertComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,
-    ReactiveFormsModule,],
+    ReactiveFormsModule, HttpClientModule],
   providers: [
     StatusBar,
     SplashScreen,
+    WeatherService,
+    
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

@@ -12,6 +12,7 @@ export class CloudserviceService {
 
   accidenteCollection: AngularFirestoreCollection<any>;
   meteorologiaCollection: AngularFirestoreCollection<any>;
+  hora:any;
   
 
   /*Variables para el infiniteScroll de la pestaña Accidentes*/
@@ -76,7 +77,22 @@ export class CloudserviceService {
         d.forEach((u) => {
           let x = { "descripcion": u.id, ...u.data() };
 
-          lreq.push(x);
+          let horaLocal = new Date().valueOf();
+
+          
+
+          if(x.hora+3600000<= horaLocal){
+
+            console.log("no se añade");
+
+          }else{
+            console.log("se añade");
+
+            lreq.push(x);
+
+          }
+
+          
         });
         this.lastlastAccidentLoaded = d.docs[d.docs.length - 1];
         if (d.docs.length < 10) {
@@ -105,7 +121,20 @@ export class CloudserviceService {
         d.forEach((u) => {
           let x = { "descripcion": u.id, ...u.data() };
 
-          lreq.push(x);
+          let horaLocal = new Date().valueOf();
+
+          
+
+          if(x.hora+3600000<= horaLocal){
+
+            console.log("no se añade");
+
+          }else{
+            console.log("se añade");
+
+            lreq.push(x);
+
+          }
         });
         
         
@@ -140,10 +169,10 @@ export class CloudserviceService {
     }
     this.lastMeteorologyLoaded = this.lastlastMeteorologyLoaded;
     return new Promise((resolve, reject) => {
-      let lreq: iMeteorology[] = [];
+      let lreq: iAccidente[] = [];
       let query;
-      if (this.lastMeteorologyLoaded== null) {
-        /* Obtengo los primeros 10 avisos de meteorologia ordenados por descripcion. Para ordenar es necesario
+      if (this.lastMeteorologyLoaded == null) {
+        /* Obtengo los primeros 10 accidentes ordenados por descripcion. Para ordenar es necesario
         activar un índice en firebase. Si no se crea dará un error por consola indicando los pasos
         necesarios para crearlo */
         query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").limit(10).get();
@@ -155,8 +184,20 @@ export class CloudserviceService {
       query.then((d) => {
         d.forEach((u) => {
           let x = { "descripcion": u.id, ...u.data() };
+          let horaLocal = new Date().valueOf();
 
-          lreq.push(x);
+          
+
+          if(x.hora+3600000<= horaLocal){
+
+            console.log("no se añade");
+
+          }else{
+            console.log("se añade");
+
+            lreq.push(x);
+
+          }
         });
         this.lastlastMeteorologyLoaded = d.docs[d.docs.length - 1];
         if (d.docs.length < 10) {
@@ -185,7 +226,20 @@ export class CloudserviceService {
         d.forEach((u) => {
           let x = { "descripcion": u.id, ...u.data() };
 
-          lreq.push(x);
+          let horaLocal = new Date().valueOf();
+
+          
+
+          if(x.hora+3600000<= horaLocal){
+
+            console.log("no se añade");
+
+          }else{
+            console.log("se añade");
+
+            lreq.push(x);
+
+          }
         });
         
         

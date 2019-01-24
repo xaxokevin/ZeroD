@@ -1,9 +1,11 @@
+
 import { CustomModalModule } from './../custom-modal/custom-modal.module';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+
 
 
 
@@ -22,6 +24,6 @@ import { TabsPage } from './tabs.page';
     TabsPageRoutingModule,
    
   ],
-  declarations: [TabsPage]
+  declarations: [TabsPage,]
 })
 export class TabsPageModule {}

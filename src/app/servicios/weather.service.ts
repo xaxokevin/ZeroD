@@ -11,7 +11,17 @@ export class WeatherService {
   constructor(public http: HttpClient){}
 
   getRemoteData(){
+    
     let url ='https://opendata.aemet.es/opendata/api/avisos_cap/ultimoelaborado/area/esp/?api_key='+this.apiKey;
+    this.http.get(url).subscribe((d)=>{
+      if(d["datos"]){
+        this.http.get(d["datos"]).subscribe((x)=>{
+          console.log("he entrado aqui"+x)
+        });
+      }else{
+        console.log("sin datos");
+      }
+    })
     console.log(url);
     //return this.http.get(url)
   }

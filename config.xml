@@ -89,5 +89,6 @@
     <allow-navigation href="http://192.168.0.160:8101" sessionid="62b1b5a4" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-screen-orientation" spec="3.0.1" />
+    <plugin name="cordova-plugin-sensors" spec="https://github.com/fabiorogeriosj/cordova-plugin-sensors.git" />
     <engine name="android" spec="7.1.4" />
 </widget>

@@ -12,6 +12,7 @@
 }
 .button-native{
   padding:0px !important;
+  color: #2873ed!important;
 }
 /* para que el slide ocupe toda la pantalla */
 ion-slide.swiper-slide {
@@ -33,10 +34,20 @@ ion-slide.swiper-slide {
 display: none;
 }
 ion-card{
-  margin:0px!important;
-  border-radius: 0px;
-  height: 100%!important;
-  width: 100%!important;
+  //margin:0px!important;
+  border-radius: 5px;
+  height: auto;
+  width: 96%!important;
+  margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+ion-segment{
+  height: 40px!important;
+}
+
+ion-segment-button{
+  height: 35px!important;;
 }
 
 ion-icon{
@@ -44,16 +55,46 @@ ion-icon{
   float: right;
   height: 30px;
   width: 30px;
+  margin-bottom: 30px;
 }
 
 ion-label{
   margin-top: 10px;
+  
   
 }
 
 .sc-ion-label-md-h{
 
   font-size: 20px;
+  
 
+}
+
+ion-content{
+
+  background-color: #f2f2f2;
+}
+
+
+
+ion-title{
+  float: left;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+
+.tamano{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 90% !important;
+  height: auto;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+ion-card{
+  background-color: #f2f2f2;
 }
 

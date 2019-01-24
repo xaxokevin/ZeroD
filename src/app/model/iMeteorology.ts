@@ -4,5 +4,7 @@ export interface iMeteorology{
     latitud?:any,
     descripcion?:any,
     alerta?:any,
+    hora?:any
+    
     
   }

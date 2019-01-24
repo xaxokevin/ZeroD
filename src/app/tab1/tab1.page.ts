@@ -1,12 +1,17 @@
+
 import { iAccidente } from './../model/iAccident';
 import { BackbuttonService } from './../servicios/backbutton.service';
-import { CustomModalModule } from './../custom-modal/custom-modal.module';
 import { CloudserviceService } from './../servicios/cloudservice.service';
 import { Component, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, IonSlides } from '@ionic/angular';
+import { IonInfiniteScroll, IonSlides} from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { iMeteorology } from '../model/iMeteorology';
 import { CustomLoading } from '../custom-modal/custom-loading';
+import { WeatherService } from '../servicios/weather.service';
+
+
+
+
 
 
 
@@ -27,11 +32,14 @@ export class Tab1Page {
   listadoAccidentes: iAccidente[] = [];
   listadoMeteorologia: iMeteorology[] = [];
 
+ 
 
   constructor(private route: ActivatedRoute,
     private cloudS: CloudserviceService,
     private loading: CustomLoading,
-    private back: BackbuttonService
+    private back: BackbuttonService,
+    private aemet: WeatherService,
+   
   ) {
     
 
@@ -48,6 +56,7 @@ export class Tab1Page {
     console.log("FIn entro");
     this.updateAllAccident(); 
     this.updateAllMeteorology();
+    this.aemet.getRemoteData();
   }
   
 
@@ -57,6 +66,8 @@ export class Tab1Page {
     
     
   }
+
+  
 
 
   

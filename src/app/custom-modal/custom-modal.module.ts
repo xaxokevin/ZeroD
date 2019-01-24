@@ -27,11 +27,8 @@ export class CustomModalModule {
     modal.onDidDismiss().then((d) => {
       //returns true so callback 
       this.back.openModal = false;
-      if (d.data) {
         if (callback.onModalClose)
-          callback.onModalClose(d.data)
-          
-      }   //Evento que queremos que haga cuando se cierre, ver más eventos
+          callback.onModalClose()
     });
     
     

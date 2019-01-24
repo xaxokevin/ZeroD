@@ -7,7 +7,7 @@
   <form [formGroup]="alerta" (ngSubmit)="uploadForm()">
   <ion-item>
     <h3>Alerta</h3>
-      <ion-input required type="textarea" placeholder="Descripcion de la alerta"></ion-input>
+    <ion-input formControlName="descripcion" placeholder="Text Input"></ion-input>
     </ion-item>
   <ion-item>
     <h3>Tipo de alerta</h3>
@@ -20,3 +20,5 @@
   type="submit" [disabled]="!alerta.valid"><ion-icon name="md-send"></ion-icon></ion-button>
   </form>
   </ion-content>
+
+

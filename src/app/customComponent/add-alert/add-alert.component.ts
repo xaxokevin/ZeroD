@@ -61,7 +61,8 @@ export class AddAlertComponent implements OnInit {
       descripcion: this.alerta.get("descripcion").value,
       alert: this.alerta.get("alertType").value,
       longitud: this.longitud,
-      latitud: this.latitud
+      latitud: this.latitud,
+      hora: new Date().valueOf()
 
     };
     
@@ -70,7 +71,7 @@ export class AddAlertComponent implements OnInit {
       
 
       /* Mostramos el cargando... */
-    this.myloading = this.presentLoading();
+    //this.myloading = this.presentLoading();
     // Llamamos al metodo anadir pasandole  los datos 
     console.log("dentro de accidente");
     this.CloudS.anadirA(data)
@@ -84,7 +85,7 @@ export class AddAlertComponent implements OnInit {
       .catch((error) => {
         console.error("Error insertando documento: ", error);
         /* Cerramos el cargando...*/
-        this.loadingController.dismiss();
+        //this.loadingController.dismiss();
         /* Mostramos un mensaje de error */
         /* A desarrollar, se aconseja emplear un componente denominado
         toast */
