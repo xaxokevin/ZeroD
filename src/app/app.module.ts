@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 import { AddAlertComponent } from './customComponent/add-alert/add-alert.component';
 import { WeatherService } from './servicios/weather.service';
 import { ViewCardComponent } from './customComponent/view-card/view-card.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -31,7 +32,7 @@ import { ViewCardComponent } from './customComponent/view-card/view-card.compone
   entryComponents: [AddAlertComponent,ViewCardComponent,],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,
-    ReactiveFormsModule, HttpClientModule],
+    ReactiveFormsModule, HttpClientModule,TranslateModule.forRoot()],
   providers: [
     StatusBar,
     SplashScreen,

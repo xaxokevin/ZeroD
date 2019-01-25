@@ -19,7 +19,9 @@ export const environment = {
 
   accidenteColeccion: "accidente",
   meteorologiaColeccion: "meteorologia",
-  timemaxloading:1000,  //Tiempo máximo que puede estar cargando la aplicación, supera deja de cargar y muestra error en carga
+  timemaxloading:1000, //Tiempo máximo que puede estar cargando la aplicación, supera deja de cargar y muestra error en carga
+  currentLanguages:['es','en'], //idiomas disponibles de la aplicación
+  defaultLanguage:"es",  
 
   
   

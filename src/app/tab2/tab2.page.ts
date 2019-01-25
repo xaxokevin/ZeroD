@@ -118,6 +118,7 @@ export class Tab2Page {
   //Metodo que pinta o no los avisos de meteorologia en el mapa (Recibe un booleano)
   chargeAllMarkMeteorology(hide) {
 
+    this.map.removeLayer(this.markerGroupM);
 
     if (hide == false) {
 
@@ -163,12 +164,14 @@ export class Tab2Page {
 
   //Metodo que pinta o no los avisos por accidente en el mapa (Recibe un booleano)
   chargeAllMarkAccident(hide) {
+    this.map.removeLayer(this.markerGroupA);
 
     if (hide == false) {
 
       //se eliminan las marcas del mapa
       this.map.removeLayer(this.markerGroupA)
 
+      this.markerGroupA = leaflet.featureGroup();
 
     } else {
 
@@ -176,6 +179,8 @@ export class Tab2Page {
       this.cloudS.getMarkAccident().then(d => {
 
         this.listadoMarcaAccidente = d;
+
+        console.log(this.listadoMarcaAccidente)
 
 
         this.listadoMarcaAccidente.forEach(element => {
