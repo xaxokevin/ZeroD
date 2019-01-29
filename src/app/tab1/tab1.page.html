@@ -29,7 +29,7 @@
       <ion-content class="fixed-scroll" >
         <ion-refresher (ionRefresh)="this.updateAccident($event,true)">
           <ion-refresher-content pullingIcon="arrow-dropdown" 
-            refreshingSpinner="null" refreshingText="Cargandoo">
+            refreshingSpinner="null" refreshingText="{{ 'refresher' | translate }}">
             
           </ion-refresher-content>
         </ion-refresher>
@@ -40,14 +40,14 @@
             <ion-icon name="ios-car" slot="start"  ></ion-icon>
             {{item.descripcion}}
           </ion-label>
-            <h5>Lat: {{item.latitud}}, Long: {{item.longitud}}</h5>
+            <h5>{{item.hora}}</h5>
           
         </ion-card>
           
         
       
         <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateAccident($event,false)">
-          <ion-infinite-scroll-content loadingSpinner="null" loadingText="Cargando">
+          <ion-infinite-scroll-content loadingSpinner="null" loadingText="{{ 'refresher' | translate }}">
             
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
@@ -57,7 +57,7 @@
       <ion-content class="fixed-scroll" >
         <ion-refresher (ionRefresh)="this.updateMeteorology($event,true)">
           <ion-refresher-content pullingIcon="arrow-dropdown" 
-            refreshingSpinner="null" refreshingText="Cargandoo">
+            refreshingSpinner="null" refreshingText="{{ 'refresher' | translate }}">
             
           </ion-refresher-content>
         </ion-refresher>
@@ -74,7 +74,7 @@
         
       
         <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateMeteorology($event,false)">
-          <ion-infinite-scroll-content loadingSpinner="null" loadingText="Cargando">
+          <ion-infinite-scroll-content loadingSpinner="null" loadingText="{{ 'refresher' | translate }}">
             
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>

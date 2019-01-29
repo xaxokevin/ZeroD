@@ -9,6 +9,8 @@ import { ModalController, NavController } from '@ionic/angular';
 import { iAccidente } from '../model/iAccident';
 import { iMeteorology } from '../model/iMeteorology';
 import { NavegacionService } from '../servicios/navegacion.service';
+import { TranslateService } from '@ngx-translate/core';
+import { NativeStorage } from '@ionic-native/native-storage/ngx'
 
 
 
@@ -19,8 +21,8 @@ import { NavegacionService } from '../servicios/navegacion.service';
 })
 export class Tab2Page {
   @ViewChild('map') mapContainer: ElementRef;
-  ocultaA: boolean;
-  ocultaM: boolean;
+  ocultaA: any;
+  ocultaM: any;
   map: any;
   latitud: any;
   longitud: any;
@@ -50,14 +52,52 @@ export class Tab2Page {
     private cloudS: CloudserviceService,
     public navCtrl: NavController,
     private loading: CustomLoading,
-    private openM: NavegacionService
-  ) { }
+    private openM: NavegacionService,
+    private transalte: TranslateService,
+    private nativeStorage: NativeStorage
+  ) {
+
+
+    if(this.nativeStorage.getItem('ocultaA') == null){
+
+      //Creamos la variable si no existe
+    this.nativeStorage.setItem('ocultaA', {property: 'true'})
+    .then(
+      () => console.log('Stored item!'),
+      error => console.error('Error storing item', error)
+    );
+
+    }else{
+      this.ocultaA=this.nativeStorage.getItem('ocultaA');
+    }
+    console.log(this.nativeStorage.getItem('ocultaA'));
+    
+
+
+  if(this.nativeStorage.getItem('ocultaM') == null){
+
+      //Creamos la variable si no existe
+    this.nativeStorage.setItem('ocultaM', {property: 'true'})
+    .then(
+      () => console.log('Stored item!'),
+      error => console.error('Error storing item', error)
+    );
+
+    }else{
+      this.ocultaM=this.nativeStorage.getItem('ocultaM');
+    }
+    console.log(this.nativeStorage.getItem('ocultaM'));
+    
+
+   }
 
   //inicializa el valor de los botones de mostrar u ocultar la visibilidad de las marcas en el mapa
   OnInit() {
+    this.chargeAllMarkMeteorology(this.nativeStorage.getItem('ocultaM'));
+    this.chargeAllMarkAccident(this.nativeStorage.getItem('ocultaA'));
+    console.log(this.ocultaA);
+    console.log(this.ocultaM);
 
-    this.ocultaA = true;
-    this.ocultaM = true;
   }
 
   //este metodo se acciona cuando se vuelve a entrar en la pagina
@@ -65,8 +105,7 @@ export class Tab2Page {
   ionViewWillEnter() {
     this.loading.show("");
     this.loadmap();
-    this.chargeAllMarkMeteorology(this.ocultaM);
-    this.chargeAllMarkAccident(this.ocultaA);
+   
     this.loading.hide();
 
 
@@ -158,6 +197,7 @@ export class Tab2Page {
 
     //cambia el valor del booleano recibido
     this.ocultaM = !this.ocultaM;
+    
 
   }
 
@@ -200,6 +240,7 @@ export class Tab2Page {
       })
 
     }
+
     //Cambiamos el valor del booleano recibido 
     this.ocultaA = !this.ocultaA;
 
@@ -247,9 +288,13 @@ export class Tab2Page {
     if (this.ocultaA == true) {
 
       this.ocultaA = false
+      console.log("false")
+      this.nativeStorage.setItem('ocultaA', {property: 'false'} );
     } else {
 
+      console.log("true")
       this.ocultaA = true
+      this.nativeStorage.setItem('ocultaA', {property: 'true'} );
     }
     this.chargeAllMarkAccident(this.ocultaA);
 
@@ -257,9 +302,14 @@ export class Tab2Page {
     if (this.ocultaM == true) {
 
       this.ocultaM = false
+      console.log("false")
+      this.nativeStorage.setItem('ocultaM', {property: 'false'} );
     } else {
 
+      console.log("true")
       this.ocultaM = true
+      this.nativeStorage.setItem('ocultaM', {property: 'true'} );
+      console.log(this.nativeStorage.getItem('ocultaM'));
     }
     this.chargeAllMarkMeteorology(this.ocultaM);
 

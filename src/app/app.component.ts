@@ -1,10 +1,10 @@
 
 import { Component } from '@angular/core';
-import { Platform, MenuController } from '@ionic/angular';
+import { Platform} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
-import {environment} from '../environments/environment';
+
 
 
 
@@ -19,7 +19,21 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private translate: TranslateService,
   ) {
-    this.langmenu = (environment.defaultLanguage == "es" ? false : true);
+    this.platform.ready().then(() => {
+      //Language
+      if(this.translate.getBrowserLang() == "es"){
+        this.translate.setDefaultLang('es');
+      this.translate.use('es');
+      }else{
+        this.translate.setDefaultLang('en');
+        this.translate.use('en');
+      }
+      
+     
+
+     
+      this.splashScreen.hide();
+    });
     
     this.initializeApp();
    
@@ -27,18 +41,13 @@ export class AppComponent {
 
   initializeApp() {
 
-    this.translate.addLangs(environment.currentLanguages);  //add all languages
-      this.translate.setDefaultLang(environment.defaultLanguage); //use default language
-      if (this.translate.getBrowserLang) {  //if browsers's language is avalaible is set up as default
-        if (environment.currentLanguages.includes(this.translate.getBrowserLang())) {
-          this.translate.use(this.translate.getBrowserLang());
    
     this.platform.ready().then(() => {
       this.splashScreen.hide();
     });
-  }
+  
 
-}
+
   }
 
 

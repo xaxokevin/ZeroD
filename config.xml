@@ -90,5 +90,6 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-screen-orientation" spec="3.0.1" />
     <plugin name="cordova-plugin-sensors" spec="https://github.com/fabiorogeriosj/cordova-plugin-sensors.git" />
+    <plugin name="cordova-plugin-nativestorage" spec="2.3.2" />
     <engine name="android" spec="7.1.4" />
 </widget>

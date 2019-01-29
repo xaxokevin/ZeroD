@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { CustomToast } from './../../custom-modal/custom-toast';
 
 import { CustomLoading } from './../../custom-modal/custom-loading';
@@ -28,7 +29,8 @@ export class AddAlertComponent implements OnInit {
     private CloudS: CloudserviceService,
     public loading: CustomLoading, 
     public navparams:NavParams,
-    public toast: CustomToast  ) {
+    public toast: CustomToast,
+    private translate: TranslateService  ) {
 
     //recuperamos a traves de NavParams, la clave valor que tenemos en la marca
     this.longitud = this.navparams.get('longitude');
@@ -80,7 +82,7 @@ export class AddAlertComponent implements OnInit {
         console.error("Error insertando documento: ", error);
         /* Cerramos el cargando...*/
         this.loading.hide();
-        this.toast.show("");
+        this.toast.show(this.translate.instant("errorloading"));
        
 
 
@@ -91,7 +93,7 @@ export class AddAlertComponent implements OnInit {
     /* Mostramos el cargando... */
     this.loading.show("");
     // Llamamos al metodo anadir pasandole  los datos 
-    console.log("dentro de meteo");
+   
     this.CloudS.anadirM(data)
       .then((docRef) => {
         /* Cerramos el cargando...*/
@@ -101,10 +103,10 @@ export class AddAlertComponent implements OnInit {
         
       })
       .catch((error) => {
-        console.error("Error insertando documento: ", error);
+        
         /* Cerramos el cargando...*/
         this.loading.hide();
-        this.toast.show("");
+        this.toast.show(this.translate.instant("errorloading"));
         
       });
     }

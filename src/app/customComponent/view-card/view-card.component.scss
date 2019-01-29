@@ -1,0 +1,38 @@
+
+
+    ion-title{
+        text-transform: uppercase;
+    }
+    
+    ion-toolbar{
+        --ion-toolbar-background:#428BCA;
+    }
+
+    .desc{
+        white-space: normal;
+    }
+
+    .fecha{
+        text-overflow: clip;
+    }
+
+    .ubi{
+        white-space: nowrap;
+        display: inline-block;
+        text-overflow: clip;
+        overflow: hidden;
+    }
+
+    ion-row{
+        width: 95%;
+
+    }
+      
+    
+    .long{
+
+        width: 90%;
+    }
+
+
+ 

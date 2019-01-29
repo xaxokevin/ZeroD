@@ -1,5 +1,5 @@
 
-<ion-header>
+<ion-header >
     <ion-toolbar>
       <ion-title>{{alert}}</ion-title>
     </ion-toolbar>
@@ -7,21 +7,31 @@
 
 <ion-content padding>
     <ion-item>
-      <ion-label>{{descripcion}}</ion-label>
-    </ion-item>
-
+        <ion-label  class="fecha" style="font-size:1.22rem">{{fechaF}}</ion-label>
+      </ion-item>
     <ion-item>
-      <ion-label>{{horaS}}</ion-label>
+      <ion-label class="desc">{{descripcion}}</ion-label>
     </ion-item>
+    <div class="ubi">
+        <ion-label  style="font-size:1.0rem">Lat: {{latitudF}} </ion-label>
+      
+        <ion-label  class="long" style="font-size:1.0rem" > Long: {{longitudF}}</ion-label>
+      </div>
+     
+      
+      
+    
+<ion-row>
+<ion-col>
+  <ion-button shape="round" color="secundary" fill="outline" (click)="cancel()" style="font-size:0.5rem ">{{ "atras" | translate }}</ion-button>
+</ion-col>
+<ion-col>
+  
+  <ion-button shape="round" color="primary" fill="outline" (click)="openMap()" style="font-size:0.5rem ">{{ "openM" | translate }}</ion-button>
+</ion-col>
 
-    <ion-item>
-      <ion-label>Lat: {{latitud}}</ion-label>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>Long: {{longitud}} </ion-label>
-    </ion-item>
-
-    <ion-button (click)="openMap()"></ion-button>
+</ion-row>
+    
+    
  
 </ion-content>

@@ -1,5 +1,4 @@
 
-import {  HttpClientModule} from '@angular/common/http';
 import { CustomToast } from './custom-modal/custom-toast';
 import { CustomLoading } from './custom-modal/custom-loading';
 import { NgModule } from '@angular/core';
@@ -17,7 +16,12 @@ import { environment } from 'src/environments/environment';
 import { AddAlertComponent } from './customComponent/add-alert/add-alert.component';
 import { WeatherService } from './servicios/weather.service';
 import { ViewCardComponent } from './customComponent/view-card/view-card.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader,TranslatePipe } from '@ngx-translate/core';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+export function setTranslateLoader(http: any) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');}
+  import { NativeStorage } from '@ionic-native/native-storage/ngx'
 
 
 
@@ -32,11 +36,18 @@ import { TranslateModule } from '@ngx-translate/core';
   entryComponents: [AddAlertComponent,ViewCardComponent,],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,
-    ReactiveFormsModule, HttpClientModule,TranslateModule.forRoot()],
+    ReactiveFormsModule,HttpClientModule, TranslateModule.forRoot({  //Módulo de traducción
+      loader: {
+        provide: TranslateLoader, 
+        useFactory: (setTranslateLoader), 
+        deps: [HttpClient]
+      }
+    })],
   providers: [
     StatusBar,
     SplashScreen,
     WeatherService,
+    NativeStorage,
     
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

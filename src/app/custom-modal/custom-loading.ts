@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoadingController } from '@ionic/angular';
 import { CustomToast } from '../custom-modal/custom-toast';
 import { environment } from 'src/environments/environment';
-//import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -18,7 +18,7 @@ export class CustomLoading { //Clase que crea nuestro loading personalizado
   timeout;
 
   constructor(private loadingController:LoadingController,private toast:CustomToast,
-    //private translate:TranslateService
+    private translate:TranslateService
     ){
   }
   
@@ -26,7 +26,7 @@ export class CustomLoading { //Clase que crea nuestro loading personalizado
   async show(msg) {
     this.myloading = await this.loadingController.create({
     message:msg,
-    spinner:"crescent",
+    spinner: null,
     leaveAnimation:null
     });
     this.timeout=setTimeout(()=>{

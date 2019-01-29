@@ -78,12 +78,31 @@
 
 .modal-wrapper{
  
-  height:60%!important;
+  height:50%!important;
   margin:auto;
   width: 80%!important;
   --border-radius: 10px;
 
 }
 
+
+/* Para personalizar el loading */
+.loading-wrapper{
+  background: url("../assets/loading/Facebook-1s-200px.gif") !important;
+  background-size: 64px 64px!important;
+  background-repeat: no-repeat!important;
+  max-width:100px!important;
+  max-height:100px!important;
+  box-shadow: none !important;
+  -webkit-box-shadow:none !important;
+  padding:30px!important;
+}
+
+ion-loading{
+  ion-backdrop{
+    background-color:var(--ion-backdrop-color,#FFF)!important;
+    opacity: 0.65 !important;
+  }
+}
 
 

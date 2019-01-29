@@ -1,19 +1,19 @@
 <ion-header>
   <ion-toolbar>
-  <ion-title>Nueva Alerta</ion-title>
+  <ion-title>{{ "addModal-H" | translate }}</ion-title>
   </ion-toolbar>
   </ion-header>
   <ion-content padding>
   <form [formGroup]="alerta" (ngSubmit)="uploadForm()">
   <ion-item>
-    <h3>Alerta</h3>
+    <h3>{{ "addModal-D" | translate }}</h3>
     <ion-input formControlName="descripcion" placeholder="Text Input"></ion-input>
     </ion-item>
   <ion-item>
-    <h3>Tipo de alerta</h3>
+    <h3>{{ "addModal-T" | translate }}</h3>
     <ion-select placeholder="Selecciona una" formControlName="alertType">
-      <ion-select-option value="accidente">Accidente</ion-select-option>
-      <ion-select-option value="meteorologia">Meteorología</ion-select-option>
+      <ion-select-option value="accidente">{{ "accident" | translate }}</ion-select-option>
+      <ion-select-option value="meteorologia">{{ "meteorology" | translate }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-button shape="round" color="primary" fill="outline"
