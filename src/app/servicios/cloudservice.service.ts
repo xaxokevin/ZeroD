@@ -41,7 +41,7 @@ export class CloudserviceService {
   Devuelve un Promise
   */
   anadirA(datos) {
-    console.log("Accidente añadido");
+    
     return this.accidenteCollection.add(datos);
   }
 
@@ -142,7 +142,6 @@ export class CloudserviceService {
   Devuelve un Promise
   */
   anadirM(datos) {
-    console.log("Meteo añadido");
     return this.meteorologiaCollection.add(datos);
   }
 
@@ -154,14 +153,14 @@ export class CloudserviceService {
 
   /* Carga de accidentes en caso de no estar presente la variable reload, se añaden los siguientes
    10 al final de la lista */
-   getMeteorology(reload?): Promise<iAccidente[]> {
+   getMeteorology(reload?): Promise<iMeteorology[]> {
     if (reload) {
       this.lastlastMeteorologyLoaded = null;
       this.scrollMeteorologyEnabled = true;
     }
     this.lastMeteorologyLoaded = this.lastlastMeteorologyLoaded;
     return new Promise((resolve, reject) => {
-      let lreq: iAccidente[] = [];
+      let lreq: iMeteorology[] = [];
       let query;
       if (this.lastMeteorologyLoaded == null) {
         /* Obtengo los primeros 10 accidentes ordenados por descripcion. Para ordenar es necesario
@@ -202,11 +201,11 @@ export class CloudserviceService {
 
 
 //Carga las marcas de meteorologia en el mapa. Como maximo se van a maracar 1000 marcas
-  getMarkMeteorology(): Promise<iAccidente[]>{
+  getMarkMeteorology(): Promise<iMeteorology[]>{
 
    
     return new Promise((resolve, reject) => {
-      let lreq: iAccidente[] = [];
+      let lreq: iMeteorology[] = [];
       let query;
       
         

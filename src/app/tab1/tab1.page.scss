@@ -28,6 +28,7 @@ ion-slide.swiper-slide {
   ::-webkit-scrollbar {
       display: none !important;
   }
+  
 }
 ::-webkit-scrollbar,
 *::-webkit-scrollbar {
@@ -92,9 +93,14 @@ ion-title{
   height: auto;
   white-space: nowrap;
   display: inline-block;
+  color: white;
 }
 
 ion-card{
-  background-color: #E5E5E5;
+  background-color: #71A1F0;
+}
+
+h5{
+  color:white;
 }
 

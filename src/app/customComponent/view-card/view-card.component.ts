@@ -13,13 +13,7 @@ export class ViewCardComponent implements OnInit {
 
   descripcion: any;
   longitud: any;
-  longitudS: any;
-  longitudSp: any;
-  longitudF: any;
   latitud: any;
-  latitudS: any;
-  latitudSp: any;
-  latitudF: any;
   hora: any;
   alert: any;
   horaS: string;
@@ -36,14 +30,10 @@ export class ViewCardComponent implements OnInit {
       this.alert=this.navparams.get('tipo');
       //Formateo de la longitud
       this.longitud=this.navparams.get('longitud');
-      this.longitudS=this.longitud.toString();
-      this.longitudSp=this.longitudS.split("",7)
-      this.longitudF=this.longitudS[0]+this.longitudS[1]+this.longitudS[2]+this.longitudS[3]+this.longitudS[4]+this.longitudS[5]+this.longitudS[6]+this.longitudS[7];
+      
       //Formateo de la latitud
       this.latitud=this.navparams.get('latitud');
-      this.latitudS=this.latitud.toString();
-      this.latitudSp=this.latitudS.split("",7)
-      this.latitudF=this.latitudS[0]+this.latitudS[1]+this.latitudS[2]+this.latitudS[3]+this.latitudS[4]+this.latitudS[5]+this.latitudS[6];
+      
       
       //Formateo de la fecha
       this.hora= new Date(this.navparams.get('hora'));

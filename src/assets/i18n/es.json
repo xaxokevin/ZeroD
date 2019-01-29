@@ -2,7 +2,7 @@
     "TAB1": "Alertas",
     "TAB2": "Mapa en vivo",
     "addModal-H": "Nueva alerta",
-    "addModal-D": "Alerta",
+    "addModal-D": "Descripción",
     "addModal-T": "Tipo de alerta",
     "refresher": "Cargando",
     "toast": "Error",
@@ -11,6 +11,10 @@
     "cancel": "Cancelar",
     "errorloading": "Error cargando",
     "openM": "Vista de mapa",
-    "atras": "Volver"
+    "atras": "Volver",
+    "fecha": "Fecha",
+    "desc": "Descripción",
+    "ltlng": "Localización",
+    "input": "Escribe aquí"
 
   }

@@ -8,6 +8,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { setTranslateLoader } from '../app.module';
 import { HttpClient } from '@angular/common/http';
 
+
 @NgModule({
   imports: [TranslateModule.forChild({
     loader: {

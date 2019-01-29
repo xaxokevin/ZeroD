@@ -12,5 +12,19 @@ ion-input{
 }
 
 ion-toolbar{
-    --ion-toolbar-background:#428BCA;
+    --ion-toolbar-background:#71A1F0;
 }
+
+ion-title{
+    text-transform: uppercase;
+    color:white;
+}
+
+
+#myInput {
+    width: calc(100% - 10px);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+

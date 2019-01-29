@@ -1,11 +1,16 @@
 
+ion-header{
+    --ion-header-background:#71A1F0;
+
+}
 
     ion-title{
         text-transform: uppercase;
+        color:white;
     }
     
     ion-toolbar{
-        --ion-toolbar-background:#428BCA;
+        --ion-toolbar-background:#71A1F0;
     }
 
     .desc{
@@ -23,16 +28,38 @@
         overflow: hidden;
     }
 
-    ion-row{
-        width: 95%;
 
-    }
-      
-    
     .long{
 
         width: 90%;
     }
 
+    
+
+    .cerrar{
+        float: right;
+        margin-top: -10px;
+        margin-right: 3px;
+        color:white;
+        width: 30px;
+        height: 30px;
+    }
+
+    .openM{
+        color:#71A1F0;
+    }
+
+    .ltlng{
+
+        width: 85%;
+    }
+    
+    ion-fab-button{
+        height: 45px;
+
+        width: 45px;
+        margin-bottom: 10px;
+    }
+   
 
  

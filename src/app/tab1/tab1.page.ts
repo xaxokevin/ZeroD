@@ -9,6 +9,7 @@ import { iMeteorology } from '../model/iMeteorology';
 import { CustomLoading } from '../custom-modal/custom-loading';
 import { WeatherService } from '../servicios/weather.service';
 import { ViewCardComponent } from '../customComponent/view-card/view-card.component';
+import { DomController } from "@ionic/angular";
 
 
 
@@ -40,7 +41,8 @@ export class Tab1Page {
     private loading: CustomLoading,
     private back: BackbuttonService,
     private aemet: WeatherService,
-    private cmm: CustomModalModule
+    private cmm: CustomModalModule,
+    private domCtrl: DomController
    
   ) {}
 
@@ -56,8 +58,23 @@ export class Tab1Page {
     this.updateAllMeteorology();
     //obtiene los datos de aemet (Falta implementacion)
     this.aemet.getRemoteData();
+    console.log(this.listadoAccidentes)
   }
   
+  private adjustElementOnScroll(ev) {
+    if (ev) {
+        console.log(ev);
+        this.domCtrl.write(() => {
+            let scrollTop: number = ev.scrollTop > 0 ? ev.scrollTop : 0;
+           //let scrolldiff: number = scrollTop - this.lastScrollPosition;
+            //this.lastScrollPosition = scrollTop;
+           // let newValue = this.lastValue + scrolldiff;
+            //newValue = Math.max(0, Math.min(newValue, this.config.maxValue));
+            //this.renderer.setStyle(this.element.nativeElement, this.config.cssProperty, `-${newValue}px`);
+            //this.lastValue = newValue;
+        });
+    }
+}
 
 
   //Carga todos los accidentes en el listado accidentes

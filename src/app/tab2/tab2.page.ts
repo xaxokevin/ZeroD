@@ -57,7 +57,7 @@ export class Tab2Page {
     private nativeStorage: NativeStorage
   ) {
 
-
+//comprueba si existe la variable
     if(this.nativeStorage.getItem('ocultaA') == null){
 
       //Creamos la variable si no existe
@@ -92,20 +92,23 @@ export class Tab2Page {
    }
 
   //inicializa el valor de los botones de mostrar u ocultar la visibilidad de las marcas en el mapa
-  OnInit() {
+ 
+
+  ngOnInit(){
+    console.log("he amigo aqui estoy jeje");
+    this.loadmap();
     this.chargeAllMarkMeteorology(this.nativeStorage.getItem('ocultaM'));
     this.chargeAllMarkAccident(this.nativeStorage.getItem('ocultaA'));
-    console.log(this.ocultaA);
-    console.log(this.ocultaM);
 
   }
-
   //este metodo se acciona cuando se vuelve a entrar en la pagina
   //carga el mapa de nuevo y actualiza las marcas
   ionViewWillEnter() {
     this.loading.show("");
+    if(this.map != null){
+      this.map.remove();
+    }
     this.loadmap();
-   
     this.loading.hide();
 
 
@@ -116,7 +119,7 @@ export class Tab2Page {
   //la aplicacion sea mas fluida
   ionViewDidLeave() {
     this.openM.cargaM = false;
-    this.map.remove();
+    //this.map.remove();
   }
 
 

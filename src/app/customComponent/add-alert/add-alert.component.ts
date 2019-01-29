@@ -4,7 +4,7 @@ import { CustomToast } from './../../custom-modal/custom-toast';
 import { CustomLoading } from './../../custom-modal/custom-loading';
 import { CloudserviceService } from '../../servicios/cloudservice.service';
 import { ModalController, NavParams } from'@ionic/angular';
-import { Component, OnInit } from '@angular/core'; 
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'; 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
@@ -14,7 +14,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './add-alert.component.html',
   styleUrls: ['./add-alert.component.scss']
 })
+
 export class AddAlertComponent implements OnInit {
+  @ViewChild('myInput') myInput: ElementRef;
   ngOnInit(): void {
     
   }
@@ -22,6 +24,10 @@ export class AddAlertComponent implements OnInit {
   private alerta: FormGroup; 
   longitud: any;
   latitud: any;
+  customActionSheetOptions: any = {
+    header: 'Alerta',
+    subHeader: 'Seleccione el tipo de alerta'
+  };
  
 
   constructor(public modalcontroller: ModalController, 
@@ -43,6 +49,15 @@ export class AddAlertComponent implements OnInit {
     });
 
   }
+
+  resize() {
+    var element = this.myInput['_elementRef'].nativeElement.getElementsByClassName("text-input")[0];
+      var scrollHeight = element.scrollHeight;
+      element.style.height = scrollHeight + 'px';
+      this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
+}
+
+
 
   //método que quita el modal
   dismiss() {

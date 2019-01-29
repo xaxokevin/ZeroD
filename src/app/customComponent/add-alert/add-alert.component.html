@@ -5,17 +5,17 @@
   </ion-header>
   <ion-content padding>
   <form [formGroup]="alerta" (ngSubmit)="uploadForm()">
-  <ion-item>
-    <h3>{{ "addModal-D" | translate }}</h3>
-    <ion-input formControlName="descripcion" placeholder="Text Input"></ion-input>
+    <h6>{{ "addModal-D" | translate }}</h6>
+    <ion-item>
+        <textarea #myInput id="myInput" rows="1" maxLength="300" formControlName="descripcion" placeholder="{{ 'input' | translate}}" (keyup)="resize()" [(ngModel)]="myStuff"></textarea>
     </ion-item>
   <ion-item>
-    <h3>{{ "addModal-T" | translate }}</h3>
-    <ion-select placeholder="Selecciona una" formControlName="alertType">
-      <ion-select-option value="accidente">{{ "accident" | translate }}</ion-select-option>
-      <ion-select-option value="meteorologia">{{ "meteorology" | translate }}</ion-select-option>
-    </ion-select>
-  </ion-item>
+      <ion-label>{{ "addModal-T" | translate }}</ion-label>
+      <ion-select [interfaceOptions]="customActionSheetOptions"  formControlName="alertType" interface="action-sheet" placeholder="Select One">
+          <ion-select-option value="accidente">{{ "accident" | translate }}</ion-select-option>
+          <ion-select-option value="meteorologia">{{ "meteorology" | translate }}</ion-select-option>
+      </ion-select>
+    </ion-item>
   <ion-button shape="round" color="primary" fill="outline"
   type="submit" [disabled]="!alerta.valid"><ion-icon name="md-send"></ion-icon></ion-button>
   </form>
