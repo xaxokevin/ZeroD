@@ -9,6 +9,7 @@ import { setTranslateLoader } from '../app.module';
 import { HttpClient } from '@angular/common/http';
 
 
+
 @NgModule({
   imports: [TranslateModule.forChild({
     loader: {
@@ -21,6 +22,6 @@ import { HttpClient } from '@angular/common/http';
     FormsModule,
     RouterModule.forChild([{ path: '', component: Tab1Page }])
   ],
-  declarations: [Tab1Page]
+  declarations: [Tab1Page,]
 })
 export class Tab1PageModule {}

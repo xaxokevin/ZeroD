@@ -15,7 +15,13 @@
     "fecha": "Date",
     "desc": "Description",
     "ltlng": "Location",
-    "input": "Enter text"
+    "input": "Enter text",
+    "noNetwork": "Internet conecction disable",
+    "Network": "Internet conecction enable",
+    "NoGPS": "Enable GPS",
+    "TypeS": "Type of alert that is happen",
+    "Select": "Choose one alert",
+    "Cancel": "Cancel"
 
 
   }

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BackbuttonService } from './backbutton.service';
+import { NetworkService } from './network.service';
 
-describe('BackbuttonService', () => {
+describe('NetworkService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: BackbuttonService = TestBed.get(BackbuttonService);
+    const service: NetworkService = TestBed.get(NetworkService);
     expect(service).toBeTruthy();
   });
 });

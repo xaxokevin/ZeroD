@@ -20,7 +20,7 @@
 
 </ion-header>
 
-<ion-content>
+<ion-content >
 
     <ion-slides #slides (ionSlideTransitionStart)="updateIndicatorPosition();updateCat(slides.getActiveIndex())"
     (ionSlideWillChange)="updateIndicatorPosition()" (ionSlideDidChange)="updateIndicatorPosition()" #SwipedTabsSlider
@@ -33,6 +33,8 @@
                 
               </ion-refresher-content>
             </ion-refresher>
+
+          
             
             
               <ion-card *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">

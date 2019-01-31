@@ -15,6 +15,12 @@
     "fecha": "Fecha",
     "desc": "Descripción",
     "ltlng": "Localización",
-    "input": "Escribe aquí"
+    "input": "Escribe aquí",
+    "noNetwork": "Sin conexion a internet",
+    "Network": "Conexion a internet activada",
+    "NoGPS": "Activa el GPS",
+    "TypeS": "Tipo de alerta en funcion del hecho ocurrido",
+    "Select": "Selecciona una alerta",
+    "Cancel": "Cancel"
 
   }

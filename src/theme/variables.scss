@@ -78,12 +78,18 @@
 
 .modal-wrapper{
  
-  height:50%!important;
-  margin:auto;
-  width: 80%!important;
   --border-radius: 10px;
 
 }
+
+ion-modal{
+  background: none !important;
+  --width:80%!important;
+  --height:50%!important;
+  margin:auto;
+ 
+}
+
 
 
 /* Para personalizar el loading */

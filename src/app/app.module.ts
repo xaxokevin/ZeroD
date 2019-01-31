@@ -21,7 +21,12 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 export function setTranslateLoader(http: any) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');}
-  import { NativeStorage } from '@ionic-native/native-storage/ngx'
+  import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { ScrollHideDirective } from './directives/scroll-hide.directive'
+import { Network } from '@ionic-native/network/ngx';
+import { NetworkService } from './servicios/network.service';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+
 
 
 
@@ -32,7 +37,7 @@ export function setTranslateLoader(http: any) {
 
 
 @NgModule({
-  declarations: [AppComponent, AddAlertComponent, ViewCardComponent,],
+  declarations: [AppComponent, AddAlertComponent, ViewCardComponent, ScrollHideDirective,],
   entryComponents: [AddAlertComponent,ViewCardComponent,],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,
@@ -48,6 +53,10 @@ export function setTranslateLoader(http: any) {
     SplashScreen,
     WeatherService,
     NativeStorage,
+    Network,
+    NetworkService,
+    Diagnostic,
+    
     
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

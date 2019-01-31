@@ -1,6 +1,6 @@
+import { NetworkService } from './../servicios/network.service';
 import { CustomModalModule } from './../custom-modal/custom-modal.module';
 import { iAccidente } from './../model/iAccident';
-import { BackbuttonService } from './../servicios/backbutton.service';
 import { CloudserviceService } from './../servicios/cloudservice.service';
 import { Component, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, IonSlides} from '@ionic/angular';
@@ -9,9 +9,7 @@ import { iMeteorology } from '../model/iMeteorology';
 import { CustomLoading } from '../custom-modal/custom-loading';
 import { WeatherService } from '../servicios/weather.service';
 import { ViewCardComponent } from '../customComponent/view-card/view-card.component';
-import { DomController } from "@ionic/angular";
-
-
+import { ScrollHideConfig } from '../directives/scroll-hide.directive';
 
 
 
@@ -33,48 +31,41 @@ export class Tab1Page {
   public category: any = "0";
   listadoAccidentes: iAccidente[] = [];
   listadoMeteorologia: iMeteorology[] = [];
+  footerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-bottom', maxValue: undefined };
+  headerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-top', maxValue: 44 };
 
  
 
   constructor(private route: ActivatedRoute,
     private cloudS: CloudserviceService,
     private loading: CustomLoading,
-    private back: BackbuttonService,
     private aemet: WeatherService,
     private cmm: CustomModalModule,
-    private domCtrl: DomController
+    private netwoekS: NetworkService
+  
    
   ) {}
 
   ionViewWillEnter() {
-    console.log("ENTRO")
+    //Comprobamos la posicion del slider
     this.SwipedTabsIndicator = document.getElementById("indicator");
     this.SwipedTabsSlider.length().then(l => {  
       this.ntabs = l;
     });
-    console.log("FIn entro");
-    //carga los datos de accidente y meteorologia
-    this.updateAllAccident(); 
-    this.updateAllMeteorology();
-    //obtiene los datos de aemet (Falta implementacion)
-    this.aemet.getRemoteData();
-    console.log(this.listadoAccidentes)
+    //Comprobamos la conexion a internet
+    if(this.netwoekS.previousStatus == 1){
+      console.log("sin conexion")
+    }else if(this.netwoekS.previousStatus == 0){
+      this.updateAllAccident(); 
+      this.updateAllMeteorology();
+      //obtiene los datos del weather service (Falta implementacion)
+      this.aemet.getRemoteData();
+    }
+    
+
   }
   
-  private adjustElementOnScroll(ev) {
-    if (ev) {
-        console.log(ev);
-        this.domCtrl.write(() => {
-            let scrollTop: number = ev.scrollTop > 0 ? ev.scrollTop : 0;
-           //let scrolldiff: number = scrollTop - this.lastScrollPosition;
-            //this.lastScrollPosition = scrollTop;
-           // let newValue = this.lastValue + scrolldiff;
-            //newValue = Math.max(0, Math.min(newValue, this.config.maxValue));
-            //this.renderer.setStyle(this.element.nativeElement, this.config.cssProperty, `-${newValue}px`);
-            //this.lastValue = newValue;
-        });
-    }
-}
+
 
 
   //Carga todos los accidentes en el listado accidentes
