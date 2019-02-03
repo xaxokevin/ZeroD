@@ -1,16 +1,16 @@
 
 ion-header{
-    --ion-header-background:#71A1F0;
+    --ion-header-background:var(--ion-color-primary);
 
 }
 
     ion-title{
         text-transform: uppercase;
-        color:white;
+        
     }
     
     ion-toolbar{
-        --ion-toolbar-background:#71A1F0;
+        --ion-toolbar-background:var(--ion-color-primary);
     }
 
     .desc{
@@ -40,13 +40,13 @@ ion-header{
         float: right;
         margin-top: -10px;
         margin-right: 3px;
-        color:white;
+        color: var(--ion-color-light-contrast);
         width: 30px;
         height: 30px;
     }
 
     .openM{
-        color:#71A1F0;
+        color:var(--ion-color-primary-shade);
     }
 
     .ltlng{
@@ -56,10 +56,21 @@ ion-header{
     
     ion-fab-button{
         height: 45px;
-
+        --background: none;
         width: 45px;
         margin-bottom: 10px;
     }
+
+    h6{
+        color: var(--ion-color-dark);
+
+    }
+
+    ion-content{
+        --background: var(--ion-color-light-shade);
+    }
+
+    
    
 
  

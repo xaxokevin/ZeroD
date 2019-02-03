@@ -64,14 +64,14 @@ export class CloudserviceService {
       let lreq: iAccidente[] = [];
       let query;
       if (this.lastAccidentLoaded == null) {
-        /* Obtengo los primeros 10 accidentes ordenados por descripcion. Para ordenar es necesario
+        /* Obtengo los primeros 15 accidentes ordenados por descripcion. Para ordenar es necesario
         activar un índice en firebase. Si no se crea dará un error por consola indicando los pasos
         necesarios para crearlo */
-        query = this.accidenteCollection.ref.orderBy("descripcion", "asc").limit(10).get();
+        query = this.accidenteCollection.ref.orderBy("descripcion", "asc").limit(15).get();
 
       } else {
-        /* Cargamos 10 a partir del último cargado */
-        query = this.accidenteCollection.ref.orderBy("descripcion", "asc").startAfter(this.lastAccidentLoaded).limit(10).get();
+        /* Cargamos 15 a partir del último cargado */
+        query = this.accidenteCollection.ref.orderBy("descripcion", "asc").startAfter(this.lastAccidentLoaded).limit(15).get();
       }
       query.then((d) => {
         d.forEach((u) => {
@@ -163,14 +163,14 @@ export class CloudserviceService {
       let lreq: iMeteorology[] = [];
       let query;
       if (this.lastMeteorologyLoaded == null) {
-        /* Obtengo los primeros 10 accidentes ordenados por descripcion. Para ordenar es necesario
+        /* Obtengo los primeros 15 eventos de meteorologia ordenados por descripcion. Para ordenar es necesario
         activar un índice en firebase. Si no se crea dará un error por consola indicando los pasos
         necesarios para crearlo */
-        query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").limit(10).get();
+        query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").limit(15).get();
 
       } else {
-        /* Cargamos 10 a partir del último cargado */
-        query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").startAfter(this.lastMeteorologyLoaded).limit(10).get();
+        /* Cargamos 15 a partir del último cargado */
+        query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").startAfter(this.lastMeteorologyLoaded).limit(15).get();
       }
       query.then((d) => {
         d.forEach((u) => {

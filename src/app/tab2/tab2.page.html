@@ -2,16 +2,19 @@
 
  
   <div id="map" style="width:100%; height:100%;"></div>
+  <ion-fab class="signal" vertical="top" horizontal="start" slot="fixed">
+      <ion-icon name="wifi" color={{this.colorB}}></ion-icon>
+  </ion-fab>
   <ion-fab vertical="top" horizontal="end" slot="fixed" >
-      
-  <ion-fab-button class="menu">
+
+  <ion-fab-button class="menu" >
       <ion-icon name="md-settings" color="primary"></ion-icon>
   </ion-fab-button>
   <ion-fab-list  side="start">
-    <ion-fab-button class="menudesp"><ion-icon name="ios-car" (click)="chargeAllMarkAccident(ocultaA)" [ngStyle]="{'color':ocultaA  ? 'DARKGRAY' : '#428BCA' }"></ion-icon></ion-fab-button>
+    <ion-fab-button class="menudesp"><ion-icon name="ios-car" (click)="chargeAllMarkAccident(ocultaA)" [ngStyle]="{'color':ocultaA  ? 'DARKGRAY' : '#71A1F0' }"></ion-icon></ion-fab-button>
   </ion-fab-list>
   <ion-fab-list class="hide" side="start">
-    <ion-fab-button class="menudesp" ><ion-icon name="ios-umbrella" (click)="chargeAllMarkMeteorology(ocultaM)" [ngStyle]="{'color':ocultaM  ? 'DARKGRAY' : '#428BCA' }"></ion-icon></ion-fab-button>
+    <ion-fab-button class="menudesp" ><ion-icon name="ios-umbrella" (click)="chargeAllMarkMeteorology(ocultaM)" [ngStyle]="{'color':ocultaM  ? 'DARKGRAY' : '#71A1F0' }"></ion-icon></ion-fab-button>
   </ion-fab-list>
 </ion-fab>
 
@@ -20,7 +23,7 @@
       <ion-icon name="md-locate" color="primary" (click)="locateme()"></ion-icon>
     </ion-fab-button>
     <ion-fab-button>
-      <ion-icon name="add" (click)="addMark()"></ion-icon>
+      <ion-icon name="add" style="color: var(--ion-color-success-contrast)" (click)="addMark()"></ion-icon>
       
     </ion-fab-button>
     

@@ -5,7 +5,7 @@ import { CustomModalModule } from './../custom-modal/custom-modal.module';
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import leaflet from 'leaflet';
 import { CustomLoading } from '../custom-modal/custom-loading';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController, Events } from '@ionic/angular';
 import { iAccidente } from '../model/iAccident';
 import { iMeteorology } from '../model/iMeteorology';
 import { NavegacionService } from '../servicios/navegacion.service';
@@ -36,6 +36,7 @@ export class Tab2Page {
   listadoMarcaMeteorology: iMeteorology[] = [];
   markerGroupM = leaflet.featureGroup();
   markerGroupA = leaflet.featureGroup();
+  colorB: any;
 
   accidenteIcon = leaflet.icon({
     iconUrl: '../../assets/icon/car.png',
@@ -65,67 +66,74 @@ export class Tab2Page {
     private diagnostic: Diagnostic,
     private toast: CustomToast,
     private translate: TranslateService,
+    public eventCtrl: Events,
+    
 
   ) {
-
-//comprueba si existe la variable en la memoria del dispositivo
-    if(this.nativeStorage.getItem('ocultaA') == null){
-
-      //Creamos la variable si no existe
-    this.nativeStorage.setItem('ocultaA', {property: 'true'})
-    .then(
-      () => console.log('Stored item!'),
-      error => console.error('Error storing item', error)
-    );
-
-    }else{
-      this.ocultaA=this.nativeStorage.getItem('ocultaA');
-    }
-    console.log(this.nativeStorage.getItem('ocultaA'));
-    
-
-//Comprobamos si existe la variable en la memoria del dispositivo
-  if(this.nativeStorage.getItem('ocultaM') == null){
-
-      //Creamos la variable si no existe
-    this.nativeStorage.setItem('ocultaM', {property: 'true'})
-    .then(
-      () => console.log('Stored item!'),
-      error => console.error('Error storing item', error)
-    );
-
-    }else{
-      this.ocultaM=this.nativeStorage.getItem('ocultaM');
-    }
-    console.log(this.nativeStorage.getItem('ocultaM'));
-    
-
-   }
-
-  
- 
-
-  ngOnInit(){
-    /*
-    Comprobamos la conexion a internet al cargar por primera vez
-    Si tenemos conexion carga el mapa y las marcas
-     */
-    if(this.netwoekS.previousStatus == 1){
-      console.log("sin conexion")
-    }else if(this.netwoekS.previousStatus == 0){
-      this.loadmap();
-      this.chargeAllMarkMeteorology(this.nativeStorage.getItem('ocultaM'));
-      this.chargeAllMarkAccident(this.nativeStorage.getItem('ocultaA'));
-    }
-    
+ //Cambiamos el valor del color del boton
+ //En funcion de la calidad de gps que tengamos.
+    this.colorB=this.netwoekS.colorN;
     
 
   }
+
+  
+  
+  ngOnInit(){  
+//comprueba si existe la variable ocultaA y ocultaM en la memoria del dispositivo
+//Si no es asi se crea la variable en la memoria y se inicializa en la clase
+//Si ya existe se obtiene el valor y se asigna a la de la clase
+    this.nativeStorage.getItem('ocultaA').then((d)=>{
+      console.log(d);
+      if(d==null){
+        this.ocultaA=true;
+        this.nativeStorage.setItem('ocultaA', {property: 'true'})
+        .then(
+          () => console.log('Stored item!'),
+          error => console.error('Error storing item', error)
+        );
+      }else{
+          this.ocultaA=d;
+      }
+
+      this.nativeStorage.getItem('ocultaM').then((d)=>{
+        if(d==null){
+          this.ocultaM=true;
+          this.nativeStorage.setItem('ocultaM', {property: 'true'})
+          .then(
+            () => console.log('Stored item!'),
+            error => console.error('Error storing item', error)
+          );
+        }else{
+            this.ocultaM=d;
+        }
+
+/*
+    Comprobamos la conexion a internet al cargar por primera vez
+    Si tenemos conexion carga el mapa y las marcas
+     */
+        if(this.netwoekS.previousStatus == 1){
+          this.toast.show(this.transalte.instant("noNetwork"))
+        }else if(this.netwoekS.previousStatus == 0){
+          this.loadmap();
+          this.chargeAllMarkMeteorology(this.ocultaM);
+          this.chargeAllMarkAccident(this.ocultaA);
+        }
+      });
+  });
+
+    
+  }
+
+
   //este metodo se acciona cuando se vuelve a entrar en la pagina
   //carga el mapa de nuevo y actualiza las marcas
   //Volvemos a comprobar la conexion a internet
   ionViewWillEnter() {
     this.loading.show("");
+  //Cambiamos el valor del color del boton
+ //En funcion de la calidad de gps que tengamos.
+ this.colorB=this.netwoekS.colorN;
     if(this.map != null){
       this.map.remove();
     }
@@ -150,7 +158,7 @@ export class Tab2Page {
   //establecemos el valor de la variable del servicio a false y eliminamos el mapa para que
   //la aplicacion sea mas fluida
   ionViewDidLeave() {
-    this.openM.cargaM = false;
+    this.openM.setCargaMapa();
     //this.map.remove();
   }
 
@@ -159,10 +167,8 @@ export class Tab2Page {
   loadmap() {
     //si el mapa es abierto desde el modal de ver mas informacion de la alerta
     //se establecera la vista encima de la alerta pulsada
-    if (this.openM.cargaM) {
-      console.log(this.openM.ltLng[0]);
-      console.log(this.openM.ltLng[1]);
-      this.map = leaflet.map("map").fitWorld().setView([this.openM.ltLng[0], this.openM.ltLng[1]], 15);
+    if (this.openM.getCargarMapa()==true) {
+      this.map = leaflet.map("map").fitWorld().setView([this.openM.getLatitud(), this.openM.getLongitud()], 15);
     } else {
       //Si el mapa se ha abierto desde los tabs se establecera la vista en general sobre el mapa de españa
       this.map = leaflet.map("map").fitWorld().setView([40.416665, -3.705315], 6);
@@ -195,11 +201,10 @@ export class Tab2Page {
       }else {
         this.map.locate({ setView: true, maxZoom: 15 });}
 
-    }).catch(e => console.error(e))
-     
-
-    
+    }).catch(e => console.error(e)) 
   }
+
+
 
   //Metodo que pinta o no los avisos de meteorologia en el mapa (Recibe un booleano)
   chargeAllMarkMeteorology(hide) {
@@ -244,9 +249,10 @@ export class Tab2Page {
 
     //cambia el valor del booleano recibido
     this.ocultaM = !this.ocultaM;
+    this.nativeStorage.setItem('ocultaM', {property: this.ocultaM} );
     
-
   }
+
 
 
   //Metodo que pinta o no los avisos por accidente en el mapa (Recibe un booleano)
@@ -259,7 +265,6 @@ export class Tab2Page {
       this.map.removeLayer(this.markerGroupA)
 
       
-
     } else {
 
       //se obtienen las marcas de accidente
@@ -290,11 +295,9 @@ export class Tab2Page {
 
     //Cambiamos el valor del booleano recibido 
     this.ocultaA = !this.ocultaA;
+    this.nativeStorage.setItem('ocultaA', {property: this.ocultaA} );
 
   }
-
-
-
 
 
 
@@ -307,6 +310,7 @@ export class Tab2Page {
       if(verdad == false){
         this.toast.show(this.translate.instant("NoGPS"));
       }else {
+
 
           //te localiza a traves del uso del GPS
         this.map.locate({
@@ -330,11 +334,9 @@ export class Tab2Page {
 
     }).catch(e => console.error(e))
      
-    
-      
-    
-
   }
+
+
   //funcion que se activa cuando se cierra el modal
   onModalClose() {
     //abrimos el loading
@@ -349,12 +351,12 @@ export class Tab2Page {
 
       this.ocultaA = false
       console.log("false")
-      this.nativeStorage.setItem('ocultaA', {property: 'false'} );
+      this.nativeStorage.setItem('ocultaA', {property: this.ocultaA} );
     } else {
 
       console.log("true")
       this.ocultaA = true
-      this.nativeStorage.setItem('ocultaA', {property: 'true'} );
+      this.nativeStorage.setItem('ocultaA', {property: this.ocultaA} );
     }
     this.chargeAllMarkAccident(this.ocultaA);
 
@@ -363,12 +365,12 @@ export class Tab2Page {
 
       this.ocultaM = false
       console.log("false")
-      this.nativeStorage.setItem('ocultaM', {property: 'false'} );
+      this.nativeStorage.setItem('ocultaM', {property: this.ocultaM} );
     } else {
 
       console.log("true")
       this.ocultaM = true
-      this.nativeStorage.setItem('ocultaM', {property: 'true'} );
+      this.nativeStorage.setItem('ocultaM', {property: this.ocultaM} );
       console.log(this.nativeStorage.getItem('ocultaM'));
     }
     this.chargeAllMarkMeteorology(this.ocultaM);

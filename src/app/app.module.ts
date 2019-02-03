@@ -26,6 +26,7 @@ import { ScrollHideDirective } from './directives/scroll-hide.directive'
 import { Network } from '@ionic-native/network/ngx';
 import { NetworkService } from './servicios/network.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { Sensors} from '@ionic-native/sensors/ngx';
 
 
 
@@ -56,6 +57,7 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
     Network,
     NetworkService,
     Diagnostic,
+    Sensors,
     
     
 

@@ -4,23 +4,39 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NavegacionService { //Clase utilizada para la navegacion del modal hacia la marca en el mapa
- public cargaM: boolean
-
- public ltLng: any []=[];
+ private cargaM: boolean
+ private latitud: any;
+ private longitud: any;
   constructor() {
 
-    this.cargaM=false;
+  this.cargaM=false;
 
-
-   
    }
 
 //recoge la ubicacion del modal
 recibeUbicacion(lat:any, lng:any){
 
-  this.ltLng.push(lat);
-  this.ltLng.push(lng);
+  this.latitud= lat;
+  this.longitud=lng;
+}
 
+getLatitud(){
+
+  return this.latitud;
+}
+getLongitud(){
+
+  return this.longitud;
+}
+
+getCargarMapa(){
+
+  return this.cargaM;
+}
+
+setCargaMapa(){
+
+  this.cargaM=false;
 }
 
 

@@ -1,6 +1,9 @@
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network/ngx';
 import { AlertController, Events } from '@ionic/angular';
+import { Observable } from 'rxjs';
+
 
 /*
 Enumeracion con dos valores
@@ -12,6 +15,8 @@ export enum ConnectionStatusEnum {
     Offline
 }
 
+
+
 /*Proveedor de conexion a internet
 con esta clase vamos a comprobar si tenemos internet o no
 al iniciar la app o al realizar conexiones con firebase 
@@ -20,10 +25,14 @@ al iniciar la app o al realizar conexiones con firebase
 export class NetworkService {
 
   public previousStatus;
+  public colorN;
+
+
 
   constructor(public alertCtrl: AlertController, 
               public network: Network,
-              public eventCtrl: Events) {
+              public eventCtrl: Events,
+              public diagnostic: Diagnostic) {
 
     this.previousStatus = ConnectionStatusEnum.Online;
     
@@ -48,5 +57,56 @@ export class NetworkService {
             this.previousStatus = ConnectionStatusEnum.Online;
         });
     }
+
+    publicShowGPSEvent(): void{
+        this.diagnostic.getLocationMode().then(locationMode =>{
+
+            switch(locationMode){
+                case this.diagnostic.locationMode.HIGH_ACCURACY:
+                    this.eventCtrl.publish('High accuracy');
+                    
+                    break;
+                case this.diagnostic.locationMode.BATTERY_SAVING:
+                    
+                    this.eventCtrl.publish('Battery saving');
+                    break;
+                case this.diagnostic.locationMode.DEVICE_ONLY:
+                    
+                    this.eventCtrl.publish('Device only');
+                    break;
+                case this.diagnostic.locationMode.LOCATION_OFF:
+                    
+                    this.eventCtrl.publish('Location off');
+                    break;
+            }
+
+        })
+            
+        }
+
+
+        colorSignalGPS(color? ) {
+
+           if(color == 'green'){
+               console.log("hola soy el color "+color);
+            this.colorN='success';
+
+            }else if( color == 'yellow'){
+                console.log("hola soy el color "+color);
+                this.colorN='warning';
+                
+            }else if(color == 'orange'){
+                console.log("hola soy el color "+color);
+                this.colorN='danger';
+               
+            }else if(color == 'red'){
+                console.log("hola soy el color "+color);
+                this.colorN='dark';
+               
+            }
+            
+    
+
+        }
 
 }

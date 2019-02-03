@@ -2,29 +2,29 @@
 <ion-header >
     <ion-toolbar>
         <ion-icon class="cerrar" name="close-circle-outline" (click)="cancel()" ></ion-icon> 
-      <ion-title>{{alert}}</ion-title>
+      <ion-title style="color:var(--ion-color-light-contrast)" >{{alert}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding style="background-color: var(--ion-color-light-shade)">
     <h6>{{ "fecha" | translate }}</h6>
-    <ion-item>
-        <ion-label  class="fecha" style="font-size:1.22rem">{{fechaF}}</ion-label>
+    <ion-item style="--background: transparent !important;">
+        <ion-label color="dark" class="fecha" style="font-size:1.22rem">{{fechaF}}</ion-label>
       </ion-item>
     <h6>{{ "desc" | translate }}</h6>
-    <ion-item>
-      <ion-label class="desc">{{descripcion}}</ion-label>
+    <ion-item style="--background: transparent !important;">
+      <ion-label color="dark" class="desc">{{descripcion}}</ion-label>
     </ion-item>
     <h6>{{ "ltlng" | translate }}</h6>
-    <ion-item class="ltlng">
-      <ion-label  style="font-size:1.0rem">Lat: {{latitud}} </ion-label>
+    <ion-item  style="--background: transparent !important;" class="ltlng">
+      <ion-label color="dark"  style="font-size:1.0rem">Lat: {{latitud}} </ion-label>
     </ion-item>
-    <ion-item class="ltlng">
-      <ion-label  class="long" style="font-size:1.0rem" > Long: {{longitud}}</ion-label>
+    <ion-item style="--background: transparent !important;" class="ltlng">
+      <ion-label color="dark" class="long" style="font-size:1.0rem" > Long: {{longitud}}</ion-label>
     </ion-item>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
-        <ion-fab-button  color="#71A1F0">
+        <ion-fab-button >
           
           <ion-icon class="openM" name="compass" (click)="openMap()"></ion-icon>
         </ion-fab-button>

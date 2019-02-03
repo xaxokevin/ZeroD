@@ -1,11 +1,11 @@
-<ion-header >
-  <ion-toolbar>
+<ion-header color="primary">
+  <ion-toolbar color="primary">
     <ion-title>
       ZeroD
     </ion-title>
   </ion-toolbar>
-  <ion-segment [(ngModel)]="category" (ionChange)="slides.slideTo(category)" style="background-color:white"
-  color="primary">
+  <ion-segment [(ngModel)]="category" (ionChange)="slides.slideTo(category)" style="background-color:var(--ion-color-primary)"
+  color="light">
   <ion-segment-button layout="icon-start" value="0" style="--padding-end:0px;--padding-start:0px">
     <ion-icon name="ios-car" style="margin-right:1px;zoom:1"></ion-icon>
     <ion-label></ion-label>
@@ -16,7 +16,7 @@
   </ion-segment-button>
 </ion-segment>
 <div id='indicator' class="SwipedTabs-indicatorSegment" [ngStyle]=" 
-  {'width.%': (100/this.tabs.length)}" style="margin-top:2px"></div>
+  {'width.%': (100/this.tabs.length)}" ></div>
 
 </ion-header>
 
@@ -34,16 +34,17 @@
               </ion-refresher-content>
             </ion-refresher>
 
-          
-            
-            
-              <ion-card *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
-              <ion-label class="tamano"> 
-                <ion-icon name="ios-car" slot="start"  ></ion-icon>
-                {{item.descripcion}}
-              </ion-label>
-                <h5>Lat: {{item.latitud}}, Long: {{item.longitud}}</h5>
-            </ion-card>
+            <ion-list>
+              <ion-item style="--background: transparent !important;" *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
+                
+                  <ion-icon class="iconlist" name="ios-car" slot="start" color="primary"></ion-icon>
+                  
+                    <h5>{{item.descripcion}}</h5>
+                    <p size="6">Lat: {{item.latitud}}, Long: {{item.longitud}}</p>
+         
+              </ion-item>
+            </ion-list>
+             
               
             
           
@@ -64,13 +65,16 @@
         </ion-refresher>
         
         
-          <ion-card *ngFor="let item of listadoMeteorologia;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
-          <ion-label class="tamano"> 
-            <ion-icon name="ios-umbrella" slot="start"  ></ion-icon>
-            {{item.descripcion}}
-          </ion-label>
-            <h5>Lat: {{item.latitud}}, Long: {{item.longitud}}</h5>
-        </ion-card>
+        <ion-list>
+          <ion-item style="--background: transparent !important;" *ngFor="let item of listadoMeteorologia;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
+            
+              <ion-icon  class="iconlist" name="ios-umbrella" slot="start" color="primary"></ion-icon>
+              
+                <h5>{{item.descripcion}}</h5>
+                <p size="6">Lat: {{item.latitud}}, Long: {{item.longitud}}</p>
+     
+          </ion-item>
+        </ion-list>
           
         
       
@@ -82,5 +86,15 @@
       </ion-content>
     </ion-slide>
   </ion-slides>
+  <!--
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+      
+    <ion-fab-button>
+      <ion-icon name="add" style="color: var(--ion-color-success)" ></ion-icon>
+      
+    </ion-fab-button>
     
+    
+  </ion-fab>
+    -->
 </ion-content>
