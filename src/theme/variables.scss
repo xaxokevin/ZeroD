@@ -90,6 +90,18 @@ ion-modal{
  
 }
 
+.show-help {
+  .modal-wrapper {
+    position: absolute;
+    top: 0 !important;
+    left: 0 !important;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    --border-radius: 0px;
+  } 
+}
+
 
 
 /* Para personalizar el loading */
@@ -109,6 +121,11 @@ ion-loading{
     background-color:var(--ion-backdrop-color,#FFF)!important;
     opacity: 0.65 !important;
   }
+  
+}
+
+ion-content{
+  --background: var(--ion-color-light-shade);
 }
 
 

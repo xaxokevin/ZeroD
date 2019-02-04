@@ -1,9 +1,10 @@
+import { HelpComponent } from './../customComponent/help/help.component';
 import { NetworkService } from './../servicios/network.service';
 import { CustomModalModule } from './../custom-modal/custom-modal.module';
 import { iAccidente } from './../model/iAccident';
 import { CloudserviceService } from './../servicios/cloudservice.service';
 import { Component, ViewChild } from '@angular/core';
-import { IonInfiniteScroll, IonSlides} from '@ionic/angular';
+import { IonInfiniteScroll, IonSlides, ModalController} from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { iMeteorology } from '../model/iMeteorology';
 import { CustomLoading } from '../custom-modal/custom-loading';
@@ -11,6 +12,7 @@ import { WeatherService } from '../servicios/weather.service';
 import { ViewCardComponent } from '../customComponent/view-card/view-card.component';
 import { ScrollHideConfig } from '../directives/scroll-hide.directive';
 import { NavegacionService } from '../servicios/navegacion.service';
+
 
 
 
@@ -35,6 +37,7 @@ export class Tab1Page {
   footerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-bottom', maxValue: undefined };
   headerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-top', maxValue: 44 };
   listMvacia;
+  listAvacia;
 
  
 
@@ -45,7 +48,8 @@ export class Tab1Page {
     private cmm: CustomModalModule,
     private netwoekS: NetworkService,
     private navegacion: NavegacionService,
-    private router: Router
+    private router: Router,
+    public modalController: ModalController
   
    
   ) {}
@@ -73,6 +77,23 @@ export class Tab1Page {
   }
   
 
+  checkListA(){
+    if(this.listadoAccidentes.length == 0){
+      console.log("vacia")
+      this.listAvacia= true;
+    }else{
+      console.log("llena")
+      this.listAvacia=false;
+    }
+  }
+
+  checkListM(){
+    if(this.listadoMeteorologia.length == 0){
+      this.listMvacia= true;
+    }else{
+      this.listMvacia=false;
+    }
+  }
 
 
   /**
@@ -86,6 +107,9 @@ export class Tab1Page {
       this.cloudS.getAccident(true).then(d => {
         
         this.listadoAccidentes = d;
+
+        this.checkListA();
+
 
         
         if (event) {
@@ -109,9 +133,11 @@ export class Tab1Page {
       
       if (reload) {
         this.listadoAccidentes = d;
+        this.checkListA();
       } else {
         d.forEach((u) => {
           this.listadoAccidentes.push(u);
+
         });
       }
       if (!event)
@@ -133,6 +159,8 @@ export class Tab1Page {
        this.cloudS.getMeteorology(true).then(d => {
          
          this.listadoMeteorologia = d;
+
+         this.checkListM();
          
          if (event) {
            event.target.complete();
@@ -152,6 +180,7 @@ export class Tab1Page {
        
        if (reload) {
          this.listadoMeteorologia = d;
+         this.checkListM();
        } else {
          d.forEach((u) => {
            this.listadoMeteorologia.push(u);
@@ -204,5 +233,10 @@ export class Tab1Page {
   anadeMarca(){
     this.navegacion.addTab1Mark(true);
     this.router.navigate(['/tabs/tab2']);
+  }
+
+   presentModal() {
+    this.cmm.showHelp(HelpComponent,this);
+    
   }
 }

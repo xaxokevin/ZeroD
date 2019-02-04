@@ -21,6 +21,14 @@
     "NoGPS": "Activa el GPS",
     "TypeS": "Tipo de alerta en funcion del hecho ocurrido",
     "Select": "Selecciona una alerta",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "h1": "Al pulsar el botón más te diriges a la pantalla del mapa, donde creara un marcador",
+    "h2": "O puedes añadir un marcador desde la pantalla del mapa",
+    "h3": "Si pulsas sobre la marca se abrira el modal para añadir la alerta",
+    "h4": "Primero introduce una descripción, segundo elige el tipo de alerta y por último guardala en el mapa",
+    "h5": "Al guardar la marca se creara en la ubicación anteriormente seleccionada un icono segun el tipo de alerta.",
+    "h6": "El botón de configuración permite ocultar o mostrar las alertas en el mapa. El botón de localización centra la vista en la zona exacta donde nos encontramos",
+    "h7": "Al volver a la lista de alertas, te mostrará la alerta creada",
+    "h8": "Al pulsar sobre la alerta te muestra un modal con la información detallada. También te permite navegar directamente a la ubicación de la alerta en el mapa pulsando el boton 'ver mapa'"
 
   }

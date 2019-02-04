@@ -78,6 +78,7 @@ export class ThemingService {
         /*'
          Color del boton add
          */
+    
         ]
       },
       {
@@ -93,6 +94,7 @@ export class ThemingService {
           { themeVariable: '--ion-color-primary-shade', value: '#ffffff'},
           { themeVariable: '--ion-color-dark-shade', value: '#222442'},
           { themeVariable: '--ion-color-success-contrast', value: '#ffffff'},
+         
 
         ]
       }

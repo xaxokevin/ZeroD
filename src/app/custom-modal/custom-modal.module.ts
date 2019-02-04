@@ -56,5 +56,24 @@ export class CustomModalModule { //Clase que nos crea los modales personalizados
 
 
   }
+
+  async showHelp(component, callback): Promise <any>{
+   
+    const modal = await this.modalCtrl.create({
+      cssClass: "show-help",
+      backdropDismiss: true,
+      component: component,  //El componente que se inyecta en la ventana modal
+    });
+    modal.onDidDismiss().then((d) => {
+        if (callback.onModalClose)
+          callback.onModalClose()
+    });
+    
+    
+    return await modal.present();
+
+
+
+  }
   
 }

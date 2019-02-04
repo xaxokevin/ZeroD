@@ -91,7 +91,6 @@ Si no es asi se crea la variable en la memoria y se inicializa en la clase
 Si ya existe se obtiene el valor y se asigna a la de la clase
 Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
 */
-console.log("Siempre??")
     this.nativeStorage.getItem('ocultaA').then((d)=>{
       console.log(d);
       if(d==null){
@@ -152,9 +151,10 @@ console.log("Siempre??")
 
       this.loadmap();
       if(this.openM.getAddM()==true){
-        console.log("Hijueputa");
-        this.addMark();
-        this.openM.setAddM();
+        
+          this.locateme();
+          this.addMark();
+          this.openM.setAddM();
       }
       
       
@@ -219,24 +219,29 @@ console.log("Siempre??")
         console.log('Has permission?',result.hasPermission);
         this.chekPer = result.hasPermission;
 
-      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+
+        if(this.chekPer == true){
+
+          //Comprobacion del GPS si no esta activado, lanza un toast
+          //Si el gps esta activado nos situa en nuestra posicion
+          this.diagnostic.isGpsLocationAvailable().then((verdad) =>{
+            if(verdad == false){
+              this.toast.show(this.translate.instant("NoGPS"));
+            }else {
+              
+              this.map.locate({ setView: true, maxZoom: 15 });
+            
+            }
+      
+          }).catch(e => console.error(e))
+        }else{
+          //Pedimos permisos
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
+      
+        }
+
       });
-      if(this.chekPer == true){
-
-    //Comprobacion del GPS si no esta activado, lanza un toast
-    //Si el gps esta activado nos situa en nuestra posicion
-    this.diagnostic.isGpsLocationAvailable().then((verdad) =>{
-      if(verdad == false){
-        this.toast.show(this.translate.instant("NoGPS"));
-      }else {
-        this.map.locate({ setView: true, maxZoom: 15 });}
-
-    }).catch(e => console.error(e)) 
-  }else{
-    //Pedimos permisos
-    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
-
-  }
+     
 
   }
 
@@ -257,7 +262,7 @@ console.log("Siempre??")
 
     } else {
 
-      this.map.removeLayer(this.markerGroupM);
+      //this.map.removeLayer(this.markerGroupM);
 
       //se obtienen las marcas de meteorologia
       this.cloudS.getMarkMeteorology().then(d => {
@@ -311,7 +316,7 @@ console.log("Siempre??")
 
       
     } else {
-      this.map.removeLayer(this.markerGroupA);
+      //this.map.removeLayer(this.markerGroupA);
 
       //se obtienen las marcas de accidente
       this.cloudS.getMarkAccident().then(d => {
@@ -359,42 +364,42 @@ console.log("Siempre??")
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
       result => {
         this.chekPer = result.hasPermission;
-      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
-      });
-      if(this.chekPer == true){
-    //Comprobacion del GPS si no esta activado, lanza un toast
-    //Si el gps esta activado nos añade la marca en la ubicacion actual
-    this.diagnostic.isGpsLocationAvailable().then((verdad) =>{
-      if(verdad == false){
-        this.toast.show(this.translate.instant("NoGPS"));
-      }else {
-          //te localiza a traves del uso del GPS
-        this.map.locate({
-          setView: true, maxZoom: 15
-        }).on('locationfound', (e) => {
-          //crea una marca en la localizacion que te encuentras
-          let markerGroup = leaflet.featureGroup();
-          let marker = leaflet.marker([e.latitude, e.longitude]);
-          markerGroup.addLayer(marker);
-          this.map.addLayer(markerGroup);
-          console.log(e.latitude, e.longitude);
-          //se llama al metodo que se activa cuando tocas una marca
-          //recibe la marca, la latitud y la longitud
-          this.touchMark(marker, e.latitude, e.longitude);
-
-        }).on('locationerror', (err) => {
-          alert(err.message);
-        })
-            
-          }
-
-    }).catch(e => console.error(e))
-  }else{
-
-    //Pedimos permisos
-    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
-
-  }
+        if(this.chekPer == true){
+          //Comprobacion del GPS si no esta activado, lanza un toast
+          //Si el gps esta activado nos añade la marca en la ubicacion actual
+          this.diagnostic.isGpsLocationAvailable().then((verdad) =>{
+            if(verdad == false){
+              this.toast.show(this.translate.instant("NoGPS"));
+            }else {
+                //te localiza a traves del uso del GPS
+              this.map.locate({
+                setView: true, maxZoom: 15
+              }).on('locationfound', (e) => {
+                //crea una marca en la localizacion que te encuentras
+                let markerGroup = leaflet.featureGroup();
+                let marker = leaflet.marker([e.latitude, e.longitude]);
+                markerGroup.addLayer(marker);
+                this.map.addLayer(markerGroup);
+                console.log(e.latitude, e.longitude);
+                //se llama al metodo que se activa cuando tocas una marca
+                //recibe la marca, la latitud y la longitud
+                this.touchMark(marker, e.latitude, e.longitude);
+      
+              }).on('locationerror', (err) => {
+                alert(err.message);
+              })
+                  
+                }
+      
+          }).catch(e => console.error(e))
+        }else{
+      
+          //Pedimos permisos
+          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
+      
+        }
+     });
+     
      
   }
 

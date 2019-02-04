@@ -28,6 +28,7 @@ import { NetworkService } from './servicios/network.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Sensors} from '@ionic-native/sensors/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { HelpComponent } from './customComponent/help/help.component';
 
 
 
@@ -38,8 +39,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 @NgModule({
-  declarations: [AppComponent, AddAlertComponent, ViewCardComponent, ScrollHideDirective,],
-  entryComponents: [AddAlertComponent,ViewCardComponent,],
+  declarations: [AppComponent, AddAlertComponent, ViewCardComponent, ScrollHideDirective, HelpComponent,],
+  entryComponents: [AddAlertComponent,ViewCardComponent,HelpComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,
     ReactiveFormsModule,HttpClientModule, TranslateModule.forRoot({  //Módulo de traducción

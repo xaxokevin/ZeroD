@@ -3,6 +3,7 @@
     <ion-title>
       ZeroD
     </ion-title>
+    <ion-icon class="help" name="help-circle-outline" (click)="presentModal()"></ion-icon>
   </ion-toolbar>
   <ion-segment [(ngModel)]="category" (ionChange)="slides.slideTo(category)" style="background-color:var(--ion-color-primary)"
   color="light">
@@ -27,7 +28,7 @@
     (ionSlideDrag)="animateIndicator($event)">
     <ion-slide>
         <ion-content class="fixed-scroll" >
-          <div *ngIf="!listadoAccidentes; not_found">
+          
             <ion-refresher (ionRefresh)="this.updateAccident($event,true)">
               <ion-refresher-content pullingIcon="arrow-dropdown" 
                 refreshingSpinner="null" refreshingText="{{ 'refresher' | translate }}">
@@ -45,14 +46,13 @@
          
               </ion-item>
             </ion-list>
+           
 
-            <ng-template #not_found>
-                <ng-container >
-                  <img position ="fixed" top="200%" left="50%" transform = "translate(-50%,-50%)"
-                   src ="{{'assets/sinavisos.png'}}">
-                  <p>We didn't find anything :(</p>
-                </ng-container>
-              </ng-template>
+                <ion-img *ngIf="listAvacia" src="assets/sinavisos.png"></ion-img>
+    
+           
+
+          
             
             <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateAccident($event,false)">
               <ion-infinite-scroll-content loadingSpinner="null" loadingText="{{ 'refresher' | translate }}">
@@ -60,12 +60,13 @@
               </ion-infinite-scroll-content>
             </ion-infinite-scroll>
             
-          </div>
+          
 
           </ion-content>
     </ion-slide>
     <ion-slide>
       <ion-content class="fixed-scroll" >
+           
         <ion-refresher (ionRefresh)="this.updateMeteorology($event,true)">
           <ion-refresher-content pullingIcon="arrow-dropdown" 
             refreshingSpinner="null" refreshingText="{{ 'refresher' | translate }}">
@@ -84,6 +85,8 @@
      
           </ion-item>
         </ion-list>
+        <ion-img *ngIf="listMvacia" src="assets/sinavisossol.png"></ion-img>
+        
           
         
       
@@ -92,6 +95,7 @@
             
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
+     
       </ion-content>
     </ion-slide>
   </ion-slides>
