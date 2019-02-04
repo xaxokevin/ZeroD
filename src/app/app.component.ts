@@ -1,14 +1,15 @@
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemingService } from './servicios/theming.service';
 import { NetworkService } from './servicios/network.service';
 import { Component } from '@angular/core';
 import { Platform, Events} from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { Network } from '@ionic-native/network/ngx';
 import { CustomToast } from './custom-modal/custom-toast';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Sensors, TYPE_SENSOR} from '@ionic-native/sensors/ngx';
+
 
 
 
@@ -34,7 +35,8 @@ export class AppComponent {
     public toast: CustomToast,
     public diagnostic: Diagnostic,
     public themeS: ThemingService,
-    public sensor: Sensors
+    public sensor: Sensors,
+    public bar: StatusBar
   ) {
     
     this.light= 0;
@@ -46,6 +48,8 @@ export class AppComponent {
   initializeApp() {
 
     this.platform.ready().then(() => {
+      //Establecemos el color de inicio de la barra de estado
+      this.bar.backgroundColorByHexString('#71A1F0');
       
       /*Comprobamos el idioma del dispositivo
       Si el dispositivo esta en español, la aplicacion se inicia en español
@@ -80,6 +84,7 @@ export class AppComponent {
 
     
     //Comprobamos la calidad del  GPS
+    //Falta mejorar
     
 
     setInterval(() => { 
@@ -103,13 +108,6 @@ export class AppComponent {
       this.networkS.colorSignalGPS('red');
     });
 
-    /**
-     * El tema se va a cambiar segun la intensidad de luz que le llegue
-     * al sensor de luz de nuestro dispositivo
-     * asi nosotros no tendremos que estar pendientes 
-     * de cambiar al modo noche cada vez que iniciemos 
-     * nuestra app
-    */
    
    this.initSensor();
 
@@ -118,14 +116,16 @@ export class AppComponent {
   }
 
  
-
+/**
+ * Metodo encargado de inicializar el sensor
+ * Se ejecuta cada 15 segundos comprobando la 
+ * Luz ambiental que recibee nuestro telefono
+ */
 initSensor() {
 
-  
   setInterval(() => {
     this.sensor.enableSensor(TYPE_SENSOR.LIGHT);
     this.sensor.getState().then(d => {
-    console.log("Soy la luz jeje "+d)
     this.light= d[0]
     this.themeS.changeSkin(this.light);
     })

@@ -27,6 +27,7 @@
     (ionSlideDrag)="animateIndicator($event)">
     <ion-slide>
         <ion-content class="fixed-scroll" >
+          <div *ngIf="!listadoAccidentes; not_found">
             <ion-refresher (ionRefresh)="this.updateAccident($event,true)">
               <ion-refresher-content pullingIcon="arrow-dropdown" 
                 refreshingSpinner="null" refreshingText="{{ 'refresher' | translate }}">
@@ -44,15 +45,23 @@
          
               </ion-item>
             </ion-list>
-             
-              
+
+            <ng-template #not_found>
+                <ng-container >
+                  <img position ="fixed" top="200%" left="50%" transform = "translate(-50%,-50%)"
+                   src ="{{'assets/sinavisos.png'}}">
+                  <p>We didn't find anything :(</p>
+                </ng-container>
+              </ng-template>
             
-          
             <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateAccident($event,false)">
               <ion-infinite-scroll-content loadingSpinner="null" loadingText="{{ 'refresher' | translate }}">
                 
               </ion-infinite-scroll-content>
             </ion-infinite-scroll>
+            
+          </div>
+
           </ion-content>
     </ion-slide>
     <ion-slide>
@@ -86,15 +95,15 @@
       </ion-content>
     </ion-slide>
   </ion-slides>
-  <!--
+  
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
       
-    <ion-fab-button>
-      <ion-icon name="add" style="color: var(--ion-color-success)" ></ion-icon>
+    <ion-fab-button (click)="anadeMarca()">
+      <ion-icon name="add" style="color: var(--ion-color-success-contrast)" ></ion-icon>
       
     </ion-fab-button>
     
     
   </ion-fab>
-    -->
+    
 </ion-content>

@@ -4,12 +4,13 @@ import { iAccidente } from './../model/iAccident';
 import { CloudserviceService } from './../servicios/cloudservice.service';
 import { Component, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, IonSlides} from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { iMeteorology } from '../model/iMeteorology';
 import { CustomLoading } from '../custom-modal/custom-loading';
 import { WeatherService } from '../servicios/weather.service';
 import { ViewCardComponent } from '../customComponent/view-card/view-card.component';
 import { ScrollHideConfig } from '../directives/scroll-hide.directive';
+import { NavegacionService } from '../servicios/navegacion.service';
 
 
 
@@ -33,6 +34,7 @@ export class Tab1Page {
   listadoMeteorologia: iMeteorology[] = [];
   footerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-bottom', maxValue: undefined };
   headerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-top', maxValue: 44 };
+  listMvacia;
 
  
 
@@ -41,11 +43,17 @@ export class Tab1Page {
     private loading: CustomLoading,
     private aemet: WeatherService,
     private cmm: CustomModalModule,
-    private netwoekS: NetworkService
+    private netwoekS: NetworkService,
+    private navegacion: NavegacionService,
+    private router: Router
   
    
   ) {}
 
+  /**
+   * Metodo que comprueba la posicion del slider y la conexion a internet
+   * cada vez que entra a la tab1
+   */
   ionViewWillEnter() {
     //Comprobamos la posicion del slider
     this.SwipedTabsIndicator = document.getElementById("indicator");
@@ -61,21 +69,24 @@ export class Tab1Page {
       //obtiene los datos del weather service (Falta implementacion)
       this.aemet.getRemoteData();
     }
-    
-
+  
   }
   
 
 
 
-  //Carga todos los accidentes en el listado accidentes
-  //mostramos el loading al iniciar la carga y se quita cuando se complete
+  /**
+   * 
+   * Metodo de carga de los accidentes, se activa cuando se entra en la tab1
+   * Muestra un loading que se quita cuando la carga desde firebase esta completa
+   */
   updateAllAccident(event?) {
   this.loading.show("");
-    
+    //Cargamos de la bd
       this.cloudS.getAccident(true).then(d => {
         
         this.listadoAccidentes = d;
+
         
         if (event) {
           event.target.complete();
@@ -87,8 +98,10 @@ export class Tab1Page {
     
   }
 
-// actualiza la lista de accidentes
-//al accionar el refresher
+/**
+ * Se activa cuando accionamos el refresher de la lista.
+ * Carga los accidentes nuevos que se han añadido
+ */
   updateAccident(event?, reload?) {
     if (!event)
       this.loading.show("");
@@ -110,7 +123,11 @@ export class Tab1Page {
     });
   }
 
-  //Carga todos los avisos de meteorologia en el listado meteorologia
+   /**
+   * 
+   * Metodo de carga de la meteorologia, se activa cuando se entra en la tab1
+   * Muestra un loading que se quita cuando la carga desde firebase esta completa
+   */
   updateAllMeteorology(event?) {
      
        this.cloudS.getMeteorology(true).then(d => {
@@ -124,7 +141,10 @@ export class Tab1Page {
    
    }
  
-   //actualiza la lista de avisos por meteorologia al accionar el refresher
+  /**
+ * Se activa cuando accionamos el refresher de la lista.
+ * Carga la meteorologia nueva que se han añadido
+ */
    updateMeteorology(event?, reload?) {
      if (!event)
        this.loading.show("");
@@ -173,11 +193,16 @@ export class Tab1Page {
 
 
 
-  //acciona el modal que muestra la informacion completa de la alerta
-  //Recibe por parametros todos los campos de nuestra alerta
+  /*acciona el modal que muestra la informacion completa de la alerta
+    *Recibe por parametros todos los campos de nuestra alerta
+    */
   showInfo(descripcion: any, tipo: any, hora: any, latitud: any, longitud:any){
 
     this.cmm.showInfo(ViewCardComponent, descripcion,tipo, hora, latitud, longitud,this)
   }
   
+  anadeMarca(){
+    this.navegacion.addTab1Mark(true);
+    this.router.navigate(['/tabs/tab2']);
+  }
 }

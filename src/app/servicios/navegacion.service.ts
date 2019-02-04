@@ -7,6 +7,7 @@ export class NavegacionService { //Clase utilizada para la navegacion del modal 
  private cargaM: boolean
  private latitud: any;
  private longitud: any;
+ private addM: boolean;
   constructor() {
 
   this.cargaM=false;
@@ -39,12 +40,24 @@ setCargaMapa(){
   this.cargaM=false;
 }
 
+getAddM(){
+  return this.addM;
+}
+
+setAddM(){
+  this.addM=false;
+}
+
 
 //recibe true en el caso de que se haya la navegacion hacia el mapa, por defecto esta a falso
 cargaMapa(verdad?: boolean){
 
 this.cargaM=verdad;
  
+}
+
+addTab1Mark(verdad?: boolean){
+  this.addM=verdad;
 }
 
 

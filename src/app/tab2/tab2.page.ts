@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx'
 import { NetworkService } from '../servicios/network.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 
@@ -37,6 +38,7 @@ export class Tab2Page {
   markerGroupM = leaflet.featureGroup();
   markerGroupA = leaflet.featureGroup();
   colorB: any;
+  chekPer: any;
 
   accidenteIcon = leaflet.icon({
     iconUrl: '../../assets/icon/car.png',
@@ -67,11 +69,15 @@ export class Tab2Page {
     private toast: CustomToast,
     private translate: TranslateService,
     public eventCtrl: Events,
+    private androidPermissions: AndroidPermissions
     
 
   ) {
- //Cambiamos el valor del color del boton
- //En funcion de la calidad de gps que tengamos.
+ /*
+ Cambiamos el valor del color del boton
+ En funcion de la calidad de gps que tengamos.
+ */ 
+ 
     this.colorB=this.netwoekS.colorN;
     
 
@@ -80,9 +86,12 @@ export class Tab2Page {
   
   
   ngOnInit(){  
-//comprueba si existe la variable ocultaA y ocultaM en la memoria del dispositivo
-//Si no es asi se crea la variable en la memoria y se inicializa en la clase
-//Si ya existe se obtiene el valor y se asigna a la de la clase
+/*comprueba si existe la variable ocultaA y ocultaM en la memoria del dispositivo
+Si no es asi se crea la variable en la memoria y se inicializa en la clase
+Si ya existe se obtiene el valor y se asigna a la de la clase
+Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
+*/
+console.log("Siempre??")
     this.nativeStorage.getItem('ocultaA').then((d)=>{
       console.log(d);
       if(d==null){
@@ -115,7 +124,7 @@ export class Tab2Page {
         if(this.netwoekS.previousStatus == 1){
           this.toast.show(this.transalte.instant("noNetwork"))
         }else if(this.netwoekS.previousStatus == 0){
-          this.loadmap();
+          //this.loadmap();
           this.chargeAllMarkMeteorology(this.ocultaM);
           this.chargeAllMarkAccident(this.ocultaA);
         }
@@ -126,27 +135,28 @@ export class Tab2Page {
   }
 
 
-  //este metodo se acciona cuando se vuelve a entrar en la pagina
-  //carga el mapa de nuevo y actualiza las marcas
-  //Volvemos a comprobar la conexion a internet
+  /*este metodo se acciona cuando se vuelve a entrar en la pagina
+    *carga el mapa de nuevo y actualiza las marcas
+    Volvemos a comprobar la conexion a internet
+  */
   ionViewWillEnter() {
     this.loading.show("");
-  //Cambiamos el valor del color del boton
- //En funcion de la calidad de gps que tengamos.
- this.colorB=this.netwoekS.colorN;
-    if(this.map != null){
-      this.map.remove();
-    }
-    this.loadmap();
-
+  /*Cambiamos el valor del color del icono de señal
+    En funcion de la calidad de gps que tengamos.
+ */
+    this.colorB=this.netwoekS.colorN;
+    
     if(this.netwoekS.previousStatus == 1){
       console.log("sin conexion")
     }else if(this.netwoekS.previousStatus == 0){
 
-      if(this.map != null){
-        this.map.remove();
-      }
       this.loadmap();
+      if(this.openM.getAddM()==true){
+        console.log("Hijueputa");
+        this.addMark();
+        this.openM.setAddM();
+      }
+      
       
     }
     this.loading.hide();
@@ -154,16 +164,21 @@ export class Tab2Page {
 
   }
 
-  //Este metodo se acciona cuando se va a cerrar la tab
-  //establecemos el valor de la variable del servicio a false y eliminamos el mapa para que
-  //la aplicacion sea mas fluida
+  /*Este metodo se acciona cuando se va a cerrar la tab
+    establecemos el valor de la variable del servicio a false
+  */
   ionViewDidLeave() {
     this.openM.setCargaMapa();
-    //this.map.remove();
+    this.map.remove();
+
   }
 
 
-  //Funcion que carga el mapa 
+  /**
+   * Funcion encargada de cargar el mapa cuando cambiamos a la tab2
+   * Comprueba si se ha navegado desde el modal o desde las tabs
+   *
+   */
   loadmap() {
     //si el mapa es abierto desde el modal de ver mas informacion de la alerta
     //se establecera la vista encima de la alerta pulsada
@@ -190,8 +205,23 @@ export class Tab2Page {
 
 
 
-  //funcion que establece la vista en funcion donde se encuentre el usuario. Obteniendo la localizacion a traves del GPS
+  /**
+   * Esta funcion es activada cuado pulsamos el boton de localizar en el mapa
+   * Primero comprueba si tenemos permisos para acceder al gps del dispositivo
+   * Si no es asi no pide permisos
+   * Comprueba si tenemos el gps activado o no lanzando un toast
+   */
   locateme() {
+    
+    //Comprobamos permisos
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+      result => {
+        console.log('Has permission?',result.hasPermission);
+        this.chekPer = result.hasPermission;
+
+      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      });
+      if(this.chekPer == true){
 
     //Comprobacion del GPS si no esta activado, lanza un toast
     //Si el gps esta activado nos situa en nuestra posicion
@@ -202,14 +232,23 @@ export class Tab2Page {
         this.map.locate({ setView: true, maxZoom: 15 });}
 
     }).catch(e => console.error(e)) 
+  }else{
+    //Pedimos permisos
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
+
+  }
+
   }
 
 
 
-  //Metodo que pinta o no los avisos de meteorologia en el mapa (Recibe un booleano)
+  /**
+   * 
+   * Este metodo es el encargado de mostrar en el mapa las ubicaciones de los avisos por meteorologia
+   * Se mostraran o no segun el valor del boton del menu de configuracion del mapa
+   * Recibe un boleano con esta informacion
+   */
   chargeAllMarkMeteorology(hide) {
-
-    this.map.removeLayer(this.markerGroupM);
 
     if (hide == false) {
 
@@ -217,6 +256,8 @@ export class Tab2Page {
       this.map.removeLayer(this.markerGroupM)
 
     } else {
+
+      this.map.removeLayer(this.markerGroupM);
 
       //se obtienen las marcas de meteorologia
       this.cloudS.getMarkMeteorology().then(d => {
@@ -227,14 +268,13 @@ export class Tab2Page {
 
         this.listadoMarcaMeteorology.forEach(element => {
 
-
           //Se crea la marca y se le asigna a esa marca un pop up con la descripcion
           let marker: any = leaflet.marker([element.latitud, element.longitud], { icon: this.meteoIcon }).on('click', () => {
             this.map.setView([element.latitud, element.longitud], 15);
           }).bindPopup(element.descripcion);
 
           //se le asigna un radio de precaucion a la marca
-          let circle: any = leaflet.circle([element.latitud, element.longitud], { radius: 500 }, { color: 'green', opacity: .5 });
+          let circle: any = leaflet.circle([element.latitud, element.longitud], { radius: 2000 }, { color: 'green', opacity: .5 });
           //se añade todo al grupo de marcas
           this.markerGroupM.addLayer(marker);
           this.markerGroupM.addLayer(circle);
@@ -255,9 +295,14 @@ export class Tab2Page {
 
 
 
-  //Metodo que pinta o no los avisos por accidente en el mapa (Recibe un booleano)
+  /**
+   * 
+   * Este metodo es el encargado de mostrar en el mapa las ubicaciones de los avisos por meteorologia
+   * Se mostraran o no segun el valor del boton del menu de configuracion del mapa
+   * Recibe un boleano con esta informacion
+   */
   chargeAllMarkAccident(hide) {
-    this.map.removeLayer(this.markerGroupA);
+    
 
     if (hide == false) {
 
@@ -266,6 +311,7 @@ export class Tab2Page {
 
       
     } else {
+      this.map.removeLayer(this.markerGroupA);
 
       //se obtienen las marcas de accidente
       this.cloudS.getMarkAccident().then(d => {
@@ -302,16 +348,26 @@ export class Tab2Page {
 
 
 
-  //Funcion que añade una marca en el mapa de tu ubicacion actual
+  /**
+   * Este metodo es el encargado de crear una marca en la ubicación del usuario
+   * Comprueba al inicio el estado de los permisos para acceder al GPS
+   * Comprueba que el gps este activado
+   * Crea una marca en tu ubicación
+   */
   addMark() {
+    //Comprueba permisos
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+      result => {
+        this.chekPer = result.hasPermission;
+      err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      });
+      if(this.chekPer == true){
     //Comprobacion del GPS si no esta activado, lanza un toast
     //Si el gps esta activado nos añade la marca en la ubicacion actual
     this.diagnostic.isGpsLocationAvailable().then((verdad) =>{
       if(verdad == false){
         this.toast.show(this.translate.instant("NoGPS"));
       }else {
-
-
           //te localiza a traves del uso del GPS
         this.map.locate({
           setView: true, maxZoom: 15
@@ -333,6 +389,12 @@ export class Tab2Page {
           }
 
     }).catch(e => console.error(e))
+  }else{
+
+    //Pedimos permisos
+    this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
+
+  }
      
   }
 
@@ -360,7 +422,6 @@ export class Tab2Page {
     }
     this.chargeAllMarkAccident(this.ocultaA);
 
-
     if (this.ocultaM == true) {
 
       this.ocultaM = false
@@ -382,8 +443,10 @@ export class Tab2Page {
 
   }
 
-  //metodo que se inicializa cuando se toca una marca vacia.
-  //abre el modal para añadir una nueva
+  /**
+   * Metodo que recibe la marca, la longitud y la latitud de la marca creada vacia
+   * Al pulsar sobre ella lanza el modal para añadir un aviso en esa posición
+   */
   touchMark(mark: any, lat: any, lng: any) {
 
     mark.on('click', async () => {

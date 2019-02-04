@@ -27,7 +27,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { NetworkService } from './servicios/network.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Sensors} from '@ionic-native/sensors/ngx';
-
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 
 
@@ -58,6 +58,7 @@ import { Sensors} from '@ionic-native/sensors/ngx';
     NetworkService,
     Diagnostic,
     Sensors,
+    AndroidPermissions,
     
     
 

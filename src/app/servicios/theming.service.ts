@@ -18,15 +18,20 @@ interface ThemeStyle {
   providedIn: 'root'
 })
 
-
+/**
+ * Esta clase nos permite hacer un cambio de tema a nuestra aplicacion
+ * Este cambio de tema se hará automaticamente ajustandose segun la luminosidad
+ * Se ha decidico asi por la politica del modo nocturno automatico implementado en android 9
+ */
 export class ThemingService {
 
   
   private themes: Theme[] = [];
-  private currentTheme: number = 0;
+  private firstTheme: String = 'light';
 
   constructor(private domCtrl: DomController, @Inject(DOCUMENT) private document,public bar: StatusBar) { 
 
+    //Almacenamos los colores de los temas
     this.themes = [
       {
         name: 'light',
@@ -52,7 +57,8 @@ export class ThemingService {
          */
          { themeVariable: '--ion-color-medium-tint', value: '#a2a4ab'},
          /*
-         Color de la ltlng de tab1 */
+         Color de la ltlng de tab1 
+         */
          { themeVariable: '--ion-color-primary-contrast', value: '#ffffff'},
 
 
@@ -86,7 +92,7 @@ export class ThemingService {
           { themeVariable: '--ion-color-light-contrast', value: '#ffffff'},
           { themeVariable: '--ion-color-primary-shade', value: '#ffffff'},
           { themeVariable: '--ion-color-dark-shade', value: '#222442'},
-          { themeVariable: '--ion-color-success-contrast', value: '#71A1F0'},
+          { themeVariable: '--ion-color-success-contrast', value: '#ffffff'},
 
         ]
       }
@@ -94,18 +100,14 @@ export class ThemingService {
   }
 
 
-  cycleTheme(): void {
- 
-    if(this.themes.length > this.currentTheme + 1){
-      this.currentTheme++;
-    } else {
-      this.currentTheme = 0;
-    }
- 
-    this.setTheme(this.themes[this.currentTheme].name);
- 
-  }
- 
+  
+ /**
+  * 
+  * Este metodo es el encargado de establecer el tema
+  * recibe por parametro el nombre del tema y lo busca en
+  * nuestro array de temas
+  * Luego es aplicado a todas la variables de colores
+  */
   setTheme(name): void {
  
     let theme = this.themes.find(theme => theme.name === name);
@@ -120,15 +122,25 @@ export class ThemingService {
  
   }
 
+/**
+ * 
+ * Este metodo es el encargado de comprobar el cambio de tema
+ * Si la luz ambiental es menor a 10 lux se establecera el modo noche
+ * Si es mayor el modo dia
+ */
   changeSkin(light) {
-    if (light <10) {
-      
-      this.setTheme("dark");
-      this.bar.backgroundColorByName("primary");
-    } else {
+
+    if (light <10 && this.firstTheme == 'light') {
+
+        this.setTheme("dark");
+        this.firstTheme='dark';
+        this.bar.backgroundColorByHexString('#354B70');
+
+    } else if(light >10 && this.firstTheme == 'dark'){
      
       this.setTheme("light");
-      this.bar.backgroundColorByName("primary");
+      this.firstTheme='light';
+      this.bar.backgroundColorByHexString('#71A1F0');
     }
 }
 
