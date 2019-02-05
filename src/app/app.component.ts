@@ -83,10 +83,13 @@ export class AppComponent {
     });
 
     
-    //Comprobamos la calidad del  GPS
-    //Falta mejorar
+    /**
+     * Comprobamos la calidad del  GPS
+     * Falta mejora del servicio que
+     * administra este evento
+     *  */
     
-
+    
     setInterval(() => { 
       this.networkS.publicShowGPSEvent();
    }, 10000);
