@@ -152,7 +152,6 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
       this.loadmap();
       if(this.openM.getAddM()==true){
         
-          this.locateme();
           this.addMark();
           this.openM.setAddM();
       }
@@ -453,11 +452,8 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
    * Al pulsar sobre ella lanza el modal para añadir un aviso en esa posición
    */
   touchMark(mark: any, lat: any, lng: any) {
-
-    mark.on('click', async () => {
-      await this.cmm.show(AddAlertComponent, lat, lng, this);
-
-    })
+     this.cmm.show(AddAlertComponent, lat, lng, this);
+    
   }
 
 

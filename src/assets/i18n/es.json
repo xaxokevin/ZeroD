@@ -22,7 +22,7 @@
     "TypeS": "Tipo de alerta en funcion del hecho ocurrido",
     "Select": "Selecciona una alerta",
     "Cancel": "Cancel",
-    "h1": "Al pulsar el botón más te diriges a la pantalla del mapa, donde creara un marcador",
+    "h1": "Al pulsar el botón más te diriges a la pantalla del mapa, donde creara un marcador y abre el modal",
     "h2": "O puedes añadir un marcador desde la pantalla del mapa",
     "h3": "Si pulsas sobre la marca se abrira el modal para añadir la alerta",
     "h4": "Primero introduce una descripción, segundo elige el tipo de alerta y por último guardala en el mapa",

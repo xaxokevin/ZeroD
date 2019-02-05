@@ -22,7 +22,7 @@
     "TypeS": "Type of alert that is happen",
     "Select": "Choose one alert",
     "Cancel": "Cancel",
-    "h1": "By pressing the button add,you will go to the map screen, where you will create a bookmark",
+    "h1": "By pressing the button add,you will go to the map screen, where you will create a bookmark and open the modal",
     "h2": "Or you can add a bookmark from the map screen",
     "h3": "If you click on the brand, the modal will open to add the alert",
     "h4": "First enter a description, second choose the type of alert and finally save it on the map",
