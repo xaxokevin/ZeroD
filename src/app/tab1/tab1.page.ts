@@ -229,12 +229,18 @@ export class Tab1Page {
 
     this.cmm.showInfo(ViewCardComponent, descripcion,tipo, hora, latitud, longitud,this)
   }
-  
+  /**
+   * Metodo que inicia la navegacion hasta el mapa 
+   * añadiendo una marca
+   */
   anadeMarca(){
     this.navegacion.addTab1Mark(true);
     this.router.navigate(['/tabs/tab2']);
   }
 
+  /**
+   * Metodo que abre el modal de ayuda
+   */
    presentModal() {
     this.cmm.showHelp(HelpComponent,this);
     

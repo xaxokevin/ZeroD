@@ -449,7 +449,7 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
 
   /**
    * Metodo que recibe la marca, la longitud y la latitud de la marca creada vacia
-   * Al pulsar sobre ella lanza el modal para añadir un aviso en esa posición
+   * Y lanza el modal para añadir un aviso en esa posición
    */
   touchMark(mark: any, lat: any, lng: any) {
      this.cmm.show(AddAlertComponent, lat, lng, this);

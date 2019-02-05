@@ -58,6 +58,10 @@ export class NetworkService {
         });
     }
 
+    /**
+ * 
+ * Metodo que comprueba el gps y el estado que tiene
+ */
     publicShowGPSEvent(): void{
         this.diagnostic.getLocationMode().then(locationMode =>{
 
@@ -84,7 +88,10 @@ export class NetworkService {
             
         }
 
-
+/**
+ * 
+ * Metodo que cambia el color del icono de la señal del gps
+ */
         colorSignalGPS(color? ) {
 
            if(color == 'green'){
