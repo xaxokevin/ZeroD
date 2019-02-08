@@ -1,3 +1,4 @@
+import { BackbuttonService } from './servicios/backbutton.service';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemingService } from './servicios/theming.service';
 import { NetworkService } from './servicios/network.service';
@@ -25,6 +26,7 @@ import { Sensors, TYPE_SENSOR} from '@ionic-native/sensors/ngx';
 })
 export class AppComponent {
   light: number;
+  currentURL: any = "";
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -36,8 +38,10 @@ export class AppComponent {
     public diagnostic: Diagnostic,
     public themeS: ThemingService,
     public sensor: Sensors,
-    public bar: StatusBar
+    public bar: StatusBar,
+    //private back: BackbuttonService
   ) {
+    
     
     this.light= 0;
     

@@ -12,6 +12,7 @@ import { WeatherService } from '../servicios/weather.service';
 import { ViewCardComponent } from '../customComponent/view-card/view-card.component';
 import { ScrollHideConfig } from '../directives/scroll-hide.directive';
 import { NavegacionService } from '../servicios/navegacion.service';
+import { BackbuttonService } from '../servicios/backbutton.service';
 
 
 
@@ -49,7 +50,7 @@ export class Tab1Page {
     private netwoekS: NetworkService,
     private navegacion: NavegacionService,
     private router: Router,
-    public modalController: ModalController
+    public modalController: ModalController,
   
    
   ) {}
@@ -77,6 +78,10 @@ export class Tab1Page {
   }
   
 
+  /**
+   * Se encarga de comprobar si las listas estan vacias
+   * cuando es asi muestra la imagen de que todo esta ok
+   */
   checkListA(){
     if(this.listadoAccidentes.length == 0){
       console.log("vacia")
@@ -87,6 +92,10 @@ export class Tab1Page {
     }
   }
 
+/**
+   * Se encarga de comprobar si las listas estan vacias
+   * cuando es asi muestra la imagen de que todo esta ok
+   */
   checkListM(){
     if(this.listadoMeteorologia.length == 0){
       this.listMvacia= true;
