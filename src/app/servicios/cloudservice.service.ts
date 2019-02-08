@@ -12,7 +12,7 @@ export class CloudserviceService {
 
   accidenteCollection: AngularFirestoreCollection<any>;
   meteorologiaCollection: AngularFirestoreCollection<any>;
-  hora:any;
+  
   
 
   /*Variables para el infiniteScroll de la pestaña Accidentes*/
@@ -67,20 +67,26 @@ export class CloudserviceService {
         /* Obtengo los primeros 15 accidentes ordenados por descripcion. Para ordenar es necesario
         activar un índice en firebase. Si no se crea dará un error por consola indicando los pasos
         necesarios para crearlo */
-        query = this.accidenteCollection.ref.orderBy("descripcion", "asc").limit(15).get();
+        query = this.accidenteCollection.ref.orderBy("hora", "asc").limit(15).get();
 
       } else {
         /* Cargamos 15 a partir del último cargado */
-        query = this.accidenteCollection.ref.orderBy("descripcion", "asc").startAfter(this.lastAccidentLoaded).limit(15).get();
+        query = this.accidenteCollection.ref.orderBy("hora", "asc").startAfter(this.lastAccidentLoaded).limit(15).get();
       }
       query.then((d) => {
         d.forEach((u) => {
-          let x = { "descripcion": u.id, ...u.data() };
+          let x = { "hora": u.id, ...u.data() };
           /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
           el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
           let horaLocal = new Date().valueOf();
 
           if(x.hora+3600000 <= horaLocal){
+
+            this.accidenteCollection.doc(u.id).delete().then(e => {
+              console.log("Document successfully deleted!");
+          }).catch(function(error) {
+              console.error("Error removing document: ", error);
+          });
 
           }else{
   
@@ -109,12 +115,12 @@ export class CloudserviceService {
       let lreq: iAccidente[] = [];
       let query;
  
-      query = this.accidenteCollection.ref.orderBy("descripcion", "asc").limit(1000).get();
+      query = this.accidenteCollection.ref.orderBy("hora", "asc").limit(1000).get();
 
       
       query.then((d) => {
         d.forEach((u) => {
-          let x = { "descripcion": u.id, ...u.data() };
+          let x = { "hora": u.id, ...u.data() };
           /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
           el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
@@ -122,6 +128,11 @@ export class CloudserviceService {
 
           if(x.hora+3600000<= horaLocal){
 
+            this.accidenteCollection.doc(u.id).delete().then(e => {
+              console.log("Document successfully deleted!");
+          }).catch(function(error) {
+              console.error("Error removing document: ", error);
+          });
           }else{
 
             lreq.push(x);
@@ -166,21 +177,27 @@ export class CloudserviceService {
         /* Obtengo los primeros 15 eventos de meteorologia ordenados por descripcion. Para ordenar es necesario
         activar un índice en firebase. Si no se crea dará un error por consola indicando los pasos
         necesarios para crearlo */
-        query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").limit(15).get();
+        query = this.meteorologiaCollection.ref.orderBy("hora", "asc").limit(15).get();
 
       } else {
         /* Cargamos 15 a partir del último cargado */
-        query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").startAfter(this.lastMeteorologyLoaded).limit(15).get();
+        query = this.meteorologiaCollection.ref.orderBy("hora", "asc").startAfter(this.lastMeteorologyLoaded).limit(15).get();
       }
       query.then((d) => {
         d.forEach((u) => {
-          let x = { "descripcion": u.id, ...u.data() };
+          let x = { "hora": u.id, ...u.data() };
           let horaLocal = new Date().valueOf();
 
           /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
           el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
           if(x.hora+3600000<= horaLocal){
+            //Se elimina ese aviso
+            this.meteorologiaCollection.doc(u.id).delete().then(e => {
+              console.log("Document successfully deleted!");
+          }).catch(function(error) {
+              console.error("Error removing document: ", error);
+          });
 
           }else{
             
@@ -209,19 +226,25 @@ export class CloudserviceService {
       let query;
       
         
-      query = this.meteorologiaCollection.ref.orderBy("descripcion", "asc").limit(1000).get();
+      query = this.meteorologiaCollection.ref.orderBy("hora", "asc").limit(1000).get();
 
       
       query.then((d) => {
         d.forEach((u) => {
-          let x = { "descripcion": u.id, ...u.data() };
-
+          let x = { "hora": u.id, ...u.data() };
+         
           let horaLocal = new Date().valueOf();
 /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
           el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
           if(x.hora+3600000<= horaLocal){
-
+           
+            this.meteorologiaCollection.doc(u.id).delete().then(e => {
+              console.log("Document successfully deleted!");
+          }).catch(function(error) {
+              console.error("Error removing document: ", error);
+          });
+          
           }else{
            
             lreq.push(x);

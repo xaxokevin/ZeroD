@@ -94,8 +94,8 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
     this.nativeStorage.getItem('ocultaA').then((d)=>{
       console.log(d);
       if(d==null){
-        this.ocultaA=true;
-        this.nativeStorage.setItem('ocultaA', {property: 'true'})
+        this.ocultaA=false;
+        this.nativeStorage.setItem('ocultaA', {property: 'false'})
         .then(
           () => console.log('Stored item!'),
           error => console.error('Error storing item', error)
@@ -106,8 +106,8 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
 
       this.nativeStorage.getItem('ocultaM').then((d)=>{
         if(d==null){
-          this.ocultaM=true;
-          this.nativeStorage.setItem('ocultaM', {property: 'true'})
+          this.ocultaM=false;
+          this.nativeStorage.setItem('ocultaM', {property: 'false'})
           .then(
             () => console.log('Stored item!'),
             error => console.error('Error storing item', error)
@@ -116,17 +116,6 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
             this.ocultaM=d;
         }
 
-/*
-    Comprobamos la conexion a internet al cargar por primera vez
-    Si tenemos conexion carga el mapa y las marcas
-     */
-        if(this.netwoekS.previousStatus == 1){
-          this.toast.show(this.transalte.instant("noNetwork"))
-        }else if(this.netwoekS.previousStatus == 0){
-          //this.loadmap();
-          this.chargeAllMarkMeteorology(this.ocultaM);
-          this.chargeAllMarkAccident(this.ocultaA);
-        }
       });
   });
 
@@ -169,6 +158,7 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
   ionViewDidLeave() {
     this.openM.setCargaMapa();
     this.map.remove();
+   
 
   }
 
@@ -183,6 +173,9 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
     //se establecera la vista encima de la alerta pulsada
     if (this.openM.getCargarMapa()==true) {
       this.map = leaflet.map("map").fitWorld().setView([this.openM.getLatitud(), this.openM.getLongitud()], 15);
+      //establecemos los valores a true para mostrar las marcas
+      
+      
     } else {
       //Si el mapa se ha abierto desde los tabs se establecera la vista en general sobre el mapa de españa
       this.map = leaflet.map("map").fitWorld().setView([40.416665, -3.705315], 6);
@@ -196,6 +189,7 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
       minZoom: 5,
 
     }).addTo(this.map);
+   
 
     //se añade todo al mapa
 

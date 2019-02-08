@@ -47,7 +47,9 @@ getAddM(){
   return this.addM;
 }
 
-//Establece el valor de añadir mapa a false
+/*
+Establece el valor de añadir mapa a false
+*/
 setAddM(){
   this.addM=false;
 }
