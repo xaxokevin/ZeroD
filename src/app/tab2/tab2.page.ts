@@ -86,38 +86,7 @@ export class Tab2Page {
   
   
   ngOnInit(){  
-/*comprueba si existe la variable ocultaA y ocultaM en la memoria del dispositivo
-Si no es asi se crea la variable en la memoria y se inicializa en la clase
-Si ya existe se obtiene el valor y se asigna a la de la clase
-Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
-*/
-    this.nativeStorage.getItem('ocultaA').then((d)=>{
-      console.log(d);
-      if(d==null){
-        this.ocultaA=false;
-        this.nativeStorage.setItem('ocultaA', {property: 'false'})
-        .then(
-          () => console.log('Stored item!'),
-          error => console.error('Error storing item', error)
-        );
-      }else{
-          this.ocultaA=d;
-      }
 
-      this.nativeStorage.getItem('ocultaM').then((d)=>{
-        if(d==null){
-          this.ocultaM=false;
-          this.nativeStorage.setItem('ocultaM', {property: 'false'})
-          .then(
-            () => console.log('Stored item!'),
-            error => console.error('Error storing item', error)
-          );
-        }else{
-            this.ocultaM=d;
-        }
-
-      });
-  });
 
     
   }
@@ -133,12 +102,65 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
     En funcion de la calidad de gps que tengamos.
  */
     this.colorB=this.netwoekS.colorN;
+
+
+//Se comprueba la conexión a internet y se hacen las respectivas operaciones segun tengamos o no activada la conexion
     
     if(this.netwoekS.previousStatus == 1){
       console.log("sin conexion")
     }else if(this.netwoekS.previousStatus == 0){
 
       this.loadmap();
+/*comprueba si existe la variable ocultaA y ocultaM en la memoria del dispositivo
+Si no es asi se crea la variable en la memoria y se inicializa en la clase
+Si ya existe se obtiene el valor y se asigna a la de la clase
+Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
+*/
+this.nativeStorage.getItem('ocultaA').then((d)=>{
+  if(d==null){
+    this.ocultaA=false;
+    this.chargeAllMarkAccident(this.ocultaA);
+    this.nativeStorage.setItem('ocultaA', {property: 'false'})
+    .then(
+      () => console.log('Stored item!'),
+      error => console.error('Error storing item', error)
+    );
+  }else{
+      this.ocultaA=d;
+      this.nativeStorage.setItem('ocultaA', {property: this.ocultaA})
+      .then(
+        () => console.log('Stored item!'),
+        error => console.error('Error storing item', error)
+      );
+      this.chargeAllMarkAccident(this.ocultaA);
+  }
+
+  this.nativeStorage.getItem('ocultaM').then((d)=>{
+    if(d==null){
+      this.ocultaM=false;
+      this.chargeAllMarkMeteorology(this.ocultaM);
+      this.nativeStorage.setItem('ocultaM', {property: 'false'})
+      
+      .then(
+        () => console.log('Stored item!'),
+        error => console.error('Error storing item', error)
+      );
+    }else{
+        this.ocultaM=d;
+        
+        this.chargeAllMarkMeteorology(this.ocultaM);
+        this.nativeStorage.setItem('ocultaM', {property: this.ocultaM})
+      
+      .then(
+        () => console.log('Stored item!'),
+        error => console.error('Error storing item', error)
+      );
+    }
+
+  });
+});
+      
+
       if(this.openM.getAddM()==true){
         
           this.addMark();
@@ -247,11 +269,15 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
    * Recibe un boleano con esta informacion
    */
   chargeAllMarkMeteorology(hide) {
+    if(this.markerGroupM != null){
+      this.map.removeLayer(this.markerGroupM)
+
+    }
 
     if (hide == false) {
 
       //se elimina las marcas del mapa
-      this.map.removeLayer(this.markerGroupM)
+     
 
     } else {
 
@@ -300,12 +326,17 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
    * Recibe un boleano con esta informacion
    */
   chargeAllMarkAccident(hide) {
+
+    if(this.markerGroupA != null){
+      this.map.removeLayer(this.markerGroupA)
+
+    }
     
 
     if (hide == false) {
 
-      //se eliminan las marcas del mapa
-      this.map.removeLayer(this.markerGroupA)
+     //No se cargan las marcas
+  
 
       
     } else {
