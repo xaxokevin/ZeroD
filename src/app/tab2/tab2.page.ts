@@ -62,7 +62,6 @@ export class Tab2Page {
     public navCtrl: NavController,
     private loading: CustomLoading,
     private openM: NavegacionService,
-    private transalte: TranslateService,
     private nativeStorage: NativeStorage,
     private netwoekS: NetworkService,
     private diagnostic: Diagnostic,
@@ -84,11 +83,8 @@ export class Tab2Page {
   }
 
   
-  
   ngOnInit(){  
-
-
-    
+  
   }
 
 
@@ -107,7 +103,7 @@ export class Tab2Page {
 //Se comprueba la conexión a internet y se hacen las respectivas operaciones segun tengamos o no activada la conexion
     
     if(this.netwoekS.previousStatus == 1){
-      console.log("sin conexion")
+      this.loadmap();
     }else if(this.netwoekS.previousStatus == 0){
 
       this.loadmap();
@@ -195,12 +191,14 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
     //se establecera la vista encima de la alerta pulsada
     if (this.openM.getCargarMapa()==true) {
       this.map = leaflet.map("map").fitWorld().setView([this.openM.getLatitud(), this.openM.getLongitud()], 15);
+      this.map.on('click', this.onMapClick)
       //establecemos los valores a true para mostrar las marcas
       
       
     } else {
       //Si el mapa se ha abierto desde los tabs se establecera la vista en general sobre el mapa de españa
       this.map = leaflet.map("map").fitWorld().setView([40.416665, -3.705315], 6);
+      this.map.on('click', this.onMapClick)
     }
     //eliminamos el control del zoom
     this.map.removeControl(this.map.zoomControl);
@@ -244,7 +242,12 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
               this.toast.show(this.translate.instant("NoGPS"));
             }else {
               
-              this.map.locate({ setView: true, maxZoom: 15 });
+              this.map.locate({ setView: true, maxZoom: 15 }).on('locationfound', (e) => {  
+      
+              }).on('locationerror', (err) => {
+                //alert(err.message);
+                this.toast.showTop(this.translate.instant("LSGPS"))
+              });
             
             }
       
@@ -383,7 +386,26 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
    * Comprueba que el gps este activado
    * Crea una marca en tu ubicación
    */
-  addMark() {
+  addMark(mapMark1?,mapMark2? ) {
+
+    if(mapMark1 != null || mapMark2 != null){
+
+      console.log(mapMark1)
+      console.log(mapMark2)
+
+      let markerGroup = leaflet.featureGroup();
+      let marker = leaflet.marker([mapMark1, mapMark2]).on('click', async () => {
+
+       //se llama al metodo que recibe la marca, la latitud y la longitud
+      this.touchMark(marker,mapMark1 ,mapMark2 );
+  
+      });
+      markerGroup.addLayer(marker);
+      this.map.addLayer(markerGroup);
+      
+
+
+    }else{
     //Comprueba permisos
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
       result => {
@@ -404,13 +426,12 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
                 let marker = leaflet.marker([e.latitude, e.longitude]);
                 markerGroup.addLayer(marker);
                 this.map.addLayer(markerGroup);
-                console.log(e.latitude, e.longitude);
-                //se llama al metodo que se activa cuando tocas una marca
-                //recibe la marca, la latitud y la longitud
+                //se llama al metodo que recibe la marca, la latitud y la longitud
                 this.touchMark(marker, e.latitude, e.longitude);
       
               }).on('locationerror', (err) => {
-                alert(err.message);
+                //alert(err.message);
+                this.toast.showTop(this.translate.instant("LSGPS"))
               })
                   
                 }
@@ -423,7 +444,7 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
       
         }
      });
-     
+    }
      
   }
 
@@ -480,6 +501,31 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
      this.cmm.show(AddAlertComponent, lat, lng, this);
     
   }
+
+
+  /**
+   * Features for the next Version
+   */
+
+  popup = leaflet.popup();
+  latlng: String;
+
+  
+
+  onMapClick(e) {
+
+
+  
+    //this.addMark(e.latlng.lat, e.latlng.lng);
+   
+    var p = leaflet.popup().setLatLng(e.latlng)
+    .setContent('<p>Hello world!<br />This is a nice popup.</p>')
+    .openOn(this.map);
+
+
+
+
+}
 
 
 

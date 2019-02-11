@@ -79,7 +79,8 @@ export class AppComponent {
 
       // Evento que se  ejecuta cuando la conexion esta activa
       this.events.subscribe('network:online', () => {
-        this.toast.show(this.translate.instant("Network")+": "+this.network.type);      
+        this.toast.show(this.translate.instant("Network")+": "+this.network.type);  
+            
       });
       
     
