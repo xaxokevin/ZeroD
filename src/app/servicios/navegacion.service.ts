@@ -14,35 +14,55 @@ export class NavegacionService { //Clase utilizada para la navegacion del modal 
 
    }
 
-//recoge la ubicacion del modal
+/**
+ * recoge la ubicacion del modal
+ * @param lat latitud de la ubicación del modal 
+ * @param lng longitud de la ubicación del modal
+ */
 recibeUbicacion(lat:any, lng:any){
 
   this.latitud= lat;
   this.longitud=lng;
 }
-//Devuelve la latitud
+/**
+ * Devuelve la latitud
+ * @return this.latitud
+ */
 getLatitud(){
 
   return this.latitud;
 }
-//Devuelve la longitud
+
+/**
+ * Devuelve la longitud
+ * @returns this.longitud
+ */
 getLongitud(){
 
   return this.longitud;
 }
 
-//Devuelve cargar mapa
+/**
+ *  Devuelve cargar mapa
+ * @returns this.cargaM
+ **/
 getCargarMapa(){
 
   return this.cargaM;
 }
-//Establece el valor de cargar mapa a false
+
+/**
+ * Establece el valor de cargar mapa a false
+ */
 setCargaMapa(){
 
   this.cargaM=false;
 }
 
-//Devuelve añadir mapa
+/**
+ * Devuelve añadir mapa
+ * @returns this.addM
+ */
 getAddM(){
   return this.addM;
 }
@@ -55,14 +75,20 @@ setAddM(){
 }
 
 
-//recibe true en el caso de que se haya la navegacion hacia el mapa desde el modal, por defecto esta a falso
+/**
+ * recibe true en el caso de que se haya la navegacion hacia el mapa desde el modal, por defecto esta a falso
+ * @param verdad recibe true
+   */
 cargaMapa(verdad?: boolean){
 
 this.cargaM=verdad;
  
 }
 
-//recibe true en el caso de que se haya la navegacion hacia el mapa desde el boton add, por defecto esta a falso
+/**
+ * recibe true en el caso de que se haya la navegacion hacia el mapa desde el boton add, por defecto esta a falso
+ * @param verdad recibe true
+ */
 addTab1Mark(verdad?: boolean){
   this.addM=verdad;
 }

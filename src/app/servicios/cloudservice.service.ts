@@ -36,24 +36,39 @@ export class CloudserviceService {
 
 
   }
-  /*
-  Recibe un objeto y lo guarda como un documento nuevo en la colección 'accidente'
-  Devuelve un Promise
-  */
+  /**
+   * Recibe un objeto y lo guarda como un documento nuevo en la colección 'accidente'
+   * Devuelve un Promise
+   * @param datos documento a insertar en firebase
+   * @return Devuelve un promise
+   */
+  
   anadirA(datos) {
     
-    return this.accidenteCollection.add(datos);
+    return this.accidenteCollection.add(datos).then(e =>{
+
+      console.log("Todo ok")
+    }).catch(err =>{
+
+      console.log(err);
+    });
   }
 
 
-  //Habilita el scroll para la pestaña accidentes
+  /**
+   * Habilita el scroll para la pestaña accidentes
+   * @returns devuelve si se ha habilitado el scroll
+   */
+  
   isInfinityScrollEnabled() {
     return this.scrollAccidentEnabled;
   }
 
 
-  /* Carga de accidentes en caso de no estar presente la variable reload, se añaden los siguientes
-   10 al final de la lista */
+  /**
+   * Carga de accidentes en caso de no estar presente la variable reload, se añaden los siguientes 15 al final de la lista 
+   * @param reload evento que acciona la carga de mas elementos a la lista
+    */
   getAccident(reload?): Promise<iAccidente[]> {
     if (reload) {
       this.lastlastAccidentLoaded = null;
@@ -148,22 +163,37 @@ export class CloudserviceService {
 
   }
 
-/*
-  Recibe un objeto y lo guarda como un documento nuevo en la colección 'meteorologia'
+/**
+ *  Recibe un objeto y lo guarda como un documento nuevo en la colección 'meteorologia'
   Devuelve un Promise
-  */
+  @param datos documento a insertar en firebase
+  @return Devuelve un promise
+ */
+ 
   anadirM(datos) {
-    return this.meteorologiaCollection.add(datos);
+    return this.meteorologiaCollection.add(datos).then(e =>{
+
+      console.log("Todo ok")
+    }).catch(err =>{
+
+      console.log(err);
+    });
   }
 
 
-  //Habilita el scroll para la pestaña meteorologia
+  /**
+   * Habilita el scroll para la pestaña meteorologia
+   * @returns devuelve si se ha habilitado el scroll
+   *  */
   misInfinityScrollEnabled() {
     return this.scrollMeteorologyEnabled;
   }
 
-  /* Carga de accidentes en caso de no estar presente la variable reload, se añaden los siguientes
-   10 al final de la lista */
+  /**
+   * Carga de accidentes en caso de no estar presente la variable reload, se añaden los siguientes 15 al final de la lista
+   *  @param reload evento que acciona la carga de mas elementos a la lista
+   */
+   
    getMeteorology(reload?): Promise<iMeteorology[]> {
     if (reload) {
       this.lastlastMeteorologyLoaded = null;
@@ -217,7 +247,9 @@ export class CloudserviceService {
   }
 
 
-//Carga las marcas de meteorologia en el mapa. Como maximo se van a maracar 1000 marcas
+/**
+ *  Carga las marcas de meteorologia en el mapa. Como maximo se van a maracar 1000 marcas
+ * */
   getMarkMeteorology(): Promise<iMeteorology[]>{
 
    

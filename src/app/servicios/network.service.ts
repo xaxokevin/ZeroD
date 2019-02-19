@@ -58,7 +58,7 @@ export class NetworkService {
         });
     }
 
-    /**
+/**
  * 
  * Metodo que comprueba el gps y el estado que tiene
  */
@@ -91,6 +91,7 @@ export class NetworkService {
 /**
  * 
  * Metodo que cambia el color del icono de la señal del gps
+ * @param color recibe el color al que se cambia el icono de la señal
  */
         colorSignalGPS(color? ) {
 

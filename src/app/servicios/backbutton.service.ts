@@ -19,16 +19,17 @@ export class BackbuttonService {
 
     this.platform.backButton.subscribe(() => {
       // code that is executed when the user pressed the back button
-  
+       console.log("Hemos pulsado atras");
       if(!this.openModal){
-      if (this.currentURL == "/tab/tab1" || this.currentURL == "/tab/tab2"){
+        console.log(">>>>"+this.currentURL);
+        if (this.currentURL == "/" || this.currentURL == "/tabs/tab1"){
 
-        /*En caso de estar en la pestaña tab1 si se pulsa atrás se cierra la aplicación*/
-        navigator['app'].exitApp();
-      }else{
+          /*En caso de estar en la pestaña tab1 si se pulsa atrás se cierra la aplicación*/
+          navigator['app'].exitApp();
+        }else{
 
-        this.pressback=false;
-      }
+          this.pressback=true;
+        }
     }
       
     });
@@ -36,18 +37,17 @@ export class BackbuttonService {
 
 
     this.router.events.subscribe((event) => {
+      console.log(event);
       if (event instanceof NavigationEnd) { 
+        console.log("Navegacion"+this.pressback);
          //es lanzado cuando se termina de navegar
         this.currentURL = event.url;
-        if(this.pressback){
-        //this.navCtrl.navigateRoot(['/tab/ta1'], { animationDirection: "back" });
-        }
        
-          else {  //Este no debe ser alcanzado nunca, es por si acaso
+         if(this.pressback) {  //Este no debe ser alcanzado nunca, es por si acaso
             this.navCtrl.navigateRoot(['/'], { animationDirection: "back" });
+            this.pressback = false; 
           }
 
-          this.pressback = !this.pressback;  //Ya he gestionado la acción, dejo de indicar que se pulsó atrás
         
         }
     });

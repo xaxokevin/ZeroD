@@ -27,6 +27,7 @@ import { BackbuttonService } from '../servicios/backbutton.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  
   @ViewChild('infiniteScroll') ionInfiniteScroll: IonInfiniteScroll;
   @ViewChild('SwipedTabsSlider') SwipedTabsSlider: IonSlides;
   SwipedTabsIndicator: any = null;
@@ -41,8 +42,18 @@ export class Tab1Page {
   listAvacia;
 
  
-
-  constructor(private route: ActivatedRoute,
+/**
+ * 
+ * @param cloudS objeto del servicion del almacenamiento
+ * @param loading objeto de la clase loading, nos permite mostrar un cargando
+ * @param aemet objeto del servicio que nos da la informacion del tiempo
+ * @param cmm objeto de la calse custom modal, nos permite abrir el modal
+ * @param netwoekS objeto que comprueba el funcionamiento de internet y gps
+ * @param navegacion objeto del servicio que almacena variables temporales para la navegacion entre tab
+ * @param router objeto que nos permite hacer navegacion hacia otra tab
+ * @param modalController objeto del controlador del modal
+ */
+  constructor(
     private cloudS: CloudserviceService,
     private loading: CustomLoading,
     private aemet: WeatherService,
@@ -109,6 +120,7 @@ export class Tab1Page {
    * 
    * Metodo de carga de los accidentes, se activa cuando se entra en la tab1
    * Muestra un loading que se quita cuando la carga desde firebase esta completa
+   * @param event evento que desencadena el metodo
    */
   updateAllAccident(event?) {
   this.loading.show("");
@@ -124,7 +136,7 @@ export class Tab1Page {
         if (event) {
           event.target.complete();
         }
-      })
+      });
 
       this.loading.hide();  
       
@@ -134,6 +146,8 @@ export class Tab1Page {
 /**
  * Se activa cuando accionamos el refresher de la lista.
  * Carga los accidentes nuevos que se han añadido
+ * @param event evento que desencadena el metodo
+ * @param reload evento que activa la carga de la bd
  */
   updateAccident(event?, reload?) {
     if (!event)
@@ -162,6 +176,7 @@ export class Tab1Page {
    * 
    * Metodo de carga de la meteorologia, se activa cuando se entra en la tab1
    * Muestra un loading que se quita cuando la carga desde firebase esta completa
+   * @param event evento que desencadena el metodo
    */
   updateAllMeteorology(event?) {
      
@@ -181,6 +196,8 @@ export class Tab1Page {
   /**
  * Se activa cuando accionamos el refresher de la lista.
  * Carga la meteorologia nueva que se han añadido
+ * @param event evento que desencadena el metodo
+ * @param reload evento que activa la carga de la bd
  */
    updateMeteorology(event?, reload?) {
      if (!event)
@@ -231,9 +248,18 @@ export class Tab1Page {
 
 
 
-  /*acciona el modal que muestra la informacion completa de la alerta
-    *Recibe por parametros todos los campos de nuestra alerta
-    */
+  /**
+   * Acciona el modal que muestra la informacion completa de la alerta
+   * Recibe por parametros todos los campos de nuestra alerta
+   * @param descripcion descripcion de la alerta
+   * @param tipo tipo de alerta recibida
+   * @param hora hora en la que se creo el evento
+   * @param latitud latitud de la ubicación del evento
+   * @param longitud longitud  de la ubicación del evento
+   * Estas dos variables representan la ubicacion
+   * 
+   */
+  
   showInfo(descripcion: any, tipo: any, hora: any, latitud: any, longitud:any){
 
     this.cmm.showInfo(ViewCardComponent, descripcion,tipo, hora, latitud, longitud,this)

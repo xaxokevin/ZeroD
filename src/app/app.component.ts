@@ -39,7 +39,7 @@ export class AppComponent {
     public themeS: ThemingService,
     public sensor: Sensors,
     public bar: StatusBar,
-    //private back: BackbuttonService
+    private back: BackbuttonService
   ) {
     
     

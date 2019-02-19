@@ -109,6 +109,7 @@ export class ThemingService {
   * recibe por parametro el nombre del tema y lo busca en
   * nuestro array de temas
   * Luego es aplicado a todas la variables de colores
+  * @param name recibe el nombre del tema
   */
   setTheme(name): void {
  

@@ -2,7 +2,7 @@ import { CustomToast } from './../custom-modal/custom-toast';
 import { CloudserviceService } from './../servicios/cloudservice.service';
 import { AddAlertComponent } from './../customComponent/add-alert/add-alert.component';
 import { CustomModalModule } from './../custom-modal/custom-modal.module';
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef} from '@angular/core';
 import leaflet from 'leaflet';
 import { CustomLoading } from '../custom-modal/custom-loading';
 import { ModalController, NavController, Events } from '@ionic/angular';
@@ -37,6 +37,8 @@ export class Tab2Page {
   listadoMarcaMeteorology: iMeteorology[] = [];
   markerGroupM = leaflet.featureGroup();
   markerGroupA = leaflet.featureGroup();
+  manualGMarker = leaflet.featureGroup();
+  manualMarker: any;
   colorB: any;
   chekPer: any;
 
@@ -54,7 +56,22 @@ export class Tab2Page {
 
 
 
-
+/**
+ * 
+ * @param modalController objeto del controlador del modal
+ * @param cmm objeto servicio del custom modal
+ * @param cloudS objeto servicio de almacenamiento en la nube
+ * @param navCtrl objeto servicio de navegacion
+ * @param loading objeto servicio del loading
+ * @param openM objejo del servicio de navegacion que establece variables temporales
+ * @param nativeStorage objeto del almacenamiento nativo
+ * @param netwoekS objeto del servicio que comprueba la conexion a internet o gps
+ * @param diagnostic objeto del servicio que comprueba el estado de los elementos nativos
+ * @param toast objeto del servicio del custom toast
+ * @param translate objeto del servicio de la traducción
+ * @param eventCtrl objeto del servio de Events
+ * @param androidPermissions objeto del servicio que administra los permisos de android
+ */
   constructor(
     public modalController: ModalController,
     private cmm: CustomModalModule,
@@ -75,16 +92,10 @@ export class Tab2Page {
  /*
  Cambiamos el valor del color del boton
  En funcion de la calidad de gps que tengamos.
+ Falta implementación
  */ 
- 
     this.colorB=this.netwoekS.colorN;
     
-
-  }
-
-  
-  ngOnInit(){  
-  
   }
 
 
@@ -191,14 +202,18 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
     //se establecera la vista encima de la alerta pulsada
     if (this.openM.getCargarMapa()==true) {
       this.map = leaflet.map("map").fitWorld().setView([this.openM.getLatitud(), this.openM.getLongitud()], 15);
-      this.map.on('click', this.onMapClick)
+      //this.map.on('click', this.onMapClick)
       //establecemos los valores a true para mostrar las marcas
       
       
     } else {
       //Si el mapa se ha abierto desde los tabs se establecera la vista en general sobre el mapa de españa
       this.map = leaflet.map("map").fitWorld().setView([40.416665, -3.705315], 6);
-      this.map.on('click', this.onMapClick)
+      this.map.on('click', (e)=>{
+        //Este evento añade una marca a nuestro mapa cuando hacemos clic sobre el
+        this.addMark(e.latlng.lat, e.latlng.lng);
+        //this.onMapClick(e,this);
+      })
     }
     //eliminamos el control del zoom
     this.map.removeControl(this.map.zoomControl);
@@ -270,6 +285,7 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
    * Este metodo es el encargado de mostrar en el mapa las ubicaciones de los avisos por meteorologia
    * Se mostraran o no segun el valor del boton del menu de configuracion del mapa
    * Recibe un boleano con esta informacion
+   * @param hide boolean 
    */
   chargeAllMarkMeteorology(hide) {
     if(this.markerGroupM != null){
@@ -284,7 +300,7 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
 
     } else {
 
-      //this.map.removeLayer(this.markerGroupM);
+     
 
       //se obtienen las marcas de meteorologia
       this.cloudS.getMarkMeteorology().then(d => {
@@ -326,7 +342,8 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
    * 
    * Este metodo es el encargado de mostrar en el mapa las ubicaciones de los avisos por meteorologia
    * Se mostraran o no segun el valor del boton del menu de configuracion del mapa
-   * Recibe un boleano con esta informacion
+   * Recibe un boleano con esta información
+   * @param hide boolean 
    */
   chargeAllMarkAccident(hide) {
 
@@ -381,29 +398,35 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
 
 
   /**
-   * Este metodo es el encargado de crear una marca en la ubicación del usuario
+   * Este metodo es el encargado de crear una marca en el lugar señalado por el usuario o
+   * añade una marca al pulsar el botón añadir marca en la ubicación del usuario.
    * Comprueba al inicio el estado de los permisos para acceder al GPS
    * Comprueba que el gps este activado
-   * Crea una marca en tu ubicación
+   * Recibe la longitud y la latitud de la pulsación en el mapa
+   *  @param mapMark1 latitud de la marca
+   *  @param mapMark2 longitud de la marca
    */
   addMark(mapMark1?,mapMark2? ) {
 
+
     if(mapMark1 != null || mapMark2 != null){
 
-      console.log(mapMark1)
-      console.log(mapMark2)
+      if(this.manualMarker != null){
 
-      let markerGroup = leaflet.featureGroup();
-      let marker = leaflet.marker([mapMark1, mapMark2]).on('click', async () => {
+        this.map.removeLayer(this.manualMarker);
 
-       //se llama al metodo que recibe la marca, la latitud y la longitud
-      this.touchMark(marker,mapMark1 ,mapMark2 );
-  
-      });
-      markerGroup.addLayer(marker);
-      this.map.addLayer(markerGroup);
+      } 
+
+        // this.map.removeLayer(this.manualMarker);
+        this.manualMarker = leaflet.marker([mapMark1, mapMark2]).on('click', async () => {
+
+          //se llama al metodo que recibe la marca, la latitud y la longitud
+         this.touchMark(this.manualMarker,mapMark1 ,mapMark2 );
+     
+         });
+         //this.manualMarker.addLayer(marker);
+         this.map.addLayer(this.manualMarker);
       
-
 
     }else{
     //Comprueba permisos
@@ -449,7 +472,11 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
   }
 
 
-  //funcion que se activa cuando se cierra el modal
+  /**
+   * Metodo encargado de devolver el estado inicial 
+   * de los componentes de la vista de la vista cuando
+   * el modal se cierra
+   */
   onModalClose() {
     //abrimos el loading
     this.loading.show("");
@@ -496,8 +523,12 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
   /**
    * Metodo que recibe la marca, la longitud y la latitud de la marca creada vacia
    * Y lanza el modal para añadir un aviso en esa posición
+   * @param mark marca que ha sido pulsada en el mapa
+   * @param lat latitud de la ubicación de la marca
+   * @param lng longitud de la ubicación de la marca
    */
   touchMark(mark: any, lat: any, lng: any) {
+
      this.cmm.show(AddAlertComponent, lat, lng, this);
     
   }
@@ -507,25 +538,23 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
    * Features for the next Version
    */
 
-  popup = leaflet.popup();
-  latlng: String;
+  
+//Si no podemos acceder a nuetro metodo porque estamos fuera de nuestro contexto, hay que hacer un puente de nosotros mismos para poder acceder hasta el
+//Esto se consigue haciendo una llamada nosotros, pasandonos this
+// en este caso recibimos obj que somos nosotros mismos
+//asi podemos acceder a nuesto metodo al estar en el mismo contexto
+  // onMapClick(e,obj) {
+
 
   
-
-  onMapClick(e) {
-
-
-  
-    //this.addMark(e.latlng.lat, e.latlng.lng);
+  //   obj.addMark(e.latlng.lat, e.latlng.lng);
    
-    var p = leaflet.popup().setLatLng(e.latlng)
-    .setContent('<p>Hello world!<br />This is a nice popup.</p>')
-    .openOn(this.map);
+  //   alert(e.latlng.lat + e.latlng.lng);
+  // }
 
 
 
 
-}
 
 
 
