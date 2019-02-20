@@ -5,14 +5,15 @@ import { iAccidente } from './../model/iAccident';
 import { CloudserviceService } from './../servicios/cloudservice.service';
 import { Component, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, IonSlides, ModalController} from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { iMeteorology } from '../model/iMeteorology';
 import { CustomLoading } from '../custom-modal/custom-loading';
 import { WeatherService } from '../servicios/weather.service';
 import { ViewCardComponent } from '../customComponent/view-card/view-card.component';
 import { ScrollHideConfig } from '../directives/scroll-hide.directive';
 import { NavegacionService } from '../servicios/navegacion.service';
-import { BackbuttonService } from '../servicios/backbutton.service';
+import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+
 
 
 
@@ -40,6 +41,10 @@ export class Tab1Page {
   headerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-top', maxValue: 44 };
   listMvacia;
   listAvacia;
+  options: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+};
 
  
 /**
@@ -62,9 +67,14 @@ export class Tab1Page {
     private navegacion: NavegacionService,
     private router: Router,
     public modalController: ModalController,
+    private nativeGeocoder: NativeGeocoder
   
    
-  ) {}
+  ) {
+    
+  
+  
+  }
 
   /**
    * Metodo que comprueba la posicion del slider y la conexion a internet
@@ -84,6 +94,13 @@ export class Tab1Page {
       this.updateAllMeteorology();
       //obtiene los datos del weather service (Falta implementacion)
       this.aemet.getRemoteData();
+      this.nativeGeocoder.reverseGeocode(52.5072095, 13.1452818, this.options)
+    .then((result: NativeGeocoderReverseResult[]) => console.log(JSON.stringify(result[0])))
+    .catch((error: any) => console.log(error));
+  
+  this.nativeGeocoder.forwardGeocode('Berlin', this.options)
+    .then((coordinates: NativeGeocoderForwardResult[]) => console.log('The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude))
+    .catch((error: any) => console.log(error));
     }
   
   }

@@ -29,6 +29,7 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Sensors} from '@ionic-native/sensors/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { HelpComponent } from './customComponent/help/help.component';
+import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 
 
@@ -60,6 +61,7 @@ import { HelpComponent } from './customComponent/help/help.component';
     Diagnostic,
     Sensors,
     AndroidPermissions,
+    NativeGeocoder,
     
     
 

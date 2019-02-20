@@ -11,7 +11,10 @@ import { ToastController } from '@ionic/angular';
 export class CustomToast { //Clase que nos crea un toast personalizado
   toast;
   constructor(private toastCtrl: ToastController) { }
-//metodo que nos crea el toast
+/**
+ * metodo que nos crea el toast en la parte inferior
+ * @param msg mensaje a mostrar
+ */
   async show(msg) {
     const toast = await this.toastCtrl.create({
       message: msg,
@@ -22,7 +25,12 @@ export class CustomToast { //Clase que nos crea un toast personalizado
     });
     toast.present();
   }
-//metodo que nos muestra el toast en la parte de arriba
+
+  /**
+   * metodo que nos muestra el toast en la parte de arriba
+   * @param msg mensaje a mostrar
+   * @param time tiempo en el que se muestra
+   */
   async showTop(msg, time?) {
     if (this.toast)
       this.toast.dismiss();

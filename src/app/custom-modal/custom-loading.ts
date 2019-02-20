@@ -22,7 +22,10 @@ export class CustomLoading { //Clase que crea nuestro loading personalizado
     ){
   }
   
-  //metodo que muestra el loading
+  /**
+   * metodo que muestra el loading
+   * @param msg mensaje a mostrar
+   */
   async show(msg) {
     this.myloading = await this.loadingController.create({
     message:msg,
@@ -36,7 +39,9 @@ export class CustomLoading { //Clase que crea nuestro loading personalizado
     await this.myloading.present(); 
   }
 
-  //metodo que oculta el loading
+  /**
+   * metodo que oculta el loading
+   */
   hide(){
     if(this.myloading){
       clearTimeout(this.timeout);

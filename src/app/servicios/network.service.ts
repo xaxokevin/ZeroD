@@ -2,7 +2,6 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network/ngx';
 import { AlertController, Events } from '@ionic/angular';
-import { Observable } from 'rxjs';
 
 
 /*

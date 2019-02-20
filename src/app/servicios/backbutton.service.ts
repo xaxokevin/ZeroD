@@ -19,9 +19,9 @@ export class BackbuttonService {
 
     this.platform.backButton.subscribe(() => {
       // code that is executed when the user pressed the back button
-       console.log("Hemos pulsado atras");
+   
       if(!this.openModal){
-        console.log(">>>>"+this.currentURL);
+       
         if (this.currentURL == "/" || this.currentURL == "/tabs/tab1"){
 
           /*En caso de estar en la pestaña tab1 si se pulsa atrás se cierra la aplicación*/
@@ -37,9 +37,9 @@ export class BackbuttonService {
 
 
     this.router.events.subscribe((event) => {
-      console.log(event);
+ 
       if (event instanceof NavigationEnd) { 
-        console.log("Navegacion"+this.pressback);
+   
          //es lanzado cuando se termina de navegar
         this.currentURL = event.url;
        

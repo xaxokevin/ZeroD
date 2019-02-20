@@ -16,7 +16,9 @@ export class HelpComponent implements OnInit {
   ngOnInit() {
 
   }
-//Cierra el modal
+/**
+ * Cierra el modal
+ */
  onModalClose(){
   this.modalcontroller.dismiss();
  }

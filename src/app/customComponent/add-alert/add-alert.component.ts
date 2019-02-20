@@ -51,13 +51,18 @@ export class AddAlertComponent implements OnInit {
 
   }
 
+  /**
+   * metodo que establece la refactorizacion del text area
+   */
   resize() {
     this.myInput.nativeElement.style.height = this.myInput.nativeElement.scrollHeight + 'px';
 }
 
 
 
-  //método que quita el modal
+  /**
+   * método que quita el modal
+   */
   cancel() {
     this.modalcontroller.dismiss();
   }

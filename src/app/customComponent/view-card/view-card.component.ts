@@ -48,7 +48,9 @@ export class ViewCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  //metodo que nos redirige hacia el mapa con la ubicacion de esa alerta
+  /**
+   * metodo que nos redirige hacia el mapa con la ubicacion de esa alerta
+   */
   openMap(){
     this.openM.recibeUbicacion(this.latitud,this.longitud);
     this.openM.cargaMapa(true);
@@ -58,6 +60,9 @@ export class ViewCardComponent implements OnInit {
 
   }
 
+  /**
+   * oculta el modal
+   */
   cancel(){
 
     this.modalcontroller.dismiss();

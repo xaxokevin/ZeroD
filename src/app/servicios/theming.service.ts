@@ -130,6 +130,7 @@ export class ThemingService {
  * Este metodo es el encargado de comprobar el cambio de tema
  * Si la luz ambiental es menor a 10 lux se establecera el modo noche
  * Si es mayor el modo dia
+ * @param light entero que limita el cambio de tema
  */
   changeSkin(light) {
 
