@@ -21,7 +21,7 @@ export class AddAlertComponent implements OnInit {
     
   }
 
-  private alerta: FormGroup; 
+  public alerta: FormGroup; 
   longitud: any;
   latitud: any;
   customActionSheetOptions: any = {

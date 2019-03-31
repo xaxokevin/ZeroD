@@ -3,6 +3,10 @@ import { iAccidente } from './../model/iAccident';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { environment } from '../../environments/environment';
+import * as firebase from 'firebase';
+import * as CryptoJS from 'crypto-js';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +16,7 @@ export class CloudserviceService {
 
   accidenteCollection: AngularFirestoreCollection<any>;
   meteorologiaCollection: AngularFirestoreCollection<any>;
+  key='123456$#@$^@1ERF';
   
   
 
@@ -27,20 +32,91 @@ export class CloudserviceService {
 
   isConnected = true;  //saber si estamos con red para realizar conexiones
 
+  private privateKey: string;
+  private publicKey: string;
+  private enabled: boolean;
+
   constructor(private fireStore: AngularFirestore) {
     /* Crea una referencia a la colección que empleamos para realizar las
     operaciones CRUD*/
     this.accidenteCollection = fireStore.collection<any>(environment.accidenteColeccion);
     this.meteorologiaCollection = fireStore.collection<any>(environment.meteorologiaColeccion);
+    //this.privateKey = config.authentication.rsa.privateKey;
+    //this.publicKey = config.authentication.rsa.publicKey;
+    //this.enabled = config.authentication.rsa.enabled;
     
+  }
+/**
+ * Crea un nuevo usuario
+ * @param email direccion de correo
+ * @param pass  contraseña
+ */
+  createUser(email, pass){
+var succesfull;
+     firebase.auth().createUserWithEmailAndPassword(email, this.set(this.key, pass)).then(e=> {
+       console.log("Usuario creado")}
+
+     ).catch(error=> {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+
+      console.log(errorCode+": "+ errorMessage)
+    });
 
 
   }
+
+  /**
+   * Login del usuario
+   * @param email 
+   * @param pass 
+   */
+  loginUser(email,pass){
+    firebase.auth().signInWithEmailAndPassword(email, this.set(this.key, pass)).then(e=>{
+      console.log("login succesfull")
+    }).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+     
+      console.log(errorCode+": "+ errorMessage)
+    });
+  }
+
+  //The set method is use for encrypt the value.
+  set(keys, value){
+    var key = CryptoJS.enc.Utf8.parse(keys);
+    var iv = CryptoJS.enc.Utf8.parse(keys);
+    var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(value.toString()), key,
+    {
+        keySize: 128 / 8,
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    return encrypted.toString();
+  }
+
+  //The get method is use for decrypt the value.
+  get(keys, value){
+    var key = CryptoJS.enc.Utf8.parse(keys);
+    var iv = CryptoJS.enc.Utf8.parse(keys);
+    var decrypted = CryptoJS.AES.decrypt(value, key, {
+        keySize: 128 / 8,
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  }
+
+
   /**
    * Recibe un objeto y lo guarda como un documento nuevo en la colección 'accidente'
    * Devuelve un Promise
    * @param datos documento a insertar en firebase
-   * @return Devuelve un promise
+   * @return AngularFireStoreCollection Devuelve un promise
    */
   
   anadirA(datos) {

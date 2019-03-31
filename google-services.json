@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "158118334238",
+    "firebase_url": "https://zerod-66498.firebaseio.com",
+    "project_id": "zerod-66498",
+    "storage_bucket": "zerod-66498.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158118334238:android:85a034d3712261df",
+        "android_client_info": {
+          "package_name": "com.xaxo.zerod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158118334238-tvrii768pkfkv4327gatrp05oln2c4fe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5RgA-H9KQoHFZja0VzfEIOXt_vR2w7pY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

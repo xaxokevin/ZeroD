@@ -5,7 +5,7 @@ import { CustomModalModule } from './../custom-modal/custom-modal.module';
 import { Component, ViewChild, ElementRef} from '@angular/core';
 import leaflet from 'leaflet';
 import { CustomLoading } from '../custom-modal/custom-loading';
-import { ModalController, NavController, Events } from '@ionic/angular';
+import { ModalController, NavController, Events, Platform } from '@ionic/angular';
 import { iAccidente } from '../model/iAccident';
 import { iMeteorology } from '../model/iMeteorology';
 import { NavegacionService } from '../servicios/navegacion.service';
@@ -85,7 +85,8 @@ export class Tab2Page {
     private toast: CustomToast,
     private translate: TranslateService,
     public eventCtrl: Events,
-    private androidPermissions: AndroidPermissions
+    private androidPermissions: AndroidPermissions,
+    private platform: Platform
     
 
   ) {
@@ -240,8 +241,13 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
    * Comprueba si tenemos el gps activado o no lanzando un toast
    */
   locateme() {
-    
-    //Comprobamos permisos
+
+    if (this.platform.is('android')){
+
+      console.log("sigo entrando aqui jaja");
+
+
+       //Comprobamos permisos
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
       result => {
         console.log('Has permission?',result.hasPermission);
@@ -274,6 +280,20 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
         }
 
       });
+
+
+    }else{
+
+      this.map.locate({ setView: true, maxZoom: 15 }).on('locationfound', (e) => {  
+      
+      }).on('locationerror', (err) => {
+        //alert(err.message);
+        this.toast.showTop(this.translate.instant("LSGPS"))
+      });
+
+
+    }
+   
      
 
   }
@@ -429,7 +449,11 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
       
 
     }else{
-    //Comprueba permisos
+
+      if (this.platform.is('android')){
+
+
+        //Comprueba permisos
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
       result => {
         this.chekPer = result.hasPermission;
@@ -467,7 +491,27 @@ this.nativeStorage.getItem('ocultaA').then((d)=>{
       
         }
      });
+    }else{
+        //te localiza a traves del uso del GPS
+        this.map.locate({
+          setView: true, maxZoom: 15
+        }).on('locationfound', (e) => {
+          //crea una marca en la localizacion que te encuentras
+          let markerGroup = leaflet.featureGroup();
+          let marker = leaflet.marker([e.latitude, e.longitude]);
+          markerGroup.addLayer(marker);
+          this.map.addLayer(markerGroup);
+          //se llama al metodo que recibe la marca, la latitud y la longitud
+          this.touchMark(marker, e.latitude, e.longitude);
+
+        }).on('locationerror', (err) => {
+          //alert(err.message);
+          this.toast.showTop(this.translate.instant("LSGPS"))
+        })
     }
+
+      }
+    
      
   }
 
