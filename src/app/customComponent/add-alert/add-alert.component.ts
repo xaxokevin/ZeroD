@@ -6,6 +6,7 @@ import { CloudserviceService } from '../../servicios/cloudservice.service';
 import { ModalController, NavParams } from'@ionic/angular';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'; 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 
 
@@ -28,6 +29,7 @@ export class AddAlertComponent implements OnInit {
     header: this.translate.instant("Select"),
     subHeader: this.translate.instant("TypeS"),
   };
+  usuario: String;
  
 
   constructor(public modalcontroller: ModalController, 
@@ -37,7 +39,20 @@ export class AddAlertComponent implements OnInit {
     public navparams:NavParams,
     public toast: CustomToast,
     private translate: TranslateService,
-    private netwoekS: NetworkService ) {
+    private netwoekS: NetworkService,
+    private nativeStorage: NativeStorage, ) {
+//recuperamos el usuario
+    this.nativeStorage.getItem('user').then(e=> {
+
+        this.usuario= e.usuario.toString();
+
+        console.log(this.usuario);
+
+      }).catch(error=> {
+
+        console.log(error);
+
+      });
 
     //recuperamos a traves de NavParams, la clave valor que tenemos en la marca
     this.longitud = this.navparams.get('longitude');
@@ -83,9 +98,11 @@ export class AddAlertComponent implements OnInit {
         alert: this.alerta.get("alertType").value,
         longitud: this.longitud,
         latitud: this.latitud,
-        hora: new Date().valueOf()
+        hora: new Date().valueOf(),
+        user: this.usuario
   
       };
+      console.log("despues del data"+this.usuario);
   
       if (data.alert == 'accidente'){
         

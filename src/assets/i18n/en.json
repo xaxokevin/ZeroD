@@ -1,6 +1,7 @@
 {
     "TAB1": "Alerts",
     "TAB2": "Live Map",
+    "TAB3": "Profile",
     "addModal-H": "New Alert",
     "addModal-D": "Description",
     "addModal-T": "Type of alert",

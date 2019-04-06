@@ -13,6 +13,7 @@ import { ViewCardComponent } from '../customComponent/view-card/view-card.compon
 import { ScrollHideConfig } from '../directives/scroll-hide.directive';
 import { NavegacionService } from '../servicios/navegacion.service';
 import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 
 
@@ -67,14 +68,11 @@ export class Tab1Page {
     private navegacion: NavegacionService,
     private router: Router,
     public modalController: ModalController,
-    private nativeGeocoder: NativeGeocoder
+    private nativeGeocoder: NativeGeocoder,
+    private nativeStorage: NativeStorage
   
    
-  ) {
-    
-  
-  
-  }
+  ) {}
 
   /**
    * Metodo que comprueba la posicion del slider y la conexion a internet

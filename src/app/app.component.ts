@@ -10,12 +10,8 @@ import { Network } from '@ionic-native/network/ngx';
 import { CustomToast } from './custom-modal/custom-toast';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Sensors, TYPE_SENSOR} from '@ionic-native/sensors/ngx';
-
-
-
-
-
-
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Router } from '@angular/router';
 
 
 
@@ -26,7 +22,9 @@ import { Sensors, TYPE_SENSOR} from '@ionic-native/sensors/ngx';
 })
 export class AppComponent {
   light: number;
-  currentURL: any = "";
+  private url;
+
+  
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -39,10 +37,11 @@ export class AppComponent {
     public themeS: ThemingService,
     public sensor: Sensors,
     public bar: StatusBar,
-    private back: BackbuttonService
+    private back: BackbuttonService,
+ 
+    private router: Router,
   ) {
-    
-    
+
     this.light= 0;
     
     this.initializeApp();
@@ -116,10 +115,15 @@ export class AppComponent {
       this.networkS.colorSignalGPS('red');
     });
 
-   
-   this.initSensor();
-
-    this.splashScreen.hide();
+    this.initSensor();
+    //this.router.navigateByUrl(this.url).then(() => {
+      //setTimeout(() => {
+            this.splashScreen.hide();
+       
+      //}, 500);
+    //}).catch(err => {
+      
+    //});
 
   }
 
@@ -132,7 +136,11 @@ export class AppComponent {
 initSensor() {
 
   setInterval(() => {
-    this.sensor.enableSensor(TYPE_SENSOR.LIGHT);
+    this.sensor.enableSensor(TYPE_SENSOR.LIGHT).then(d =>{
+      console.log(d);
+    }).catch(e =>{
+      console.log(e);
+    });
     this.sensor.getState().then(d => {
     this.light= d[0]
     this.themeS.changeSkin(this.light);

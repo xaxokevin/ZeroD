@@ -5,6 +5,8 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { environment } from '../../environments/environment';
 import * as firebase from 'firebase';
 import * as CryptoJS from 'crypto-js';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Router } from '@angular/router';
 
 
 
@@ -16,6 +18,7 @@ export class CloudserviceService {
 
   accidenteCollection: AngularFirestoreCollection<any>;
   meteorologiaCollection: AngularFirestoreCollection<any>;
+  userCollection: AngularFirestoreCollection<any>;
   key='123456$#@$^@1ERF';
   
   
@@ -36,11 +39,16 @@ export class CloudserviceService {
   private publicKey: string;
   private enabled: boolean;
 
-  constructor(private fireStore: AngularFirestore) {
+  constructor(private fireStore: AngularFirestore,
+    private nativeStorage: NativeStorage,
+    public router: Router,) {
     /* Crea una referencia a la colección que empleamos para realizar las
     operaciones CRUD*/
     this.accidenteCollection = fireStore.collection<any>(environment.accidenteColeccion);
     this.meteorologiaCollection = fireStore.collection<any>(environment.meteorologiaColeccion);
+    this.userCollection = fireStore.collection<any>(environment.userColeccion);
+    
+
     //this.privateKey = config.authentication.rsa.privateKey;
     //this.publicKey = config.authentication.rsa.publicKey;
     //this.enabled = config.authentication.rsa.enabled;
@@ -52,11 +60,22 @@ export class CloudserviceService {
  * @param pass  contraseña
  */
   createUser(email, pass){
-var succesfull;
+    //creamos el usuario
      firebase.auth().createUserWithEmailAndPassword(email, this.set(this.key, pass)).then(e=> {
-       console.log("Usuario creado")}
+       console.log("Usuario creado")
+       this.router.navigate(['/tabs/tab1']),
+       //si la respuesta es correcta  lo añadimos al almacenamiento nativo
+       this.nativeStorage.setItem('user', {usuario: email})
+       .then(
+         () => console.log('Stored item!'),
+         
+         error => console.error('Error storing item', error)
+       );
+       
+      }
 
      ).catch(error=> {
+       //si la respuesta es incorrecta muestra mensaje error
       var errorCode = error.code;
       var errorMessage = error.message;
 
