@@ -1,5 +1,6 @@
 import { iMeteorology } from './../model/iMeteorology';
 import { iAccidente } from './../model/iAccident';
+import { iUser } from './../model/iUser';
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { environment } from '../../environments/environment';
@@ -10,34 +11,32 @@ import { Router } from '@angular/router';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class CloudserviceService {
-  //Variables para las colecciones de firestore
+  // Variables para las colecciones de firestore
 
   accidenteCollection: AngularFirestoreCollection<any>;
   meteorologiaCollection: AngularFirestoreCollection<any>;
   userCollection: AngularFirestoreCollection<any>;
-  key='123456$#@$^@1ERF';
-  
+  key= '123456$#@$^@1ERF';
   
 
   /*Variables para el infiniteScroll de la pestaña Accidentes*/
-  lastAccidentLoaded = null;  //último accidente cargado
-  lastlastAccidentLoaded = null;  //último cargado esta vez, si es igual al anterior, entonces no hay más que cargar
-  scrollAccidentEnabled = true;  //está el infiniteScroll habilitado porque se haya cumplido lo anterior
+  lastAccidentLoaded = null;  // último accidente cargado
+  lastlastAccidentLoaded = null;  // último cargado esta vez, si es igual al anterior, entonces no hay más que cargar
+  scrollAccidentEnabled = true;  // está el infiniteScroll habilitado porque se haya cumplido lo anterior
 
   /*Variables para el infiniteScroll de la pestaña Meteorologia*/
-  lastMeteorologyLoaded = null;  //último accidente cargado
-  lastlastMeteorologyLoaded = null;  //último cargado esta vez, si es igual al anterior, entonces no hay más que cargar
-  scrollMeteorologyEnabled = true;  //está el infiniteScroll habilitado porque se haya cumplido lo anterior
+  lastMeteorologyLoaded = null;  // último accidente cargado
+  lastlastMeteorologyLoaded = null;  // último cargado esta vez, si es igual al anterior, entonces no hay más que cargar
+  scrollMeteorologyEnabled = true;  // está el infiniteScroll habilitado porque se haya cumplido lo anterior
 
-  isConnected = true;  //saber si estamos con red para realizar conexiones
+  isConnected = true;  // saber si estamos con red para realizar conexiones
 
-  private privateKey: string;
-  private publicKey: string;
-  private enabled: boolean;
+  user: any;
 
   constructor(private fireStore: AngularFirestore,
     private nativeStorage: NativeStorage,
@@ -55,33 +54,69 @@ export class CloudserviceService {
     
   }
 /**
- * Crea un nuevo usuario
- * @param email direccion de correo
+ * Crea un usuario nuevo en la aplicación
+ * @param img foto de perfil
+ * @param user nombre de usuario
+ * @param email correo 
  * @param pass  contraseña
  */
-  createUser(email, pass){
-    //creamos el usuario
-     firebase.auth().createUserWithEmailAndPassword(email, this.set(this.key, pass)).then(e=> {
-       console.log("Usuario creado")
-       this.router.navigate(['/tabs/tab1']),
-       //si la respuesta es correcta  lo añadimos al almacenamiento nativo
-       this.nativeStorage.setItem('user', {usuario: email})
+  createUser(img,user,email,pass){
+
+    let datos = {
+      img,
+      user,
+      email
+    }
+
+    // creamos el usuario
+     firebase.auth().createUserWithEmailAndPassword(email, this.set(this.key, pass)).then(e => {
+       console.log('Usuario creado');
+       // si la respuesta es correcta  lo añadimos al almacenamiento nativo
+       this.nativeStorage.setItem('user', {email: email, img: img , user: user} )
        .then(
          () => console.log('Stored item!'),
-         
          error => console.error('Error storing item', error)
        );
-       
+
+       return this.userCollection.add(datos).then(e => {
+
+        console.log('Todo ok');
+      }).catch(err => {
+        console.log(err);
+      });
+
       }
 
      ).catch(error=> {
-       //si la respuesta es incorrecta muestra mensaje error
+       // si la respuesta es incorrecta muestra mensaje error
       var errorCode = error.code;
       var errorMessage = error.message;
 
-      console.log(errorCode+": "+ errorMessage)
+      console.log(errorCode + ': ' + errorMessage);
     });
 
+  }
+
+  /**
+   * obtiene el perfil del usuario
+   */
+  getProfile(email): Promise<iUser[]> {
+
+    return new Promise((resolve) => {
+    let lreq: iUser[] = [];
+    let query;
+    query = this.userCollection.ref.where('email', '==', email).get();
+
+    query.then(snapshot => {
+
+      snapshot.forEach( doc => {
+        let x = { "email": doc.id , ...doc.data()};
+        lreq.push(x);
+      });
+      resolve(lreq);
+    }
+      );
+  });
 
   }
 
@@ -91,17 +126,23 @@ export class CloudserviceService {
    * @param pass 
    */
   loginUser(email,pass){
-    firebase.auth().signInWithEmailAndPassword(email, this.set(this.key, pass)).then(e=>{
-      console.log("login succesfull")
+    firebase.auth().signInWithEmailAndPassword(email, this.set(this.key, pass)).then(e =>{
+      this.getProfile(email).then(user => {
+
+        this.nativeStorage.setItem('user', {email: user[0].email, img: user[0].img, user: user[0].user } )
+       .then(
+         () => this.router.navigate(['/tabs/tab1']),
+         error => console.error('Error storing item', error)
+       );
+      });
     }).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-     
-      console.log(errorCode+": "+ errorMessage)
+      console.log(errorCode + ': ' + errorMessage);
     });
   }
 
-  //The set method is use for encrypt the value.
+  // The set method is use for encrypt the value.
   set(keys, value){
     var key = CryptoJS.enc.Utf8.parse(keys);
     var iv = CryptoJS.enc.Utf8.parse(keys);
@@ -116,7 +157,7 @@ export class CloudserviceService {
     return encrypted.toString();
   }
 
-  //The get method is use for decrypt the value.
+  // The get method is use for decrypt the value.
   get(keys, value){
     var key = CryptoJS.enc.Utf8.parse(keys);
     var iv = CryptoJS.enc.Utf8.parse(keys);
@@ -137,13 +178,11 @@ export class CloudserviceService {
    * @param datos documento a insertar en firebase
    * @return AngularFireStoreCollection Devuelve un promise
    */
-  
   anadirA(datos) {
-    
-    return this.accidenteCollection.add(datos).then(e =>{
+    return this.accidenteCollection.add(datos).then(e => {
 
-      console.log("Todo ok")
-    }).catch(err =>{
+      console.log('Todo ok');
+    }).catch(err => {
 
       console.log(err);
     });
@@ -154,7 +193,6 @@ export class CloudserviceService {
    * Habilita el scroll para la pestaña accidentes
    * @returns devuelve si se ha habilitado el scroll
    */
-  
   isInfinityScrollEnabled() {
     return this.scrollAccidentEnabled;
   }
@@ -170,7 +208,7 @@ export class CloudserviceService {
       this.scrollAccidentEnabled = true;
     }
     this.lastAccidentLoaded = this.lastlastAccidentLoaded;
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let lreq: iAccidente[] = [];
       let query;
       if (this.lastAccidentLoaded == null) {
@@ -185,37 +223,33 @@ export class CloudserviceService {
       }
       query.then((d) => {
         d.forEach((u) => {
-          let x = { "hora": u.id, ...u.data() };
+          let x = { 'hora': u.id, ...u.data() };
           /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
           el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
           let horaLocal = new Date().valueOf();
 
-          if(x.hora+3600000 <= horaLocal){
+          if (x.hora + 3600000 <= horaLocal) {
 
             this.accidenteCollection.doc(u.id).delete().then(e => {
-              console.log("Document successfully deleted!");
+              console.log('Document successfully deleted!');
           }).catch(function(error) {
-              console.error("Error removing document: ", error);
+              console.error('Error removing document: ', error);
           });
 
-          }else{
-  
+          } else {
             lreq.push(x);
 
           }
 
-          
         });
         this.lastlastAccidentLoaded = d.docs[d.docs.length - 1];
         if (d.docs.length < 10) {
           this.scrollAccidentEnabled = false;
         }
-        
-        
         resolve(lreq);
 
-      })
-    })
+      });
+    });
   }
 
   /* Carga de accidentes en el mapa (Crea los marcadores) unicamente se mostraran hasta 1000 avisos*/
@@ -236,21 +270,19 @@ export class CloudserviceService {
 
           let horaLocal = new Date().valueOf();
 
-          if(x.hora+3600000<= horaLocal){
+          if (x.hora + 3600000 <= horaLocal) {
 
             this.accidenteCollection.doc(u.id).delete().then(e => {
               console.log("Document successfully deleted!");
           }).catch(function(error) {
               console.error("Error removing document: ", error);
           });
-          }else{
+          } else {
 
             lreq.push(x);
 
           }
         });
-        
-        
         resolve(lreq);
 
       })

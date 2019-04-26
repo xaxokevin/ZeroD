@@ -8,17 +8,20 @@
 
 
 
-  <form [formGroup]="login" (ngSubmit)="registerForm()">
+  <form [formGroup]="login" (ngSubmit)="LoginForm()">
     <ion-item>
       <ion-label>email</ion-label>
-      <ion-input type="text"  formControlName="email"></ion-input>
+      <ion-input type="email"  formControlName="email"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>pass</ion-label>
       <ion-input type="password"  formControlName="pass"></ion-input>
     </ion-item>
-    <button ion-button type="submit" block>Add Todo</button>
+    
+    <ion-button expand="full"  color="tertiary" type="submit" [disabled]="!login.valid">Login</ion-button>
   </form>
 
+
+  <ion-button expand="full" color="primary" (click)="openRegister()">Register</ion-button>
 
 </ion-content>

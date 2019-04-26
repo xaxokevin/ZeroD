@@ -58,7 +58,6 @@ export class NetworkService {
     }
 
 /**
- * 
  * Metodo que comprueba el gps y el estado que tiene
  */
     publicShowGPSEvent(): void{
@@ -67,28 +66,22 @@ export class NetworkService {
             switch(locationMode){
                 case this.diagnostic.locationMode.HIGH_ACCURACY:
                     this.eventCtrl.publish('High accuracy');
-                    
                     break;
                 case this.diagnostic.locationMode.BATTERY_SAVING:
-                    
                     this.eventCtrl.publish('Battery saving');
                     break;
                 case this.diagnostic.locationMode.DEVICE_ONLY:
-                    
                     this.eventCtrl.publish('Device only');
                     break;
                 case this.diagnostic.locationMode.LOCATION_OFF:
-                    
                     this.eventCtrl.publish('Location off');
                     break;
             }
 
-        })
-            
+        });
         }
 
 /**
- * 
  * Metodo que cambia el color del icono de la señal del gps
  * @param color recibe el color al que se cambia el icono de la señal
  */

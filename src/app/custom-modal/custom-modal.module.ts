@@ -95,5 +95,29 @@ export class CustomModalModule { //Clase que nos crea los modales personalizados
 
 
   }
+
+  /**
+   * muestra el modal de registro
+   * @param component recibe el componente del home
+   * @param callback this
+   */
+  async showRegister(component, callback): Promise <any>{
+   
+    const modal = await this.modalCtrl.create({
+      cssClass: "show-register",
+      backdropDismiss: true,
+      component: component,  //El componente que se inyecta en la ventana modal
+    });
+    modal.onDidDismiss().then((d) => {
+        if (callback.onModalClose)
+          callback.onModalClose()
+    });
+    
+    
+    return await modal.present();
+
+
+
+  }
   
 }

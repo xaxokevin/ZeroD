@@ -30,6 +30,9 @@ import { Sensors} from '@ionic-native/sensors/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { HelpComponent } from './customComponent/help/help.component';
 import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { RegisterComponent } from './customComponent/register/register.component';
+import { CustomModalModule } from './custom-modal/custom-modal.module';
 
 
 
@@ -41,10 +44,10 @@ import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
 
 
 @NgModule({
-  declarations: [AppComponent, AddAlertComponent, ViewCardComponent, ScrollHideDirective, HelpComponent,],
-  entryComponents: [AddAlertComponent,ViewCardComponent,HelpComponent],
+  declarations: [AppComponent, AddAlertComponent, ViewCardComponent, ScrollHideDirective, HelpComponent, RegisterComponent,],
+  entryComponents: [AddAlertComponent,ViewCardComponent,HelpComponent,RegisterComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,
+    AngularFirestoreModule,FormsModule,CustomLoading,CustomToast,CustomModalModule,
     ReactiveFormsModule,HttpClientModule, TranslateModule.forRoot({  //Módulo de traducción
       loader: {
         provide: TranslateLoader, 
@@ -63,6 +66,7 @@ import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
     Sensors,
     AndroidPermissions,
     NativeGeocoder,
+    Camera,
     
     
 

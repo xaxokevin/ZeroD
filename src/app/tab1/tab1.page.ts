@@ -215,10 +215,10 @@ export class Tab1Page {
  * @param reload evento que activa la carga de la bd
  */
    updateMeteorology(event?, reload?) {
-     if (!event)
-       this.loading.show("");
+     if (!event) {
+       this.loading.show('');
+     }
      this.cloudS.getMeteorology(reload).then(d => {
-       
        if (reload) {
          this.listadoMeteorologia = d;
          this.checkListM();
@@ -227,8 +227,9 @@ export class Tab1Page {
            this.listadoMeteorologia.push(u);
          });
        }
-       if (!event)
+       if (!event) {
          this.loading.hide();
+       }
        if (event) {
          event.target.complete();
        }
@@ -241,10 +242,10 @@ export class Tab1Page {
   updateCat(cat: Promise<any>) {
     cat.then(dat => {
       this.category = dat;
-      this.category = +this.category; //to int;
-      
+      this.category = +this.category; // to int;
     });
   }
+  
   /* El método que permite actualizar el indicado cuando se cambia de slide*/
   updateIndicatorPosition() {
     this.SwipedTabsSlider.getActiveIndex().then(i => {

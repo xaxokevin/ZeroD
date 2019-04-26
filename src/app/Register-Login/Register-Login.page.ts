@@ -5,8 +5,9 @@ import { CustomLoading } from '../custom-modal/custom-loading';
 import { NetworkService } from '../servicios/network.service';
 import { TranslateService } from '@ngx-translate/core';
 import { CustomToast } from '../custom-modal/custom-toast';
+import { CustomModalModule } from '../custom-modal/custom-modal.module';
+import { RegisterComponent } from '../customComponent/register/register.component';
 import { Router } from '@angular/router';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-register-login',
@@ -14,9 +15,11 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
   styleUrls: ['./register-login.page.scss'],
 })
 export class RegisterLoginPage implements OnInit {
+  ngOnInit() {
+  }
   
   public login: FormGroup; 
-  private user;
+  regexp:any
 
   constructor( 
     private formBuilder: FormBuilder,
@@ -25,45 +28,46 @@ export class RegisterLoginPage implements OnInit {
     private netwoekS: NetworkService,
     private translate: TranslateService,
     public toast: CustomToast,
-    private nativeStorage: NativeStorage,
-  
-    ) { 
-
-     
+    public cmm: CustomModalModule,
+    public router: Router
+    ) {
+      this.regexp = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
 
       this.login = this.formBuilder.group({
-        email: ['', Validators.required],
-        pass: ['',Validators.required],
+        email: ['', Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        ])],
+        pass: ['', Validators.compose([
+          Validators.minLength(5),
+          Validators.required,
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+        ])],
       });
-    
   }
 
-  ngOnInit() {
-   
-  }
-  ionViewCanEnter(){
 
-  }
+  LoginForm(){
 
-  
+    if (this.netwoekS.previousStatus === 1) {
+      this.toast.show(this.translate.instant('noNetwork'));
+    } else if (this.netwoekS.previousStatus === 0) {
 
-
-  registerForm(){
-    if(this.netwoekS.previousStatus == 1){
-      this.toast.show(this.translate.instant("noNetwork"));
-    }else if(this.netwoekS.previousStatus == 0){
-
-      let data = {
-        email: this.login.get("email").value,
-        pass: this.login.get("pass").value,
-  
+      const data = {
+        email: this.login.get('email').value,
+        pass: this.login.get('pass').value,
       };
 
-      this.CloudS.createUser(data.email,data.pass);
-     
-      
+      this.loading.show('');
+      this.CloudS.loginUser(data.email, data.pass);
+      this.loading.hide();
   }
 
+}
+
+openRegister() {
+
+  this.cmm.showRegister(RegisterComponent, this);
 }
 
 

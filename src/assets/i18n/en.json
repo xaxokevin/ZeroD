@@ -31,7 +31,8 @@
     "h6": "The configuration button allows to hide or show the alerts on the map. The location button focuses the view on the exact area where we are",
     "h7": "When you return to the list of alerts, it will show you the alert created",
     "h8": "Clicking on the alert shows you a modal with the detailed information. It also allows you to navigate directly to the location of the alert on the map by clicking on the 'view map' button",
-    "LSGPS": "Low GPS signal, please retry other time"
+    "LSGPS": "Low GPS signal, please retry other time",
+    "failPass": "Password does not match"
 
   }
   

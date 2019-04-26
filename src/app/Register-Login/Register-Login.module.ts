@@ -7,6 +7,7 @@ import { ReactiveFormsModule} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { RegisterLoginPage } from './Register-Login.page';
+import { CustomModalModule } from '../custom-modal/custom-modal.module';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
+    CustomModalModule,
     RouterModule.forChild(routes)
   ],
   declarations: [RegisterLoginPage]
