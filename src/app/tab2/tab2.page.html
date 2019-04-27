@@ -19,11 +19,11 @@
 </ion-fab>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
-    <ion-fab-button  color="light">
-      <ion-icon name="md-locate" color="primary" (click)="locateme()"></ion-icon>
+    <ion-fab-button  color="light" [disabled]="this.disablebutton" (click)="locateme()">
+      <ion-icon name="md-locate" color="primary" ></ion-icon>
     </ion-fab-button>
-    <ion-fab-button>
-      <ion-icon name="add" style="color: var(--ion-color-success-contrast)" (click)="addMark()"></ion-icon>
+    <ion-fab-button [disabled]="this.disablebutton" (click)="addMark()">
+      <ion-icon name="add" style="color: var(--ion-color-success-contrast)" ></ion-icon>
       
     </ion-fab-button>
     

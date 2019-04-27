@@ -40,19 +40,16 @@ export class CloudserviceService {
 
   constructor(private fireStore: AngularFirestore,
     private nativeStorage: NativeStorage,
-    public router: Router,) {
+    public router: Router,
+    ) {
     /* Crea una referencia a la colección que empleamos para realizar las
     operaciones CRUD*/
     this.accidenteCollection = fireStore.collection<any>(environment.accidenteColeccion);
     this.meteorologiaCollection = fireStore.collection<any>(environment.meteorologiaColeccion);
     this.userCollection = fireStore.collection<any>(environment.userColeccion);
-    
 
-    //this.privateKey = config.authentication.rsa.privateKey;
-    //this.publicKey = config.authentication.rsa.publicKey;
-    //this.enabled = config.authentication.rsa.enabled;
-    
   }
+
 /**
  * Crea un usuario nuevo en la aplicación
  * @param img foto de perfil
@@ -60,7 +57,7 @@ export class CloudserviceService {
  * @param email correo 
  * @param pass  contraseña
  */
-  createUser(img,user,email,pass){
+  createUser(img, user, email, pass) {
 
     let datos = {
       img,
@@ -110,7 +107,7 @@ export class CloudserviceService {
     query.then(snapshot => {
 
       snapshot.forEach( doc => {
-        let x = { "email": doc.id , ...doc.data()};
+        let x = { 'email': doc.id , ...doc.data()};
         lreq.push(x);
       });
       resolve(lreq);
@@ -158,7 +155,7 @@ export class CloudserviceService {
   }
 
   // The get method is use for decrypt the value.
-  get(keys, value){
+  get(keys, value) {
     var key = CryptoJS.enc.Utf8.parse(keys);
     var iv = CryptoJS.enc.Utf8.parse(keys);
     var decrypted = CryptoJS.AES.decrypt(value, key, {
@@ -169,6 +166,39 @@ export class CloudserviceService {
     });
 
     return decrypted.toString(CryptoJS.enc.Utf8);
+  }
+
+  getNumberOfAlert(email): Promise<Number> {
+
+    return new Promise((resolve) => {
+      let lreqM: iMeteorology [] = [];
+      let lreqA: iAccidente [] = [];
+      let query;
+      let query2;
+      var n = 0;
+
+      query = this.meteorologiaCollection.ref.where('user', '==', email).get();
+      query.then(snapshot => {
+        snapshot.forEach( doc => {
+          let x = { 'user': doc.id , ...doc.data()};
+          lreqM.push(x);
+        });
+        n += lreqM.length;
+      }
+        );
+
+        query2 = this.accidenteCollection.ref.where('user', '==', email).get();
+        query2.then(snapshot => {
+          snapshot.forEach( doc => {
+            let x = { 'user': doc.id , ...doc.data()};
+            lreqA.push(x);
+          });
+          n += lreqA.length;
+          resolve(n);
+        }
+          );
+    });
+
   }
 
 
@@ -215,11 +245,11 @@ export class CloudserviceService {
         /* Obtengo los primeros 15 accidentes ordenados por descripcion. Para ordenar es necesario
         activar un índice en firebase. Si no se crea dará un error por consola indicando los pasos
         necesarios para crearlo */
-        query = this.accidenteCollection.ref.orderBy("hora", "asc").limit(15).get();
+        query = this.accidenteCollection.ref.orderBy('hora', 'asc').limit(15).get();
 
       } else {
         /* Cargamos 15 a partir del último cargado */
-        query = this.accidenteCollection.ref.orderBy("hora", "asc").startAfter(this.lastAccidentLoaded).limit(15).get();
+        query = this.accidenteCollection.ref.orderBy('hora', 'asc').startAfter(this.lastAccidentLoaded).limit(15).get();
       }
       query.then((d) => {
         d.forEach((u) => {
@@ -259,12 +289,10 @@ export class CloudserviceService {
       let lreq: iAccidente[] = [];
       let query;
  
-      query = this.accidenteCollection.ref.orderBy("hora", "asc").limit(1000).get();
-
-      
+      query = this.accidenteCollection.ref.orderBy('hora', 'asc').limit(1000).get();
       query.then((d) => {
         d.forEach((u) => {
-          let x = { "hora": u.id, ...u.data() };
+          let x = { 'hora': u.id, ...u.data() };
           /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
           el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
@@ -273,9 +301,9 @@ export class CloudserviceService {
           if (x.hora + 3600000 <= horaLocal) {
 
             this.accidenteCollection.doc(u.id).delete().then(e => {
-              console.log("Document successfully deleted!");
+              console.log('Document successfully deleted!');
           }).catch(function(error) {
-              console.error("Error removing document: ", error);
+              console.error('Error removing document: ', error);
           });
           } else {
 
@@ -285,8 +313,8 @@ export class CloudserviceService {
         });
         resolve(lreq);
 
-      })
-    })
+      });
+    });
 
   }
 
@@ -296,11 +324,10 @@ export class CloudserviceService {
   @param datos documento a insertar en firebase
   @return Devuelve un promise
  */
- 
   anadirM(datos) {
     return this.meteorologiaCollection.add(datos).then(e =>{
 
-      console.log("Todo ok")
+      console.log('Todo ok');
     }).catch(err =>{
 
       console.log(err);
@@ -320,7 +347,6 @@ export class CloudserviceService {
    * Carga de accidentes en caso de no estar presente la variable reload, se añaden los siguientes 15 al final de la lista
    *  @param reload evento que acciona la carga de mas elementos a la lista
    */
-   
    getMeteorology(reload?): Promise<iMeteorology[]> {
     if (reload) {
       this.lastlastMeteorologyLoaded = null;
@@ -349,28 +375,25 @@ export class CloudserviceService {
           el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
           if(x.hora+3600000<= horaLocal){
-            //Se elimina ese aviso
-            this.meteorologiaCollection.doc(u.id).delete().then(e => {
-              console.log("Document successfully deleted!");
-          }).catch(function(error) {
-              console.error("Error removing document: ", error);
-          });
+              //Se elimina ese aviso
+              this.meteorologiaCollection.doc(u.id).delete().then(e => {
+                console.log("Document successfully deleted!");
+            }).catch(function(error) {
+                console.error("Error removing document: ", error);
+            });
 
-          }else{
-            
+          } else {
             lreq.push(x);
           }
         });
         this.lastlastMeteorologyLoaded = d.docs[d.docs.length - 1];
-        if (d.docs.length < 10) {
-          this.scrollMeteorologyEnabled = false;
-        }
-        
-        
+          if (d.docs.length < 10) {
+            this.scrollMeteorologyEnabled = false;
+          }
         resolve(lreq);
 
-      })
-    })
+      });
+    });
   }
 
 
@@ -379,43 +402,35 @@ export class CloudserviceService {
  * */
   getMarkMeteorology(): Promise<iMeteorology[]>{
 
-   
     return new Promise((resolve, reject) => {
       let lreq: iMeteorology[] = [];
       let query;
-      
-        
+
       query = this.meteorologiaCollection.ref.orderBy("hora", "asc").limit(1000).get();
 
-      
       query.then((d) => {
         d.forEach((u) => {
           let x = { "hora": u.id, ...u.data() };
-         
           let horaLocal = new Date().valueOf();
 /*Unicamente ase van a añadir a la vista las alertas que lleven menos de una hora, por defecto estas no se mostraran y si
           el aviso sigue estando en el lugar de los hechos basta con volvera a crear la alerta*/
 
-          if(x.hora+3600000<= horaLocal){
-           
-            this.meteorologiaCollection.doc(u.id).delete().then(e => {
+          if (x.hora + 3600000 <= horaLocal) {
+              this.meteorologiaCollection.doc(u.id).delete().then(e => {
               console.log("Document successfully deleted!");
-          }).catch(function(error) {
+              }).catch(function(error) {
               console.error("Error removing document: ", error);
-          });
-          
-          }else{
-           
-            lreq.push(x);
+              });
+          } else {
+
+              lreq.push(x);
 
           }
         });
-        
-        
         resolve(lreq);
 
-      })
-    })
+      });
+    });
 
   }
 

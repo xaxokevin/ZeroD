@@ -18,19 +18,17 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 export class AddAlertComponent implements OnInit {
   @ViewChild('myInput') myInput: ElementRef;
-  ngOnInit(): void {
-    
-  }
-
-  public alerta: FormGroup; 
+  public alerta: FormGroup;
   longitud: any;
   latitud: any;
   customActionSheetOptions: any = {
-    header: this.translate.instant("Select"),
-    subHeader: this.translate.instant("TypeS"),
+    header: this.translate.instant('Select'),
+    subHeader: this.translate.instant('TypeS'),
   };
   usuario: String;
- 
+  ngOnInit(): void {
+  }
+
 
   constructor(public modalcontroller: ModalController, 
     private formBuilder: FormBuilder,
@@ -41,23 +39,23 @@ export class AddAlertComponent implements OnInit {
     private translate: TranslateService,
     private netwoekS: NetworkService,
     private nativeStorage: NativeStorage, ) {
-//recuperamos el usuario
-    this.nativeStorage.getItem('user').then(e=> {
 
-        this.usuario= e.usuario.toString();
+      // recuperamos el email del usuario
+    this.nativeStorage.getItem('user').then(e => {
+
+        this.usuario = e.email.toString();
 
         console.log(this.usuario);
 
-      }).catch(error=> {
+      }).catch(error => {
 
         console.log(error);
 
       });
 
-    //recuperamos a traves de NavParams, la clave valor que tenemos en la marca
+    // recuperamos a traves de NavParams, la clave valor que tenemos en la marca
     this.longitud = this.navparams.get('longitude');
     this.latitud = this.navparams.get('latitude');
-    console.log(this.latitud, this.longitud);
 
     this.alerta = this.formBuilder.group({
       alertType: ['', Validators.required],
@@ -89,28 +87,22 @@ export class AddAlertComponent implements OnInit {
   Si no tenemos salta un toast para que le demos internet
   Si tenemos internet nos permite hacer el submit */
   uploadForm() {
-    if(this.netwoekS.previousStatus == 1){
-      this.toast.show(this.translate.instant("noNetwork"));
-    }else if(this.netwoekS.previousStatus == 0){
+    if (this.netwoekS.previousStatus === 1) {
+      this.toast.show(this.translate.instant('noNetwork'));
+    } else if (this.netwoekS.previousStatus === 0) {
 
       let data = {
-        descripcion: this.alerta.get("descripcion").value,
-        alert: this.alerta.get("alertType").value,
+        descripcion: this.alerta.get('descripcion').value,
+        alert: this.alerta.get('alertType').value,
         longitud: this.longitud,
         latitud: this.latitud,
         hora: new Date().valueOf(),
         user: this.usuario
-  
       };
-      console.log("despues del data"+this.usuario);
-  
-      if (data.alert == 'accidente'){
-        
-  
+      if (data.alert === 'accidente'){
         /* Mostramos el cargando... */
-        this.loading.show("");
-      // Llamamos al metodo anadir pasandole  los datos 
-  
+        this.loading.show('');
+      // Llamamos al metodo anadir pasandole  los datos
       this.CloudS.anadirA(data)
         .then((docRef) => {
           /* Cerramos el cargando...*/
@@ -119,41 +111,28 @@ export class AddAlertComponent implements OnInit {
           this.cancel();
         })
         .catch((error) => {
-          
           /* Cerramos el cargando...*/
           this.loading.hide();
-          this.toast.show(this.translate.instant("errorloading"));
-         
-  
-  
+          this.toast.show(this.translate.instant('errorloading'));
+
         });
-  
-      }else{
-  
+      } else {
       /* Mostramos el cargando... */
-      this.loading.show("");
+      this.loading.show('');
       // Llamamos al metodo anadir pasandole  los datos 
-     
       this.CloudS.anadirM(data)
         .then((docRef) => {
           /* Cerramos el cargando...*/
           this.loading.hide();
           /*Cerramos el modal*/
           this.cancel();
-          
         })
         .catch((error) => {
-          
           /* Cerramos el cargando...*/
           this.loading.hide();
-          this.toast.show(this.translate.instant("errorloading"));
-          
+          this.toast.show(this.translate.instant('errorloading'));
         });
       }
-      
     }
- 
-    
   }
-  
 }

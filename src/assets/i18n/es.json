@@ -32,6 +32,9 @@
     "h7": "Al volver a la lista de alertas, te mostrará la alerta creada",
     "h8": "Al pulsar sobre la alerta te muestra un modal con la información detallada. También te permite navegar directamente a la ubicación de la alerta en el mapa pulsando el boton 'ver mapa'",
     "LSGPS": "Señal del GPS baja, por favor inténtelo de nuevo",
-    "failPass": "Las contraseñas no coinciden"
+    "failPass": "Las contraseñas no coinciden",
+    "loginregister": "Iniciar sesión / Registro",
+    "activealert": "Alertas activas = ",
+    "noUser": "Por favor registrese o inicie sesión para añadir alertas"
 
   }

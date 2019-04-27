@@ -1,22 +1,10 @@
-
 import { Component} from '@angular/core';
-
 import { Router } from '@angular/router';
-
 import { CustomLoading } from '../custom-modal/custom-loading';
-
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-
-
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CloudserviceService } from '../servicios/cloudservice.service';
-import { iUser } from '../model/iUser';
 import { DomSanitizer } from '@angular/platform-browser';
-
-
-
-
-
 
 
 
@@ -28,7 +16,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class Tab3Page {
   valorkm: number;
   usuario: boolean;
-  imgV:any;
+  imgV: any;
+  perfil: any;
+  activeAlert;
 
   constructor(
     private loading: CustomLoading,
@@ -36,7 +26,7 @@ export class Tab3Page {
     private nativeStorage: NativeStorage,
     private camera: Camera,
     private sanitizer: DomSanitizer,
-
+    private cloudS: CloudserviceService,
 
   ) {
 
@@ -51,8 +41,13 @@ export class Tab3Page {
 
         this.usuario = false;
       } else {
+
         this.usuario = true;
+        this.perfil = user;
         this.imgV = this.sanitizer.bypassSecurityTrustUrl(user.img);
+        this.cloudS.getNumberOfAlert(this.perfil.email).then(n => {
+          this.activeAlert = n ;
+        });
       }
 
     }).catch(error =>{

@@ -29,13 +29,12 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  
   @ViewChild('infiniteScroll') ionInfiniteScroll: IonInfiniteScroll;
   @ViewChild('SwipedTabsSlider') SwipedTabsSlider: IonSlides;
   SwipedTabsIndicator: any = null;
-  tabs = ["selectTab(0)", "selectTab(1)"];
+  tabs = ['selectTab(0)', 'selectTab(1)'];
   ntabs = 2;
-  public category: any = "0";
+  public category: any = '0';
   listadoAccidentes: iAccidente[] = [];
   listadoMeteorologia: iMeteorology[] = [];
   footerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-bottom', maxValue: undefined };
@@ -47,9 +46,7 @@ export class Tab1Page {
     maxResults: 5
 };
 
- 
 /**
- * 
  * @param cloudS objeto del servicion del almacenamiento
  * @param loading objeto de la clase loading, nos permite mostrar un cargando
  * @param aemet objeto del servicio que nos da la informacion del tiempo
@@ -70,8 +67,7 @@ export class Tab1Page {
     public modalController: ModalController,
     private nativeGeocoder: NativeGeocoder,
     private nativeStorage: NativeStorage
-  
-   
+
   ) {}
 
   /**
@@ -79,42 +75,36 @@ export class Tab1Page {
    * cada vez que entra a la tab1
    */
   ionViewWillEnter() {
-    //Comprobamos la posicion del slider
-    this.SwipedTabsIndicator = document.getElementById("indicator");
-    this.SwipedTabsSlider.length().then(l => {  
+    // Comprobamos la posicion del slider
+    this.SwipedTabsIndicator = document.getElementById('indicator');
+    this.SwipedTabsSlider.length().then(l => {
       this.ntabs = l;
     });
-    //Comprobamos la conexion a internet
-    if(this.netwoekS.previousStatus == 1){
-      console.log("sin conexion")
-    }else if(this.netwoekS.previousStatus == 0){
-      this.updateAllAccident(); 
+    // Comprobamos la conexion a internet
+    if (this.netwoekS.previousStatus === 1) {
+    } else if (this.netwoekS.previousStatus === 0) {
+      this.updateAllAccident();
       this.updateAllMeteorology();
-      //obtiene los datos del weather service (Falta implementacion)
-      this.aemet.getRemoteData();
-      this.nativeGeocoder.reverseGeocode(52.5072095, 13.1452818, this.options)
-    .then((result: NativeGeocoderReverseResult[]) => console.log(JSON.stringify(result[0])))
-    .catch((error: any) => console.log(error));
-  
-  this.nativeGeocoder.forwardGeocode('Berlin', this.options)
-    .then((coordinates: NativeGeocoderForwardResult[]) => console.log('The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude))
-    .catch((error: any) => console.log(error));
+      // obtiene los datos del weather service (Falta implementacion)
+      //this.aemet.getRemoteData();
+      //this.nativeGeocoder.reverseGeocode(52.5072095, 13.1452818, this.options)
+    //.then((result: NativeGeocoderReverseResult[]) => console.log(JSON.stringify(result[0])))
+    //.catch((error: any) => console.log(error));
+  //this.nativeGeocoder.forwardGeocode('Berlin', this.options)
+    //.then((coordinates: NativeGeocoderForwardResult[]) => console.log('The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude))
+    //.catch((error: any) => console.log(error));
     }
-  
   }
-  
 
   /**
    * Se encarga de comprobar si las listas estan vacias
    * cuando es asi muestra la imagen de que todo esta ok
    */
-  checkListA(){
-    if(this.listadoAccidentes.length == 0){
-      console.log("vacia")
-      this.listAvacia= true;
-    }else{
-      console.log("llena")
-      this.listAvacia=false;
+  checkListA() {
+    if (this.listadoAccidentes.length === 0) {
+      this.listAvacia = true;
+    } else {
+      this.listAvacia = false;
     }
   }
 
@@ -122,40 +112,35 @@ export class Tab1Page {
    * Se encarga de comprobar si las listas estan vacias
    * cuando es asi muestra la imagen de que todo esta ok
    */
-  checkListM(){
-    if(this.listadoMeteorologia.length == 0){
-      this.listMvacia= true;
-    }else{
-      this.listMvacia=false;
+  checkListM() {
+    if (this.listadoMeteorologia.length === 0) {
+      this.listMvacia = true;
+    } else {
+      this.listMvacia = false;
     }
   }
 
 
   /**
-   * 
    * Metodo de carga de los accidentes, se activa cuando se entra en la tab1
    * Muestra un loading que se quita cuando la carga desde firebase esta completa
    * @param event evento que desencadena el metodo
    */
   updateAllAccident(event?) {
-  this.loading.show("");
-    //Cargamos de la bd
+  this.loading.show('');
+    // Cargamos de la bd
       this.cloudS.getAccident(true).then(d => {
-        
         this.listadoAccidentes = d;
 
         this.checkListA();
 
-
-        
         if (event) {
           event.target.complete();
         }
       });
 
-      this.loading.hide();  
-      
-    
+      this.loading.hide();
+
   }
 
 /**
@@ -165,10 +150,10 @@ export class Tab1Page {
  * @param reload evento que activa la carga de la bd
  */
   updateAccident(event?, reload?) {
-    if (!event)
-      this.loading.show("");
+    if (!event) {
+      this.loading.show('');
+    }
     this.cloudS.getAccident(reload).then(d => {
-      
       if (reload) {
         this.listadoAccidentes = d;
         this.checkListA();
@@ -178,8 +163,9 @@ export class Tab1Page {
 
         });
       }
-      if (!event)
+      if (!event) {
         this.loading.hide();
+      }
       if (event) {
         event.target.complete();
       }
@@ -188,26 +174,21 @@ export class Tab1Page {
   }
 
    /**
-   * 
    * Metodo de carga de la meteorologia, se activa cuando se entra en la tab1
    * Muestra un loading que se quita cuando la carga desde firebase esta completa
    * @param event evento que desencadena el metodo
    */
   updateAllMeteorology(event?) {
-     
        this.cloudS.getMeteorology(true).then(d => {
-         
          this.listadoMeteorologia = d;
 
          this.checkListM();
-         
          if (event) {
            event.target.complete();
          }
-       })
-   
+       });
    }
- 
+
   /**
  * Se activa cuando accionamos el refresher de la lista.
  * Carga la meteorologia nueva que se han añadido
@@ -245,7 +226,7 @@ export class Tab1Page {
       this.category = +this.category; // to int;
     });
   }
-  
+
   /* El método que permite actualizar el indicado cuando se cambia de slide*/
   updateIndicatorPosition() {
     this.SwipedTabsSlider.getActiveIndex().then(i => {
@@ -257,9 +238,10 @@ export class Tab1Page {
   /* El método que anima la "rayita" mientras nos estamos deslizando por el slide*/
   animateIndicator(e) {
     console.log(e.target.swiper.progress);
-    if (this.SwipedTabsIndicator)
+    if (this.SwipedTabsIndicator) {
       this.SwipedTabsIndicator.style.webkitTransform = 'translate3d(' +
         ((e.target.swiper.progress * (this.ntabs - 1)) * 100) + '%,0,0)';
+    }
   }
 
 
@@ -273,18 +255,18 @@ export class Tab1Page {
    * @param latitud latitud de la ubicación del evento
    * @param longitud longitud  de la ubicación del evento
    * Estas dos variables representan la ubicacion
-   * 
    */
-  
-  showInfo(descripcion: any, tipo: any, hora: any, latitud: any, longitud:any){
 
-    this.cmm.showInfo(ViewCardComponent, descripcion,tipo, hora, latitud, longitud,this)
+  showInfo(descripcion: any, tipo: any, hora: any, latitud: any, longitud: any) {
+
+    this.cmm.showInfo(ViewCardComponent, descripcion, tipo, hora, latitud, longitud, this);
   }
+
   /**
-   * Metodo que inicia la navegacion hasta el mapa 
+   * Metodo que inicia la navegacion hasta el mapa
    * añadiendo una marca
    */
-  anadeMarca(){
+  anadeMarca() {
     this.navegacion.addTab1Mark(true);
     this.router.navigate(['/tabs/tab2']);
   }
@@ -293,7 +275,7 @@ export class Tab1Page {
    * Metodo que abre el modal de ayuda
    */
    presentModal() {
-    this.cmm.showHelp(HelpComponent,this);
-    
+    this.cmm.showHelp(HelpComponent, this);
+
   }
 }
