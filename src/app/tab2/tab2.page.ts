@@ -28,8 +28,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 })
 export class Tab2Page {
   @ViewChild('map') mapContainer: ElementRef;
-  ocultaA: any;
-  ocultaM: any;
+  ocultaA: Boolean;
+  ocultaM: Boolean;
   map: any;
   latitud: any;
   longitud: any;
@@ -40,7 +40,6 @@ export class Tab2Page {
   manualGMarker = leaflet.featureGroup();
   manualMarker: any;
   colorB: any;
-  chekPer: any;
   disablebutton = false;
 
   accidenteIcon = leaflet.icon({
@@ -100,8 +99,8 @@ export class Tab2Page {
   }
 
 
-  /*este metodo se acciona cuando se vuelve a entrar en la pagina
-    *carga el mapa de nuevo y actualiza las marcas
+  /*este metodo se acciona antes de a entrar en la pagina
+    carga el mapa y actualiza las marcas
     Volvemos a comprobar la conexion a internet
   */
   ionViewWillEnter() {
@@ -115,7 +114,7 @@ export class Tab2Page {
 // Se comprueba la conexión a internet y se hacen las respectivas operaciones segun tengamos o no activada la conexion
     if (this.netwoekS.previousStatus === 1) {
       this.loadmap();
-    } else if (this.netwoekS.previousStatus === 0){
+    } else if (this.netwoekS.previousStatus === 0) {
 
       this.loadmap();
 /*comprueba si existe la variable ocultaA y ocultaM en la memoria del dispositivo
@@ -125,12 +124,13 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
 */
 this.nativeStorage.getItem('ocultaA').then( d => {
       this.ocultaA = d.property;
+      console.log(this.ocultaA)
       this.chargeAllMarkAccident(this.ocultaA);
 }).catch(e => {
 
     this.ocultaA = false;
     this.chargeAllMarkAccident(this.ocultaA);
-    this.nativeStorage.setItem('ocultaA', {property: 'false'})
+    this.nativeStorage.setItem('ocultaA', {property: false})
     .then(
       () => console.log('Stored item!'),
       error => console.error('Error storing item', error)
@@ -139,20 +139,21 @@ this.nativeStorage.getItem('ocultaA').then( d => {
 });
 
 this.nativeStorage.getItem('ocultaM').then((d) => {
-
-      this.ocultaM = d;
+      this.ocultaM = d.property;
+      console.log(this.ocultaM)
       this.chargeAllMarkMeteorology(this.ocultaM);
 }).catch( e => {
 
   this.ocultaM = false;
   this.chargeAllMarkMeteorology(this.ocultaM);
-  this.nativeStorage.setItem('ocultaM', {property: 'false'})
+  this.nativeStorage.setItem('ocultaM', {property: false})
   .then(
     () => console.log('Stored item!'),
     error => console.error('Error storing item', error)
   );
 });
 
+// comprobamos si se ha navegado desde la tab 1
       if (this.openM.getAddM() === true) {
           this.addMark();
           this.openM.setAddM();
@@ -169,6 +170,18 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
   ionViewDidLeave() {
     this.openM.setCargaMapa();
     this.map.remove();
+    // TODO cuando salga hay que mirar el valor de la variable del booleano que cambia
+    // las marcas para comprobar que valor tiene y cambiarlo al contrario del cual esta almacenado;
+    this.nativeStorage.setItem('ocultaM', {property: !this.ocultaM})
+  .then(
+    () => console.log('Stored item!'),
+    error => console.error('Error storing item', error)
+  );
+  this.nativeStorage.setItem('ocultaA', {property: !this.ocultaA})
+  .then(
+    () => console.log('Stored item!'),
+    error => console.error('Error storing item', error)
+  );
 
   }
 
@@ -181,7 +194,7 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
   loadmap() {
     // si el mapa es abierto desde el modal de ver mas informacion de la alerta
     // se establecera la vista encima de la alerta pulsada
-    if (this.openM.getCargarMapa() ===true) {
+    if (this.openM.getCargarMapa() === true) {
       this.map = leaflet.map('map').fitWorld().setView([this.openM.getLatitud(), this.openM.getLongitud()], 15);
       // establecemos los valores a true para mostrar las marcas
     } else {
@@ -206,9 +219,6 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
 
   }
 
-
-
-
   /**
    * Esta funcion es activada cuado pulsamos el boton de localizar en el mapa
    * Primero comprueba si tenemos permisos para acceder al gps del dispositivo
@@ -221,8 +231,7 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
        // Comprobamos permisos
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
       result => {
-        this.chekPer = result.hasPermission;
-        if (this.chekPer === true) {
+        if (result.hasPermission === true) {
 
           // Comprobacion del GPS si no esta activado, lanza un toast
           // Si el gps esta activado nos situa en nuestra posicion
@@ -261,18 +270,13 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
    * Este metodo es el encargado de mostrar en el mapa las ubicaciones de los avisos por meteorologia
    * Se mostraran o no segun el valor del boton del menu de configuracion del mapa
    * Recibe un boleano con esta informacion
-   * @param hide boolean 
+   * @param hide boolean
    */
-  chargeAllMarkMeteorology(hide) {
+  chargeAllMarkMeteorology(hide: Boolean) {
     if (this.markerGroupM != null) {
       this.map.removeLayer(this.markerGroupM);
-
     }
-    if (hide === false) {
-
-      // se elimina las marcas del mapa
-
-    } else {
+    if (hide != false) {
 
       // se obtienen las marcas de meteorologia
       this.cloudS.getMarkMeteorology().then(d => {
@@ -299,7 +303,7 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
         this.map.addLayer(this.markerGroupM);
 
 
-      })
+      });
     }
 
     // cambia el valor del booleano recibido
@@ -314,20 +318,15 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
    * Este metodo es el encargado de mostrar en el mapa las ubicaciones de los avisos por meteorologia
    * Se mostraran o no segun el valor del boton del menu de configuracion del mapa
    * Recibe un boleano con esta información
-   * @param hide boolean 
+   * @param hide boolean
    */
-  chargeAllMarkAccident(hide) {
+  chargeAllMarkAccident(hide: Boolean) {
 
-    if (this.markerGroupA != null){
+    if (this.markerGroupA != null) {
       this.map.removeLayer(this.markerGroupA);
-
     }
 
-    if (hide === false) {
-
-     // No se cargan las marcas
-    } else {
-      // this.map.removeLayer(this.markerGroupA);
+    if (hide !== false) {
 
       // se obtienen las marcas de accidente
       this.cloudS.getMarkAccident().then(d => {
@@ -355,7 +354,7 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
 
     }
 
-    // Cambiamos el valor del booleano recibido 
+    // Cambiamos el valor del booleano recibido
     this.ocultaA = !this.ocultaA;
     this.nativeStorage.setItem('ocultaA', {property: this.ocultaA} );
 
@@ -374,9 +373,8 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
    *  @param mapMark2 longitud de la marca
    */
   addMark(mapMark1?,mapMark2? ) {
-    this.nativeStorage.getItem('user').then(user =>{
+    this.nativeStorage.getItem('user').then(user => {
       this.disablebutton = true;
-      console.log(this.disablebutton);
 
       if (mapMark1 != null || mapMark2 != null) {
 
@@ -391,19 +389,19 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
            this.map.addLayer(this.manualMarker);
       } else {
 
-        if (this.platform.is('android')){
+        if (this.platform.is('android')) {
 
 
          // Comprueba permisos
       this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
         result => {
-          this.chekPer = result.hasPermission;
-          if(this.chekPer == true){
+
+          if(result.hasPermission == true){
             // Comprobacion del GPS si no esta activado, lanza un toast
             // Si el gps esta activado nos añade la marca en la ubicacion actual
-            this.diagnostic.isGpsLocationAvailable().then((verdad) =>{
+            this.diagnostic.isGpsLocationAvailable().then(verdad => {
               if (verdad == false) {
-                this.toast.show(this.translate.instant("NoGPS"));
+                this.toast.show(this.translate.instant('NoGPS'));
               } else {
                   // te localiza a traves del uso del GPS
                 this.map.locate({
@@ -415,17 +413,50 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
                   markerGroup.addLayer(marker);
                   this.map.addLayer(markerGroup);
                   // se llama al metodo que recibe la marca, la latitud y la longitud
-                  console.log("antes");
                   this.touchMark(marker, e.latitude, e.longitude);
                 }).on('locationerror', (err) => {
                   this.toast.showTop(this.translate.instant('LSGPS'))
                 });
                   }
-            }).catch(e => console.error(e))
+            }).catch(e => {
+              console.error(e);
+              this.disablebutton = false;
+            });
           } else {
 
             // Pedimos permisos
-            this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);
+            this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(result => {
+
+              if ( result.hasPermission === true) {
+
+                this.diagnostic.isGpsLocationAvailable().then(verdad => {
+                  if (verdad == false) {
+                    this.toast.show(this.translate.instant('NoGPS'));
+                  } else {
+                      // te localiza a traves del uso del GPS
+                    this.map.locate({
+                      setView: true, maxZoom: 15
+                    }).on('locationfound', (e) => {
+                      // crea una marca en la localizacion que te encuentras
+                      let markerGroup = leaflet.featureGroup();
+                      let marker = leaflet.marker([e.latitude, e.longitude]);
+                      markerGroup.addLayer(marker);
+                      this.map.addLayer(markerGroup);
+                      // se llama al metodo que recibe la marca, la latitud y la longitud
+                      this.touchMark(marker, e.latitude, e.longitude);
+                    }).on('locationerror', (err) => {
+                      this.toast.showTop(this.translate.instant('LSGPS'));
+                    });
+                      }
+                }).catch(e => {
+                    console.error(e);
+                    this.disablebutton = false;
+                  });
+              } else {
+                this.toast.show(this.translate.instant('GPSS'));
+                this.disablebutton = false;
+              }
+            });
 
           }
        });
@@ -444,6 +475,7 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
 
           }).on('locationerror', (err) => {
             this.toast.showTop(this.translate.instant('LSGPS'));
+            this.disablebutton = false;
           });
       }
 
@@ -457,7 +489,7 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
 
 
   /**
-   * Metodo encargado de devolver el estado inicial 
+   * Metodo encargado de devolver el estado inicial
    * de los componentes de la vista de la vista cuando
    * el modal se cierra
    */

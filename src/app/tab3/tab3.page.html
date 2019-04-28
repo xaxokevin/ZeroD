@@ -24,9 +24,10 @@
       </ion-item>
 
     <ion-item *ngIf="usuario">
-      <ion-range min="10" step="10" max="100" snaps="true" id="valorKM" [(ngModel)]="valueKM" (ionChange)="getValueKM(valueKM)" color="secondary">
-        <ion-label slot="start">10</ion-label>
-        <ion-label slot="end">100</ion-label>
+        <ion-label>Distancia de avisos a mostrar</ion-label>
+      <ion-range min="50" pin="true" step="10" max="1000" id="valorKM" [(ngModel)]="valueKM" (ionChange)="setValueKM(valueKM)" color="secondary">
+        <ion-label slot="start">50Km</ion-label>
+        <ion-label slot="end">1000Km</ion-label>
       </ion-range>
     </ion-item>
     <ion-item *ngIf="usuario" (click)="logout()">

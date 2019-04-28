@@ -14,7 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
-  valorkm: number;
+  valueKM: number;
   usuario: boolean;
   imgV: any;
   perfil: any;
@@ -30,28 +30,39 @@ export class Tab3Page {
 
   ) {
 
-    this.valorkm = 10;
   }
-
+/**
+ * Iniciamos variables del usuario si existe
+ */
   ionViewWillEnter() {
 
     this.nativeStorage.getItem('user').then(user => {
 
-      if (user == null) {
-
-        this.usuario = false;
-      } else {
-
         this.usuario = true;
-        this.perfil = user;
-        this.imgV = this.sanitizer.bypassSecurityTrustUrl(user.img);
-        this.cloudS.getNumberOfAlert(this.perfil.email).then(n => {
-          this.activeAlert = n ;
-        });
-      }
 
-    }).catch(error =>{
-      console.log(error);
+        this.perfil = user;
+
+        this.imgV = this.sanitizer.bypassSecurityTrustUrl(user.img);
+
+        this.cloudS.getNumberOfAlert(this.perfil.email).then(n => {
+
+          this.activeAlert = n ;
+
+        });
+
+        this.nativeStorage.getItem('distance').then(distance => {
+
+          this.valueKM = distance.km;
+          }).catch(e => {
+
+          this.valueKM = 1000;
+
+          });
+
+    }).catch(error => {
+
+      this.usuario = false;
+
     });
   }
 
@@ -63,13 +74,24 @@ export class Tab3Page {
   }
 
 
-  // falta almacenar el valor en la bd
-  getValueKM(valueKM){
+  /**
+   * Establece el rango en Km de la distancia max que
+   * nos cargara en las listas las alertas
+   * @param valueKM Number
+   */
+  setValueKM(valueKM){
 
+    this.nativeStorage.setItem('distance', {km: valueKM}).then(
+      () => console.log('Stored item!'),
+      error => console.error('Error storing item', error)
+    );
     console.log(valueKM);
 
   }
 
+  /**
+   * Cierra sesion en la aplicación
+   */
   logout() {
 
     this.nativeStorage.remove('user').then(user => {

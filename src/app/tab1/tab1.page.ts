@@ -85,6 +85,8 @@ export class Tab1Page {
     } else if (this.netwoekS.previousStatus === 0) {
       this.updateAllAccident();
       this.updateAllMeteorology();
+
+
       // obtiene los datos del weather service (Falta implementacion)
       //this.aemet.getRemoteData();
       //this.nativeGeocoder.reverseGeocode(52.5072095, 13.1452818, this.options)
@@ -95,6 +97,9 @@ export class Tab1Page {
     //.catch((error: any) => console.log(error));
     }
   }
+
+
+
 
   /**
    * Se encarga de comprobar si las listas estan vacias

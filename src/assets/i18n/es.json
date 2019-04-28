@@ -35,6 +35,7 @@
     "failPass": "Las contraseñas no coinciden",
     "loginregister": "Iniciar sesión / Registro",
     "activealert": "Alertas activas = ",
-    "noUser": "Por favor registrese o inicie sesión para añadir alertas"
+    "noUser": "Por favor registrese o inicie sesión para añadir alertas",
+    "GPSS": "Para el usuo de esta aplicación es necesario el permiso de GPS, cambie esto en la configuración del movil"
 
   }

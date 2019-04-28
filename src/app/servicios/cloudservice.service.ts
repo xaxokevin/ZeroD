@@ -37,6 +37,7 @@ export class CloudserviceService {
   isConnected = true;  // saber si estamos con red para realizar conexiones
 
   user: any;
+  distance: Number;
 
   constructor(private fireStore: AngularFirestore,
     private nativeStorage: NativeStorage,
@@ -49,13 +50,13 @@ export class CloudserviceService {
     this.userCollection = fireStore.collection<any>(environment.userColeccion);
 
   }
-
+///////////////////////////////////////////////////////////USUARIOS////////////////////////////////////////////////////////////////////////
 /**
  * Crea un usuario nuevo en la aplicación
- * @param img foto de perfil
- * @param user nombre de usuario
- * @param email correo 
- * @param pass  contraseña
+ * @param img String foto de perfil
+ * @param user String nombre de usuario
+ * @param email String correo 
+ * @param pass String contraseña
  */
   createUser(img, user, email, pass) {
 
@@ -95,7 +96,8 @@ export class CloudserviceService {
   }
 
   /**
-   * obtiene el perfil del usuario
+   * Obtiene el perfil del usuario
+   * @param email String identificador unico de cada usuario
    */
   getProfile(email): Promise<iUser[]> {
 
@@ -119,8 +121,8 @@ export class CloudserviceService {
 
   /**
    * Login del usuario
-   * @param email 
-   * @param pass 
+   * @param email String identificador unico de cada usuario
+   * @param pass String contraseña
    */
   loginUser(email,pass){
     firebase.auth().signInWithEmailAndPassword(email, this.set(this.key, pass)).then(e =>{
@@ -139,35 +141,11 @@ export class CloudserviceService {
     });
   }
 
-  // The set method is use for encrypt the value.
-  set(keys, value){
-    var key = CryptoJS.enc.Utf8.parse(keys);
-    var iv = CryptoJS.enc.Utf8.parse(keys);
-    var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(value.toString()), key,
-    {
-        keySize: 128 / 8,
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
-    });
-
-    return encrypted.toString();
-  }
-
-  // The get method is use for decrypt the value.
-  get(keys, value) {
-    var key = CryptoJS.enc.Utf8.parse(keys);
-    var iv = CryptoJS.enc.Utf8.parse(keys);
-    var decrypted = CryptoJS.AES.decrypt(value, key, {
-        keySize: 128 / 8,
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
-    });
-
-    return decrypted.toString(CryptoJS.enc.Utf8);
-  }
-
+  /**
+   * obtiene el numero de alertas activas que tiene el usuario
+   * @param email identificador del usuario
+   * @return Promise con el numero de alertas activas
+   */
   getNumberOfAlert(email): Promise<Number> {
 
     return new Promise((resolve) => {
@@ -201,6 +179,46 @@ export class CloudserviceService {
 
   }
 
+  /**
+   * Metodo que encripta la contraseña del usuario
+   * @param keys String con el formato en el que se va encriptar
+   * @param value String valor de la contraseña
+   * @returns String con el valor encriptado de la contraseña
+   */
+  set(keys, value){
+    var key = CryptoJS.enc.Utf8.parse(keys);
+    var iv = CryptoJS.enc.Utf8.parse(keys);
+    var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(value.toString()), key,
+    {
+        keySize: 128 / 8,
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    return encrypted.toString();
+  }
+
+  /**
+   * Metodo que desencripta la contraseña del usuario
+   * @param keys String con el formato en el que se va desencriptar
+   * @param value String valor de la contraseña
+   * @returns String con el valor desencriptado de la contraseña
+   */
+  get(keys, value) {
+    var key = CryptoJS.enc.Utf8.parse(keys);
+    var iv = CryptoJS.enc.Utf8.parse(keys);
+    var decrypted = CryptoJS.AES.decrypt(value, key, {
+        keySize: 128 / 8,
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+    });
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  }
+
+/////////////////////////////////////////OBTENCION, ADICCION, MODIFICACION Y ELIMINACION DE DATOS EN FIREBASE/////////////////////////////////////
 
   /**
    * Recibe un objeto y lo guarda como un documento nuevo en la colección 'accidente'
@@ -217,16 +235,6 @@ export class CloudserviceService {
       console.log(err);
     });
   }
-
-
-  /**
-   * Habilita el scroll para la pestaña accidentes
-   * @returns devuelve si se ha habilitado el scroll
-   */
-  isInfinityScrollEnabled() {
-    return this.scrollAccidentEnabled;
-  }
-
 
   /**
    * Carga de accidentes en caso de no estar presente la variable reload, se añaden los siguientes 15 al final de la lista 
@@ -265,8 +273,8 @@ export class CloudserviceService {
           }).catch(function(error) {
               console.error('Error removing document: ', error);
           });
-
-          } else {
+//falta mejorar con la ubicacion del usuario
+          } else if(this.getDistance() >= this.betwen2Points([38.85717255818449,-2.7575685929289766],[x.latitud,x.longitud])){
             lreq.push(x);
 
           }
@@ -334,15 +342,6 @@ export class CloudserviceService {
     });
   }
 
-
-  /**
-   * Habilita el scroll para la pestaña meteorologia
-   * @returns devuelve si se ha habilitado el scroll
-   *  */
-  misInfinityScrollEnabled() {
-    return this.scrollMeteorologyEnabled;
-  }
-
   /**
    * Carga de accidentes en caso de no estar presente la variable reload, se añaden los siguientes 15 al final de la lista
    *  @param reload evento que acciona la carga de mas elementos a la lista
@@ -352,6 +351,7 @@ export class CloudserviceService {
       this.lastlastMeteorologyLoaded = null;
       this.scrollMeteorologyEnabled = true;
     }
+    var distance = this.getDistance();
     this.lastMeteorologyLoaded = this.lastlastMeteorologyLoaded;
     return new Promise((resolve, reject) => {
       let lreq: iMeteorology[] = [];
@@ -382,7 +382,9 @@ export class CloudserviceService {
                 console.error("Error removing document: ", error);
             });
 
-          } else {
+            //falta mejorar con la ubicacion del usuario
+          } else if(this.getDistance() >= this.betwen2Points([38.85717255818449,-2.7575685929289766],[x.latitud,x.longitud])){
+
             lreq.push(x);
           }
         });
@@ -432,6 +434,65 @@ export class CloudserviceService {
       });
     });
 
+  }
+  //////////////////////////////////////////////////////////FUNCIONES VARIAS/////////////////////////////////////////////
+  /**
+ * Calcula la distancia entre 2 puntos
+ * @param origin Array Number con las coordenadas donde esta ubicado el usuario
+ * @param destination Array Number con las coordenadas de la alerta
+ * @returns distancia en Km entre los dos puntos
+ */
+betwen2Points(origin, destination) {
+  // return distance in meters
+  var lon1 = this.toRadian(origin[1]),
+      lat1 = this.toRadian(origin[0]),
+      lon2 = this.toRadian(destination[1]),
+      lat2 = this.toRadian(destination[0]);
+
+  var deltaLat = lat2 - lat1;
+  var deltaLon = lon2 - lon1;
+
+  var a = Math.pow(Math.sin(deltaLat/2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(deltaLon/2), 2);
+  var c = 2 * Math.asin(Math.sqrt(a));
+  var EARTH_RADIUS = 6371;
+  var betwen2Points: Number;
+  betwen2Points = c * EARTH_RADIUS;
+  return betwen2Points;
+}
+/**
+* Calcula los radianes de cada coordenada recibida en grados
+* @param degree grados a convertir
+*/
+toRadian(degree) {
+  return degree*Math.PI/180;
+}
+
+getDistance(){
+  this.nativeStorage.getItem('distance').then(distance => {
+
+    this.distance= distance.km ;
+
+  }).catch(e => {
+    this.distance = 1000 ;
+  });
+  return this.distance;
+}
+
+/**
+   * Habilita el scroll para la pestaña meteorologia
+   * @returns devuelve si se ha habilitado el scroll
+   *  */
+  misInfinityScrollEnabled() {
+    return this.scrollMeteorologyEnabled;
+  }
+
+
+/**
+   * Habilita el scroll para la pestaña accidentes
+   * @returns devuelve si se ha habilitado el scroll
+   */
+  isInfinityScrollEnabled() {
+    return this.scrollAccidentEnabled;
   }
 
 }
