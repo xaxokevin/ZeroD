@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CustomToast } from './../../custom-modal/custom-toast';
 import { CustomLoading } from './../../custom-modal/custom-loading';
 import { CloudserviceService } from '../../servicios/cloudservice.service';
-import { ModalController, NavParams } from'@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'; 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
@@ -30,7 +30,7 @@ export class AddAlertComponent implements OnInit {
   }
 
 
-  constructor(public modalcontroller: ModalController, 
+  constructor(public modalcontroller: ModalController,
     private formBuilder: FormBuilder,
     private CloudS: CloudserviceService,
     public loading: CustomLoading, 
@@ -97,42 +97,107 @@ export class AddAlertComponent implements OnInit {
         longitud: this.longitud,
         latitud: this.latitud,
         hora: new Date().valueOf(),
-        user: this.usuario
+        user: this.usuario,
+        icon: '',
       };
-      if (data.alert === 'accidente'){
-        /* Mostramos el cargando... */
-        this.loading.show('');
-      // Llamamos al metodo anadir pasandole  los datos
-      this.CloudS.anadirA(data)
-        .then((docRef) => {
-          /* Cerramos el cargando...*/
-         this.loading.hide();
-          /*Cerramos el modal*/
-          this.cancel();
-        })
-        .catch((error) => {
-          /* Cerramos el cargando...*/
-          this.loading.hide();
-          this.toast.show(this.translate.instant('errorloading'));
+      switch (data.alert) {
+        case 'accidente': {
+           data.icon = 'car';
+           this.addAccident(data);
+           break;
+        }
+        case 'control' : {
+          data.icon = 'hand';
+          this.addAccident(data);
+           break;
+        }
+        case 'radar'  : {
+          data.icon = 'speedometer';
+          this.addAccident(data);
+          break;
+        }
+        case 'atasco' : {
+          data.icon = 'hourglass';
+          this.addAccident(data);
+          break;
+        }
+        case 'obras' : {
+          data.icon = 'hammer';
+          this.addAccident(data);
+         break;
+        }
+        case 'lluvia' : {
+          data.icon = 'rainy';
+          this.addMeteorology(data);
+          break;
+        }
+        case 'nieve' : {
+          data.icon = 'snow';
+          this.addMeteorology(data);
+          break;
+        }
+        case 'viento' : {
 
-        });
-      } else {
-      /* Mostramos el cargando... */
-      this.loading.show('');
-      // Llamamos al metodo anadir pasandole  los datos 
-      this.CloudS.anadirM(data)
-        .then((docRef) => {
-          /* Cerramos el cargando...*/
-          this.loading.hide();
-          /*Cerramos el modal*/
-          this.cancel();
-        })
-        .catch((error) => {
-          /* Cerramos el cargando...*/
-          this.loading.hide();
+          data.icon = 'swap';
+          this.addMeteorology(data);
+          break;
+        }
+        case 'olas' : {
+
+          data.icon = 'boat';
+          this.addMeteorology(data);
+          break;
+        }
+        case 'niebla' : {
+
+          data.icon = 'cloudy';
+          this.addMeteorology(data);
+          break;
+        }
+        default: {
           this.toast.show(this.translate.instant('errorloading'));
-        });
-      }
+           break;
+        }
+     }
     }
+  }
+
+  addAccident(data) {
+
+    /* Mostramos el cargando... */
+    this.loading.show('');
+    // Llamamos al metodo anadir pasandole  los datos
+    this.CloudS.anadirA(data)
+      .then((docRef) => {
+        /* Cerramos el cargando...*/
+       this.loading.hide();
+        /*Cerramos el modal*/
+        this.cancel();
+      })
+      .catch((error) => {
+        /* Cerramos el cargando...*/
+        this.loading.hide();
+        this.toast.show(this.translate.instant('errorloading'));
+
+      });
+
+  }
+
+  addMeteorology(data){
+    /* Mostramos el cargando... */
+    this.loading.show('');
+    // Llamamos al metodo anadir pasandole  los datos 
+    this.CloudS.anadirM(data)
+      .then((docRef) => {
+        /* Cerramos el cargando...*/
+        this.loading.hide();
+        /*Cerramos el modal*/
+        this.cancel();
+      })
+      .catch((error) => {
+        /* Cerramos el cargando...*/
+        this.loading.hide();
+        this.toast.show(this.translate.instant('errorloading'));
+      });
   }
 }

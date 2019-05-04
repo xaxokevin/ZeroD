@@ -27,7 +27,7 @@
     (ionSlideWillChange)="updateIndicatorPosition()" (ionSlideDidChange)="updateIndicatorPosition()" #SwipedTabsSlider
     (ionSlideDrag)="animateIndicator($event)">
     <ion-slide>
-        <ion-content class="fixed-scroll" >
+
           
             <ion-refresher (ionRefresh)="this.updateAccident($event,true)">
               <ion-refresher-content pullingIcon="arrow-dropdown" 
@@ -39,7 +39,7 @@
             <ion-list>
               <ion-item style="--background: transparent !important;" *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
                 
-                  <ion-icon class="iconlist" name="ios-car" slot="start" color="primary"></ion-icon>
+                  <ion-icon class="iconlist" name="{{item.icon}}" slot="start" color="primary"></ion-icon>
                   
                     <h5>{{item.descripcion}}</h5>
                     <p size="6">Lat: {{item.latitud}}, Long: {{item.longitud}}</p>
@@ -62,10 +62,10 @@
             
           
 
-          </ion-content>
+
     </ion-slide>
     <ion-slide>
-      <ion-content class="fixed-scroll" >
+
            
         <ion-refresher (ionRefresh)="this.updateMeteorology($event,true)">
           <ion-refresher-content pullingIcon="arrow-dropdown" 
@@ -78,7 +78,7 @@
         <ion-list>
           <ion-item style="--background: transparent !important;" *ngFor="let item of listadoMeteorologia;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
             
-              <ion-icon  class="iconlist" name="ios-umbrella" slot="start" color="primary"></ion-icon>
+              <ion-icon  class="iconlist" name="{{item.icon}}" slot="start" color="primary"></ion-icon>
               
                 <h5>{{item.descripcion}}</h5>
                 <p size="6">Lat: {{item.latitud}}, Long: {{item.longitud}}</p>
@@ -96,7 +96,7 @@
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
      
-      </ion-content>
+
     </ion-slide>
   </ion-slides>
   

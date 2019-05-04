@@ -15,19 +15,10 @@
 ion-slide.swiper-slide {
   display:block;
 }
-.slides{
+ion-slides{
   height: 100%;
 }
-.fixed-scroll{
-  height:100%!important;
-  overflow-y:scroll;
-  position:relative;
-  ::-webkit-scrollbar {
-      display: none !important;
-  }
-  --background: var(--ion-color-light-shade);
-  
-}
+
 ::-webkit-scrollbar,
 *::-webkit-scrollbar {
 display: none;

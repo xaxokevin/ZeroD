@@ -31,6 +31,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { HelpComponent } from './customComponent/help/help.component';
 import { NativeGeocoder} from '@ionic-native/native-geocoder/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { RegisterComponent } from './customComponent/register/register.component';
 import { CustomModalModule } from './custom-modal/custom-modal.module';
 
@@ -56,19 +57,18 @@ import { CustomModalModule } from './custom-modal/custom-modal.module';
       }
     })],
   providers: [
-    StatusBar,
-    SplashScreen,
     WeatherService,
+    NetworkService,
+    SplashScreen,
+    StatusBar,
     NativeStorage,
     Network,
-    NetworkService,
     Diagnostic,
     Sensors,
     AndroidPermissions,
     NativeGeocoder,
     Camera,
-    
-    
+    Geolocation,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

@@ -14,7 +14,16 @@
       <ion-label style="color:var(--ion-color-dark)">{{ "addModal-T" | translate }}</ion-label>
       <ion-select [interfaceOptions]="customActionSheetOptions"  formControlName="alertType" interface="action-sheet" placeholder="Select One">
           <ion-select-option value="accidente">{{ "accident" | translate }}</ion-select-option>
-          <ion-select-option value="meteorologia">{{ "meteorology" | translate }}</ion-select-option>
+          <ion-select-option value="control">{{ "control" | translate }}</ion-select-option>
+          <ion-select-option value="radar">{{ "radar" | translate }}</ion-select-option>
+          <ion-select-option value="atasco">{{ "atasco" | translate }}</ion-select-option>
+          <ion-select-option value="obras">{{ "obras" | translate }}</ion-select-option>
+          <ion-select-option value="lluvia">{{ "rain" | translate }}</ion-select-option>
+          <ion-select-option value="nieve">{{ "snow" | translate }}</ion-select-option>
+          <ion-select-option value="viento">{{ "wind" | translate }}</ion-select-option>
+          <ion-select-option value="olas">{{ "olas" | translate }}</ion-select-option>
+          <ion-select-option value="niebla">{{ "niebla" | translate }}</ion-select-option>
+          
       </ion-select>
     </ion-item>
   <ion-button shape="round" style="color:var(--ion-color-primary-shade)" fill="outline"

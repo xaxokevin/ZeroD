@@ -41,18 +41,46 @@ export class Tab2Page {
   manualMarker: any;
   colorB: any;
   disablebutton = false;
-
-  accidenteIcon = leaflet.icon({
-    iconUrl: '../../assets/icon/car.png',
-    iconSize: [20, 40], // size of the icon
-
+  /////////////////////////////////////////ICONS//////////////////////////
+  lluvia = leaflet.icon({
+    iconUrl: '../../assets/icon/weather/rainy.png',
+    iconSize: [40, 40], // size of the icon
+  });
+  nieve = leaflet.icon({
+    iconUrl: '../../assets/icon/weather/snow.png',
+    iconSize: [40, 40], // size of the icon
+  });
+  viento = leaflet.icon({
+    iconUrl: '../../assets/icon/weather/wind.png',
+    iconSize: [40, 40], // size of the icon
+  });
+  olas = leaflet.icon({
+    iconUrl: '../../assets/icon/weather/waves.png',
+    iconSize: [30, 30], // size of the icon
+  });
+  accidente = leaflet.icon({
+    iconUrl: '../../assets/icon/traffic/accident.png',
+  });
+  control = leaflet.icon({
+    iconUrl: '../../assets/icon/traffic/control.png',
+    iconSize: [30, 30], // size of the icon
+  });
+  radar = leaflet.icon({
+    iconUrl: '../../assets/icon/traffic/radar.png',
+    iconSize: [30, 30], // size of the icon
+  });
+  atasco = leaflet.icon({
+    iconUrl: '../../assets/icon/traffic/atasco.png'
+  });
+  obras = leaflet.icon({
+    iconUrl: '../../assets/icon/traffic/obras.png',
+    iconSize: [25, 25], // size of the icon
+  });
+  cloudy = leaflet.icon({
+    iconUrl: '../../assets/icon/weather/fog.png',
+    iconSize: [40, 40], // size of the icon
   });
 
-  meteoIcon = leaflet.icon({
-    iconUrl: '../../assets/icon/cloud.png',
-    iconSize: [20, 40], // size of the icon
-
-  });
 
 
 
@@ -124,7 +152,7 @@ Esta variable es la que nos permite ocultar o habilitar las marcas en el mapa
 */
 this.nativeStorage.getItem('ocultaA').then( d => {
       this.ocultaA = d.property;
-      console.log(this.ocultaA)
+      console.log(this.ocultaA);
       this.chargeAllMarkAccident(this.ocultaA);
 }).catch(e => {
 
@@ -140,7 +168,7 @@ this.nativeStorage.getItem('ocultaA').then( d => {
 
 this.nativeStorage.getItem('ocultaM').then((d) => {
       this.ocultaM = d.property;
-      console.log(this.ocultaM)
+      console.log(this.ocultaM);
       this.chargeAllMarkMeteorology(this.ocultaM);
 }).catch( e => {
 
@@ -276,7 +304,7 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
     if (this.markerGroupM != null) {
       this.map.removeLayer(this.markerGroupM);
     }
-    if (hide != false) {
+    if (hide !== false) {
 
       // se obtienen las marcas de meteorologia
       this.cloudS.getMarkMeteorology().then(d => {
@@ -287,16 +315,53 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
 
         this.listadoMarcaMeteorology.forEach(element => {
 
-          // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
-          let marker: any = leaflet.marker([element.latitud, element.longitud], { icon: this.meteoIcon }).on('click', () => {
+          let marker: any;
+          let circle: any;
+          switch (element.icon) {
+            case 'rainy':
+
+           // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+          marker = leaflet.marker([element.latitud, element.longitud], { icon: this.lluvia }).on('click', () => {
             this.map.setView([element.latitud, element.longitud], 15);
           }).bindPopup(element.descripcion);
 
+              break;
+            case 'snow':
+           // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+           marker = leaflet.marker([element.latitud, element.longitud], { icon: this.nieve }).on('click', () => {
+            this.map.setView([element.latitud, element.longitud], 15);
+          }).bindPopup(element.descripcion);
+
+              break;
+            case 'swap':
+            // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+          marker = leaflet.marker([element.latitud, element.longitud], { icon: this.viento }).on('click', () => {
+            this.map.setView([element.latitud, element.longitud], 15);
+          }).bindPopup(element.descripcion);
+
+              break;
+            case 'boat':
+            // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+          marker = leaflet.marker([element.latitud, element.longitud], { icon: this.olas }).on('click', () => {
+            this.map.setView([element.latitud, element.longitud], 15);
+          }).bindPopup(element.descripcion);
+
+
+              break;
+              case 'cloudy':
+              // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+              marker = leaflet.marker([element.latitud, element.longitud], { icon: this.cloudy }).on('click', () => {
+              this.map.setView([element.latitud, element.longitud], 15);
+            }).bindPopup(element.descripcion);
+
+                break;
+            default:
+              break;
+          }
           // se le asigna un radio de precaucion a la marca
-          let circle: any = leaflet.circle([element.latitud, element.longitud], { radius: 2000 }, { color: 'green', opacity: .5 });
-          // se añade todo al grupo de marcas
+          circle = leaflet.circle([element.latitud, element.longitud], { radius: 2000 }, { color: 'green', opacity: .5 });
           this.markerGroupM.addLayer(marker);
-          this.markerGroupM.addLayer(circle);
+            this.markerGroupM.addLayer(circle);
 
         });
         // se le añade todas las marcas al mapa
@@ -337,11 +402,51 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
 
 
         this.listadoMarcaAccidente.forEach(element => {
-
-          // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
-          let marker: any = leaflet.marker([element.latitud, element.longitud], { icon: this.accidenteIcon }).on('click', () => {
+          let marker: any;
+          switch (element.icon) {
+            case 'car':
+            // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+          marker =leaflet.marker([element.latitud, element.longitud], { icon: this.accidente }).on('click', () => {
             this.map.setView([element.latitud, element.longitud], 15);
           }).bindPopup(element.descripcion);
+
+              break;
+
+            case 'hand':
+            // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+          marker =leaflet.marker([element.latitud, element.longitud], { icon: this.control }).on('click', () => {
+            this.map.setView([element.latitud, element.longitud], 15);
+          }).bindPopup(element.descripcion);
+
+              break;
+
+            case 'speedometer':
+            // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+          marker =leaflet.marker([element.latitud, element.longitud], { icon: this.radar }).on('click', () => {
+            this.map.setView([element.latitud, element.longitud], 15);
+          }).bindPopup(element.descripcion);
+
+              break;
+
+            case 'hourglass':
+            // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+          marker =leaflet.marker([element.latitud, element.longitud], { icon: this.atasco }).on('click', () => {
+            this.map.setView([element.latitud, element.longitud], 15);
+          }).bindPopup(element.descripcion);
+
+
+              break;
+            case 'hammer':
+            // Se crea la marca y se le asigna a esa marca un pop up con la descripcion
+          marker =leaflet.marker([element.latitud, element.longitud], { icon: this.obras }).on('click', () => {
+            this.map.setView([element.latitud, element.longitud], 15);
+          }).bindPopup(element.descripcion);
+
+
+              break;
+            default:
+              break;
+          }
 
           this.markerGroupA.addLayer(marker);
           // se añade todo al grupo de marcas

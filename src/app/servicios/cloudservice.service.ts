@@ -38,6 +38,7 @@ export class CloudserviceService {
 
   user: any;
   distance: Number;
+  location: any;
 
   constructor(private fireStore: AngularFirestore,
     private nativeStorage: NativeStorage,
@@ -218,6 +219,10 @@ export class CloudserviceService {
     return decrypted.toString(CryptoJS.enc.Utf8);
   }
 
+  myLocation(latlong){
+    this.location = latlong
+  }
+
 /////////////////////////////////////////OBTENCION, ADICCION, MODIFICACION Y ELIMINACION DE DATOS EN FIREBASE/////////////////////////////////////
 
   /**
@@ -274,7 +279,7 @@ export class CloudserviceService {
               console.error('Error removing document: ', error);
           });
 //falta mejorar con la ubicacion del usuario
-          } else if(this.getDistance() >= this.betwen2Points([38.85717255818449,-2.7575685929289766],[x.latitud,x.longitud])){
+          } else if(this.getDistance() >= this.betwen2Points([this.location.lat,this.location.long],[x.latitud,x.longitud])){
             lreq.push(x);
 
           }
@@ -383,7 +388,7 @@ export class CloudserviceService {
             });
 
             //falta mejorar con la ubicacion del usuario
-          } else if(this.getDistance() >= this.betwen2Points([38.85717255818449,-2.7575685929289766],[x.latitud,x.longitud])){
+          } else if(this.getDistance() >= this.betwen2Points([this.location.lat,this.location.long],[x.latitud,x.longitud])){
 
             lreq.push(x);
           }

@@ -4,7 +4,7 @@ export interface iAccidente{
     latitud?:any,
     descripcion?:any,
     alert?:any,
-    hora?:any
-
-    
+    hora?:any,
+    icon?:any,
+    user?:any,
   }
