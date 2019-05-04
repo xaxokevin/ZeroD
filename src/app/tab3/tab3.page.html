@@ -10,6 +10,7 @@
       <ion-item *ngIf="!usuario" (click)="loginRegister()">
           <ion-label >{{ "loginregister" | translate }}</ion-label>
       </ion-item>
+      <ion-label *ngIf="usuario">{{ "settinguser" | translate }}</ion-label>
       <ion-item *ngIf="usuario">
           <ion-avatar slot="start">
             <img [src]="imgV " style="height:120px; width:110px" style="border:2px solid #fff">
@@ -17,18 +18,24 @@
           <ion-label>{{ this.perfil.user}}</ion-label>
         </ion-item>
       <ion-item *ngIf="usuario">
-          <ion-label>{{ "activealert" | translate }} {{this.activeAlert}}</ion-label>
+          <ion-label>{{ "activealert" | translate }} </ion-label>
+          <ion-badge color="primary">{{this.activeAlert}}</ion-badge>
       </ion-item>
-      <ion-item *ngIf="usuario">
-          <ion-label>Avisos finalizados</ion-label>
-      </ion-item>
-
+      <ion-label *ngIf="usuario">{{ "settingapp" | translate }}</ion-label>
     <ion-item *ngIf="usuario">
         <ion-label>Distancia de avisos a mostrar</ion-label>
       <ion-range min="50" pin="true" step="10" max="1000" id="valorKM" [(ngModel)]="valueKM" (ionChange)="setValueKM(valueKM)" color="secondary">
         <ion-label slot="start">50Km</ion-label>
         <ion-label slot="end">1000Km</ion-label>
       </ion-range>
+    </ion-item>
+    <ion-item *ngIf="usuario">
+      <ion-label>{{ "nightmode" | translate }}</ion-label>
+        <ion-toggle color="primary" [(ngModel)]="night" checked="{{this.night}}" (ionChange)="manualMode(night)"></ion-toggle>
+    </ion-item>
+    <ion-item *ngIf="usuario">
+      <ion-label>{{ "autonightmode" | translate }}</ion-label>
+        <ion-toggle color="primary" [(ngModel)]="autoNight" checked="{{this.autoNight}}" (ionChange)="autoMode(autoNight)"></ion-toggle>
     </ion-item>
     <ion-item *ngIf="usuario" (click)="logout()">
     <ion-label >Logout</ion-label>

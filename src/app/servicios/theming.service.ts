@@ -27,7 +27,7 @@ export class ThemingService {
 
   
   private themes: Theme[] = [];
-  private firstTheme: String = 'light';
+  public firstTheme: String = 'light';
 
   constructor(private domCtrl: DomController, @Inject(DOCUMENT) private document,public bar: StatusBar) { 
 

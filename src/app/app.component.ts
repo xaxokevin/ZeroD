@@ -39,6 +39,7 @@ export class AppComponent {
     public themeS: ThemingService,
     public sensor: Sensors,
     public bar: StatusBar,
+    private nativeStorage: NativeStorage,
   ) {
     this.light = 0;
     this.initializeApp();
@@ -115,16 +116,40 @@ export class AppComponent {
 initSensor() {
 
   setInterval(() => {
-    this.sensor.enableSensor(TYPE_SENSOR.LIGHT).then(d =>{
-      console.log(d);
-    }).catch(e => { 
-      console.log(e);
+
+    this.nativeStorage.getItem('autoNight').then(e => {
+
+      if (e.autoNight === true) {
+
+      this.sensor.enableSensor(TYPE_SENSOR.LIGHT).then(d => {
+        console.log(d);
+      }).catch( e => {
+        console.log(e);
+      });
+      this.sensor.getState().then(d => {
+      this.light = d[0];
+      this.themeS.changeSkin(this.light);
+      });
+    } else if(e.autoNight === false ) {
+      this.nativeStorage.getItem('night').then(r => {
+
+        if (e.night === true && this.themeS.firstTheme === 'light') {
+          console.log(this.themeS.firstTheme+""+9)
+          this.themeS.changeSkin(9);
+        } else if (e.night === true && this.themeS.firstTheme === 'dark') {
+          this.themeS.changeSkin(11);
+          console.log(this.themeS.firstTheme+""+11)
+        }
+
+      }).catch(e => {
+        console.log(e);
+      });
+
+    }
+    }).catch(e => {
+      this.themeS.changeSkin(11);
     });
-    this.sensor.getState().then(d => {
-    this.light = d[0];
-    this.themeS.changeSkin(this.light);
-    });
-  }, 15000);
+  }, 13000);
 
 }
 

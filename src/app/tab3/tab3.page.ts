@@ -15,6 +15,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class Tab3Page {
   valueKM: number;
+  nigth: boolean;
+  autoNight:boolean;
   usuario: boolean;
   imgV: any;
   perfil: any;
@@ -59,6 +61,24 @@ export class Tab3Page {
 
           });
 
+          this.nativeStorage.getItem('night').then(n => {
+
+            this.nigth = n.night;
+            }).catch(e => {
+  
+            this.nigth = false;
+  
+            });
+
+            this.nativeStorage.getItem('autoNight').then(au => {
+
+              this.autoNight = au.autoNight;
+              }).catch(e => {
+    
+              this.autoNight = false;
+    
+              });
+
     }).catch(error => {
 
       this.usuario = false;
@@ -85,7 +105,26 @@ export class Tab3Page {
       () => console.log('Stored item!'),
       error => console.error('Error storing item', error)
     );
-    console.log(valueKM);
+
+  }
+
+  manualMode(night){
+
+    this.nativeStorage.setItem('night', {night: night}).then(
+      () => console.log('Stored item!'),
+      error => console.error('Error storing item', error)
+    );
+
+
+  }
+
+  autoMode(autoNight){
+
+    this.nativeStorage.setItem('autoNight', {autoNight: autoNight}).then(
+      () => console.log('Stored item!'),
+      error => console.error('Error storing item', error)
+    );
+
 
   }
 

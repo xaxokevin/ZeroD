@@ -9,11 +9,11 @@
   color="light">
   <ion-segment-button layout="icon-start" value="0" style="--padding-end:0px;--padding-start:0px">
     <ion-icon name="ios-car" style="margin-right:1px;zoom:1"></ion-icon>
-    <ion-label></ion-label>
+
   </ion-segment-button>
   <ion-segment-button layout="icon-start" value="1" style="--padding-end:0px;--padding-start:0px">
     <ion-icon name="ios-umbrella" style="margin-right:1px;zoom:1"></ion-icon>
-    <ion-label></ion-label>
+
   </ion-segment-button>
 </ion-segment>
 <div id='indicator' class="SwipedTabs-indicatorSegment" [ngStyle]=" 
@@ -28,7 +28,8 @@
     (ionSlideDrag)="animateIndicator($event)">
     <ion-slide>
 
-          
+      <ion-img *ngIf="listAvacia" src="assets/sinavisos.png"></ion-img>
+      <div *ngIf="!listAvacia">
             <ion-refresher (ionRefresh)="this.updateAccident($event,true)">
               <ion-refresher-content pullingIcon="arrow-dropdown" 
                 refreshingSpinner="null" refreshingText="{{ 'refresher' | translate }}">
@@ -36,7 +37,7 @@
               </ion-refresher-content>
             </ion-refresher>
 
-            <ion-list>
+            <ion-list > 
               <ion-item style="--background: transparent !important;" *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
                 
                   <ion-icon class="iconlist" name="{{item.icon}}" slot="start" color="primary"></ion-icon>
@@ -48,25 +49,19 @@
             </ion-list>
            
 
-                <ion-img *ngIf="listAvacia" src="assets/sinavisos.png"></ion-img>
-    
-           
-
-          
-            
             <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateAccident($event,false)">
               <ion-infinite-scroll-content loadingSpinner="null" loadingText="{{ 'refresher' | translate }}">
                 
               </ion-infinite-scroll-content>
             </ion-infinite-scroll>
+          </div>
             
-          
-
-
+      
     </ion-slide>
     <ion-slide>
+        <ion-img *ngIf="listMvacia" src="assets/sinavisossol.png"></ion-img>
 
-           
+         <div *ngIf="!listMvacia">
         <ion-refresher (ionRefresh)="this.updateMeteorology($event,true)">
           <ion-refresher-content pullingIcon="arrow-dropdown" 
             refreshingSpinner="null" refreshingText="{{ 'refresher' | translate }}">
@@ -74,8 +69,8 @@
           </ion-refresher-content>
         </ion-refresher>
         
-        
-        <ion-list>
+
+        <ion-list *ngIf="!listMvacia">
           <ion-item style="--background: transparent !important;" *ngFor="let item of listadoMeteorologia;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
             
               <ion-icon  class="iconlist" name="{{item.icon}}" slot="start" color="primary"></ion-icon>
@@ -85,18 +80,14 @@
      
           </ion-item>
         </ion-list>
-        <ion-img *ngIf="listMvacia" src="assets/sinavisossol.png"></ion-img>
-        
-          
-        
-      
+
         <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateMeteorology($event,false)">
           <ion-infinite-scroll-content loadingSpinner="null" loadingText="{{ 'refresher' | translate }}">
             
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
      
-
+      </div>  
     </ion-slide>
   </ion-slides>
   

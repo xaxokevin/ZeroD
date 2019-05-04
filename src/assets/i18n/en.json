@@ -1,7 +1,7 @@
 {
     "TAB1": "Alerts",
     "TAB2": "Live Map",
-    "TAB3": "Profile",
+    "TAB3": "Settings",
     "addModal-H": "New Alert",
     "addModal-D": "Description",
     "addModal-T": "Type of alert",
@@ -44,7 +44,11 @@
     "loginregister": "Login/Register",
     "activealert": "Active alerts = ",
     "noUser": "Please register or login to add new Alert",
-    "GPSS": "For the use of that app is necessary GPS permission, change this in mobil setting"
+    "GPSS": "For the use of that app is necessary GPS permission, change this in mobil setting",
+    "settingapp": "App settings",
+    "settinguser": "User profile",
+    "nightmode": "Nigth mode",
+    "autonightmode": "Auto night mode"
 
   }
   

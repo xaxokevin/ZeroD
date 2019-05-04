@@ -15,13 +15,18 @@
 ion-slide.swiper-slide {
   display:block;
 }
+/*Para que el slide pueda tener scroll en una lista*/
 ion-slides{
-  height: 100%;
+  height: initial;
 }
 
 ::-webkit-scrollbar,
 *::-webkit-scrollbar {
 display: none;
+}
+
+ion-img{
+  display: initial;
 }
 
 

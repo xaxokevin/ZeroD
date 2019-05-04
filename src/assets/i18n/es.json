@@ -1,7 +1,7 @@
 {
     "TAB1": "Alertas",
     "TAB2": "Mapa en vivo",
-    "TAB3": "Perfil",
+    "TAB3": "Ajustes",
     "addModal-H": "Nueva alerta",
     "addModal-D": "Descripción",
     "addModal-T": "Tipo de alerta",
@@ -44,6 +44,10 @@
     "loginregister": "Iniciar sesión / Registro",
     "activealert": "Alertas activas = ",
     "noUser": "Por favor registrese o inicie sesión para añadir alertas",
-    "GPSS": "Para el usuo de esta aplicación es necesario el permiso de GPS, cambie esto en la configuración del movil"
+    "GPSS": "Para el usuo de esta aplicación es necesario el permiso de GPS, cambie esto en la configuración del movil",
+    "settingapp": "Ajustes de la App",
+    "settinguser": "Perfil de usuario",
+    "nightmode": "Modo noche",
+    "autonightmode": "Modo noche automático"
 
   }
