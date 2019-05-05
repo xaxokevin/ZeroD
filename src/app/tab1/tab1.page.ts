@@ -35,10 +35,7 @@ export class Tab1Page {
   headerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-top', maxValue: 44 };
   listMvacia;
   listAvacia;
-  options: NativeGeocoderOptions = {
-    useLocale: true,
-    maxResults: 5
-};
+  
 slidesOpts = {
   grabCursor: true,
   cubeEffect: {
@@ -237,9 +234,7 @@ slidesOpts = {
 
       // obtiene los datos del weather service (Falta implementacion)
       //this.aemet.getRemoteData();
-      //this.nativeGeocoder.reverseGeocode(52.5072095, 13.1452818, this.options)
-    //.then((result: NativeGeocoderReverseResult[]) => console.log(JSON.stringify(result[0])))
-    //.catch((error: any) => console.log(error));
+      //
   //this.nativeGeocoder.forwardGeocode('Berlin', this.options)
     //.then((coordinates: NativeGeocoderForwardResult[]) => console.log('The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude))
     //.catch((error: any) => console.log(error));

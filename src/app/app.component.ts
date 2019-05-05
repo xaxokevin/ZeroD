@@ -110,8 +110,10 @@ export class AppComponent {
  
 /**
  * Metodo encargado de inicializar el sensor
- * Se ejecuta cada 15 segundos comprobando la 
+ * Si se ha activado la opción de modo noche automático
+ * Se ejecuta cada 15 segundos comprobando la
  * Luz ambiental que recibee nuestro telefono
+ * Y cambia el tema segun la intensida de luz
  */
 initSensor() {
 
@@ -130,21 +132,6 @@ initSensor() {
       this.light = d[0];
       this.themeS.changeSkin(this.light);
       });
-    } else if(e.autoNight === false ) {
-      this.nativeStorage.getItem('night').then(r => {
-
-        if (e.night === true && this.themeS.firstTheme === 'light') {
-          console.log(this.themeS.firstTheme+""+9)
-          this.themeS.changeSkin(9);
-        } else if (e.night === true && this.themeS.firstTheme === 'dark') {
-          this.themeS.changeSkin(11);
-          console.log(this.themeS.firstTheme+""+11)
-        }
-
-      }).catch(e => {
-        console.log(e);
-      });
-
     }
     }).catch(e => {
       this.themeS.changeSkin(11);

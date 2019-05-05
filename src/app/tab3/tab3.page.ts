@@ -5,6 +5,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CloudserviceService } from '../servicios/cloudservice.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ThemingService } from '../servicios/theming.service';
 
 
 
@@ -21,6 +22,7 @@ export class Tab3Page {
   imgV: any;
   perfil: any;
   activeAlert;
+  toggle:boolean;
 
   constructor(
     private loading: CustomLoading,
@@ -29,6 +31,7 @@ export class Tab3Page {
     private camera: Camera,
     private sanitizer: DomSanitizer,
     private cloudS: CloudserviceService,
+    private themeS: ThemingService
 
   ) {
 
@@ -37,7 +40,7 @@ export class Tab3Page {
  * Iniciamos variables del usuario si existe
  */
   ionViewWillEnter() {
-
+    //si el usuario esta creado
     this.nativeStorage.getItem('user').then(user => {
 
         this.usuario = true;
@@ -61,24 +64,33 @@ export class Tab3Page {
 
           });
 
-          this.nativeStorage.getItem('night').then(n => {
+        this.nativeStorage.getItem('night').then(n => {
 
             this.nigth = n.night;
             }).catch(e => {
-  
-            this.nigth = false;
-  
+
+          this.nigth = false;
+
             });
 
-            this.nativeStorage.getItem('autoNight').then(au => {
+        this.nativeStorage.getItem('autoNight').then(au => {
 
               this.autoNight = au.autoNight;
               }).catch(e => {
-    
+
               this.autoNight = false;
-    
+
               });
 
+        this.nativeStorage.getItem('toggle').then(d => {
+
+                this.toggle = d.toggle;
+                }).catch(e => {
+
+                this.toggle = false;
+
+                });
+    // si el usuario no existe
     }).catch(error => {
 
       this.usuario = false;
@@ -108,25 +120,80 @@ export class Tab3Page {
 
   }
 
-  manualMode(night){
+  /**
+   * Metodo que controla el modo noche manual
+   * Si es verdadero se cambia a modo noche
+   * Si es falso se cambia a modo dia
+   * @param night Boolean
+   */
+  manualMode(night) {
+    if (night === true) {
+      this.nativeStorage.setItem('night', {night: night}).then(d => {
+        this.themeS.setTheme('dark');
+      }
+      ).catch(e => {
+        console.log(e);
+      });
+    } else if (night === false ) {
+      this.nativeStorage.setItem('night', {night: night}).then(d => {
+        this.themeS.setTheme('light');
+      }
+      ).catch(e => {
+        console.log(e);
+      });
 
-    this.nativeStorage.setItem('night', {night: night}).then(
-      () => console.log('Stored item!'),
-      error => console.error('Error storing item', error)
-    );
+    }
 
 
   }
 
-  autoMode(autoNight){
-
+  /**
+   * Metodo que controla el modo atomatico del modo noche
+   * Tambien bloquea el boton de modo manual si este esta activado
+   * @param autoNight Boolean
+   */
+  autoMode(autoNight) {
+    // almacenamos el valor que recibimos del toggle en la bd
     this.nativeStorage.setItem('autoNight', {autoNight: autoNight}).then(
       () => console.log('Stored item!'),
       error => console.error('Error storing item', error)
     );
 
+    // si es falso
+    // guardamos el valor del toggle en falso en la bd
+    // establecemos su valor
+    // comprobamos el valor del modo manual para establecer el tema
+    if(autoNight === false) {
+      this.toggle = false;
+      this.nativeStorage.setItem('toggle', {toggle: false}).then(
+        () => console.log('Stored item!'),
+        error => console.error('Error storing item', error)
+      );
+      this.nativeStorage.getItem('night').then(r => {
 
+        if (r.night === true) {
+
+          this.themeS.setTheme('dark');
+        } else if (r.night === false ) {
+          this.themeS.setTheme('light');
+
+        }
+
+
+      });
+    } else{
+      // si es verdadero
+      // almacenamos el valor en la bd del valor true del toggle
+      this.nativeStorage.setItem('toggle', {toggle: false}).then(
+        () => console.log('Stored item!'),
+        error => console.error('Error storing item', error)
+      );
+      // lo establecemos a true;
+      this.toggle = true;
+
+    }
   }
+
 
   /**
    * Cierra sesion en la aplicación

@@ -9,6 +9,7 @@ import { NetworkService } from 'src/app/servicios/network.service';
 import { CloudserviceService } from 'src/app/servicios/cloudservice.service';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 @Component({
   selector: 'app-register',
@@ -32,6 +33,7 @@ export class RegisterComponent implements OnInit {
     public loading: CustomLoading,
     private CloudS: CloudserviceService,
     public router: Router,
+    private nativeStorage: NativeStorage
     ) {
 
       this.register = this.formBuilder.group({
@@ -76,6 +78,10 @@ export class RegisterComponent implements OnInit {
 
       this.CloudS.createUser(this.image, data.user, data.email, data.pass);
       this.router.navigate(['/tabs/tab1']);
+      this.nativeStorage.setItem('night', {night: false}).then(
+        () => console.log('Stored item!'),
+        error => console.error('Error storing item', error)
+      );
       this.cancel();
 
       }

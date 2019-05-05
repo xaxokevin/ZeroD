@@ -7,6 +7,8 @@ import { ModalController, NavParams } from '@ionic/angular';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'; 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+// tslint:disable-next-line: max-line-length
+import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 
 
 
@@ -26,6 +28,10 @@ export class AddAlertComponent implements OnInit {
     subHeader: this.translate.instant('TypeS'),
   };
   usuario: String;
+  options: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5
+};
   ngOnInit(): void {
   }
 
@@ -38,7 +44,8 @@ export class AddAlertComponent implements OnInit {
     public toast: CustomToast,
     private translate: TranslateService,
     private netwoekS: NetworkService,
-    private nativeStorage: NativeStorage, ) {
+    private nativeStorage: NativeStorage,
+    private nativeGeocoder: NativeGeocoder ) {
 
       // recuperamos el email del usuario
     this.nativeStorage.getItem('user').then(e => {
@@ -199,5 +206,14 @@ export class AddAlertComponent implements OnInit {
         this.loading.hide();
         this.toast.show(this.translate.instant('errorloading'));
       });
+  }
+
+  reverseCoor(){
+var adress
+    this.nativeGeocoder.reverseGeocode(52.5072095, 13.1452818, this.options)
+    .then((e =>{
+      e.values
+    }))
+    .catch((error: any) => console.log(error));
   }
 }

@@ -27,7 +27,7 @@ export class ThemingService {
 
   
   private themes: Theme[] = [];
-  public firstTheme: String = 'light';
+  private firstTheme: String = 'light';
 
   constructor(private domCtrl: DomController, @Inject(DOCUMENT) private document,public bar: StatusBar) { 
 
@@ -78,7 +78,7 @@ export class ThemingService {
         /*'
          Color del boton add
          */
-    
+
         ]
       },
       {
@@ -94,7 +94,7 @@ export class ThemingService {
           { themeVariable: '--ion-color-primary-shade', value: '#ffffff'},
           { themeVariable: '--ion-color-dark-shade', value: '#222442'},
           { themeVariable: '--ion-color-success-contrast', value: '#ffffff'},
-         
+
 
         ]
       }
@@ -112,17 +112,17 @@ export class ThemingService {
   * @param name recibe el nombre del tema
   */
   setTheme(name): void {
- 
+
     let theme = this.themes.find(theme => theme.name === name);
- 
+
     this.domCtrl.write(() => {
- 
+
       theme.styles.forEach(style => {
         document.documentElement.style.setProperty(style.themeVariable, style.value);
       });
- 
+
     });
- 
+
   }
 
 /**
@@ -134,16 +134,16 @@ export class ThemingService {
  */
   changeSkin(light) {
 
-    if (light <10 && this.firstTheme == 'light') {
+    if (light <10 && this.firstTheme === 'light') {
 
-        this.setTheme("dark");
-        this.firstTheme='dark';
+        this.setTheme('dark');
+        this.firstTheme = 'dark';
         this.bar.backgroundColorByHexString('#354B70');
 
-    } else if(light >10 && this.firstTheme == 'dark'){
+    } else if(light >10 && this.firstTheme === 'dark') {
      
-      this.setTheme("light");
-      this.firstTheme='light';
+      this.setTheme('light');
+      this.firstTheme = 'light';
       this.bar.backgroundColorByHexString('#71A1F0');
     }
 }
