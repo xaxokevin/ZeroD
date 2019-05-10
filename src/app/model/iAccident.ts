@@ -7,4 +7,9 @@ export interface iAccidente{
     hora?:any,
     icon?:any,
     user?:any,
+    areaAdministrativa?: any, 
+    codigoPostal?: any 
+    ciudad?: any,
+    calle?: any,
+    numCalle?: any,
   }

@@ -8,7 +8,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 // tslint:disable-next-line: max-line-length
-import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 
 
 
@@ -98,74 +98,89 @@ export class AddAlertComponent implements OnInit {
       this.toast.show(this.translate.instant('noNetwork'));
     } else if (this.netwoekS.previousStatus === 0) {
 
-      let data = {
-        descripcion: this.alerta.get('descripcion').value,
-        alert: this.alerta.get('alertType').value,
-        longitud: this.longitud,
-        latitud: this.latitud,
-        hora: new Date().valueOf(),
-        user: this.usuario,
-        icon: '',
-      };
-      switch (data.alert) {
-        case 'accidente': {
-           data.icon = 'car';
-           this.addAccident(data);
-           break;
-        }
-        case 'control' : {
-          data.icon = 'hand';
-          this.addAccident(data);
-           break;
-        }
-        case 'radar'  : {
-          data.icon = 'speedometer';
-          this.addAccident(data);
-          break;
-        }
-        case 'atasco' : {
-          data.icon = 'hourglass';
-          this.addAccident(data);
-          break;
-        }
-        case 'obras' : {
-          data.icon = 'hammer';
-          this.addAccident(data);
-         break;
-        }
-        case 'lluvia' : {
-          data.icon = 'rainy';
-          this.addMeteorology(data);
-          break;
-        }
-        case 'nieve' : {
-          data.icon = 'snow';
-          this.addMeteorology(data);
-          break;
-        }
-        case 'viento' : {
+      this.reverseCoor(this.latitud,this.longitud).then(result =>{
 
-          data.icon = 'swap';
-          this.addMeteorology(data);
-          break;
-        }
-        case 'olas' : {
+        let data = {
+          descripcion: this.alerta.get('descripcion').value,
+          alert: this.alerta.get('alertType').value,
+          longitud: this.longitud,
+          latitud: this.latitud,
+          hora: new Date().valueOf(),
+          user: this.usuario,
+          icon: '',
+          areaAdministrativa: result[0]['administrativeArea'],
+          codigoPostal: result[0]['postalCode'],
+          ciudad: result[0]['locality'],
+          calle: result[0]['thoroughfare'],
+          numCalle: result[0]['subThoroughfare'],
 
-          data.icon = 'boat';
-          this.addMeteorology(data);
-          break;
-        }
-        case 'niebla' : {
+        };
 
-          data.icon = 'cloudy';
-          this.addMeteorology(data);
-          break;
-        }
-        default: {
-          this.toast.show(this.translate.instant('errorloading'));
+
+
+        switch (data.alert) {
+          case 'accidente': {
+             data.icon = 'car';
+             this.addAccident(data);
+             break;
+          }
+          case 'control' : {
+            data.icon = 'hand';
+            this.addAccident(data);
+             break;
+          }
+          case 'radar'  : {
+            data.icon = 'speedometer';
+            this.addAccident(data);
+            break;
+          }
+          case 'atasco' : {
+            data.icon = 'hourglass';
+            this.addAccident(data);
+            break;
+          }
+          case 'obras' : {
+            data.icon = 'hammer';
+            this.addAccident(data);
            break;
-        }
-     }
+          }
+          case 'lluvia' : {
+            data.icon = 'rainy';
+            this.addMeteorology(data);
+            break;
+          }
+          case 'nieve' : {
+            data.icon = 'snow';
+            this.addMeteorology(data);
+            break;
+          }
+          case 'viento' : {
+  
+            data.icon = 'swap';
+            this.addMeteorology(data);
+            break;
+          }
+          case 'olas' : {
+  
+            data.icon = 'boat';
+            this.addMeteorology(data);
+            break;
+          }
+          case 'niebla' : {
+  
+            data.icon = 'cloudy';
+            this.addMeteorology(data);
+            break;
+          }
+          default: {
+            this.toast.show(this.translate.instant('errorloading'));
+             break;
+          }
+       }
+      }
+        )
+      
+      
     }
   }
 
@@ -208,12 +223,9 @@ export class AddAlertComponent implements OnInit {
       });
   }
 
-  reverseCoor(){
-var adress
-    this.nativeGeocoder.reverseGeocode(52.5072095, 13.1452818, this.options)
-    .then((e =>{
-      e.values
-    }))
-    .catch((error: any) => console.log(error));
-  }
+ //acabar
+ reverseCoor(lat,long): Promise<NativeGeocoderResult[]>{
+  return this.nativeGeocoder.reverseGeocode(lat, long, this.options)
+    }
+
 }

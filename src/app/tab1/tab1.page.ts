@@ -12,7 +12,6 @@ import { WeatherService } from '../servicios/weather.service';
 import { ViewCardComponent } from '../customComponent/view-card/view-card.component';
 import { ScrollHideConfig } from '../directives/scroll-hide.directive';
 import { NavegacionService } from '../servicios/navegacion.service';
-import { NativeGeocoder, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as $ from 'jquery';
 
@@ -35,7 +34,7 @@ export class Tab1Page {
   headerScrollConfig: ScrollHideConfig = { cssProperty: 'margin-top', maxValue: 44 };
   listMvacia;
   listAvacia;
-  
+
 slidesOpts = {
   grabCursor: true,
   cubeEffect: {
@@ -129,6 +128,7 @@ slidesOpts = {
           tx = 0;
         }
 
+// tslint:disable-next-line: max-line-length
          const transform$$1 = `rotateX(${isHorizontal ? 0 : -slideAngle}deg) rotateY(${isHorizontal ? slideAngle : 0}deg) translate3d(${tx}px, ${ty}px, ${tz}px)`;
         if (progress <= 1 && progress > -1) {
           wrapperRotate = (slideIndex * 90) + (progress * 90);
@@ -211,7 +211,7 @@ slidesOpts = {
     private navegacion: NavegacionService,
     private router: Router,
     public modalController: ModalController,
-    private geolocation: Geolocation
+    private geolocation: Geolocation,
 
   ) {}
 
@@ -230,14 +230,9 @@ slidesOpts = {
     } else if (this.netwoekS.previousStatus === 0) {
       this.updateAllAccident();
       this.updateAllMeteorology();
-
-
       // obtiene los datos del weather service (Falta implementacion)
       //this.aemet.getRemoteData();
       //
-  //this.nativeGeocoder.forwardGeocode('Berlin', this.options)
-    //.then((coordinates: NativeGeocoderForwardResult[]) => console.log('The coordinates are latitude=' + coordinates[0].latitude + ' and longitude=' + coordinates[0].longitude))
-    //.catch((error: any) => console.log(error));
     this.geolocation.getCurrentPosition().then(location =>{
       let geoLocation ={
         lat: location.coords.latitude,
@@ -247,9 +242,6 @@ slidesOpts = {
     });
     }
   }
-
-
-
 
   /**
    * Se encarga de comprobar si las listas estan vacias
