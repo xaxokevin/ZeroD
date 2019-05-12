@@ -131,10 +131,12 @@ initSensor() {
       this.sensor.getState().then(d => {
       this.light = d[0];
       this.themeS.changeSkin(this.light);
+      this.themeS.tabsetToolbar(true)
       });
     }
     }).catch(e => {
       this.themeS.changeSkin(11);
+      this.themeS.tabsetToolbar(false)
     });
   }, 13000);
 

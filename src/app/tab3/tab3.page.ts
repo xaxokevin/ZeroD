@@ -18,11 +18,12 @@ export class Tab3Page {
   valueKM: number;
   nigth: boolean;
   autoNight:boolean;
-  usuario: boolean;
+  usuario: boolean = true
   imgV: any;
   perfil: any;
   activeAlert;
   toggle:boolean;
+  tema;
 
   constructor(
     private loading: CustomLoading,
@@ -67,9 +68,13 @@ export class Tab3Page {
         this.nativeStorage.getItem('night').then(n => {
 
             this.nigth = n.night;
+            this.themeS.tabsetToolbar(true)
+            this.tema = this.themeS.tabgetToolbar()
             }).catch(e => {
 
           this.nigth = false;
+          this.themeS.tabsetToolbar(false)
+          this.tema = this.themeS.tabgetToolbar()
 
             });
 
@@ -93,7 +98,7 @@ export class Tab3Page {
     // si el usuario no existe
     }).catch(error => {
 
-      this.usuario = false;
+      this.usuario = true;
 
     });
   }
@@ -130,6 +135,8 @@ export class Tab3Page {
     if (night === true) {
       this.nativeStorage.setItem('night', {night: night}).then(d => {
         this.themeS.setTheme('dark');
+        this.themeS.tabsetToolbar(false)
+        this.tema = this.themeS.tabgetToolbar()
       }
       ).catch(e => {
         console.log(e);
@@ -137,6 +144,8 @@ export class Tab3Page {
     } else if (night === false ) {
       this.nativeStorage.setItem('night', {night: night}).then(d => {
         this.themeS.setTheme('light');
+        this.themeS.tabsetToolbar(true)
+        this.tema = this.themeS.tabgetToolbar()
       }
       ).catch(e => {
         console.log(e);
@@ -174,8 +183,12 @@ export class Tab3Page {
         if (r.night === true) {
 
           this.themeS.setTheme('dark');
+          this.themeS.tabsetToolbar(false)
+          this.tema = this.themeS.tabgetToolbar()
         } else if (r.night === false ) {
           this.themeS.setTheme('light');
+          this.themeS.tabsetToolbar(true)
+          this.tema = this.themeS.tabgetToolbar()
 
         }
 

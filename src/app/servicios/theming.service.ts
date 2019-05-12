@@ -7,12 +7,15 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 interface Theme {
   name: string;
   styles: ThemeStyle[];
+  
 }
  
 interface ThemeStyle {
   themeVariable: string;
   value: string;
 }
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +31,7 @@ export class ThemingService {
   
   private themes: Theme[] = [];
   private firstTheme: String = 'light';
+  private toolbar :Boolean = true;
 
   constructor(private domCtrl: DomController, @Inject(DOCUMENT) private document,public bar: StatusBar) { 
 
@@ -148,5 +152,14 @@ export class ThemingService {
     }
 }
 
-  
+
+tabsetToolbar(boolean){
+ this.toolbar = boolean
+
+
+}
+
+tabgetToolbar(){
+  return this.toolbar
+}
 }
