@@ -1,48 +1,68 @@
-<ion-header >
-  <ion-toolbar *ngIf="tema" style="--background:linear-gradient(to bottom,  #71A1F0 0%,#71A1F0 50%,#fafafa 50%,#fafafa 100%);">
+<ion-header *ngIf="usuario">
+  <!--Todo esto es necesario para el cambio de tema de la toolbar-->
+  <ion-toolbar *ngIf="tema" style="--background:linear-gradient(to bottom,  #71A1F0 0%,#71A1F0 65%,#fafafa 65%,#fafafa 100%);">
     <ion-avatar  >
-        <img [src]="imgV " style="height:200px; width:200px" style="border:2px solid #fff">
+        <img [src]="imgV " style="height:200px; width:200px" style="border:10px solid #fafafa">
     </ion-avatar>
+    <div class="ion-text-center" style="margin-top:15px;">
+        <ion-label style=" font-size:20pt; ">
+            {{ this.perfil.user}}</ion-label>
+      </div>
   </ion-toolbar>
-  <ion-toolbar *ngIf="!tema" style="--background:linear-gradient(to bottom,  #354B70 0%,#354B70 50%,#576070 50%,#576070 100%);">
+  <ion-toolbar *ngIf="!tema" style="--background:linear-gradient(to bottom,  #354B70 0%,#354B70 65%,#576070 65%,#576070 100%);">
       <ion-avatar  >
-          <img [src]="imgV " style="height:200px; width:200px" style="border:2px solid #fff">
+          <img [src]="imgV " style="height:200px; width:200px" style="border:10px solid #576070">
       </ion-avatar>
+      <div class="ion-text-center" style="margin-top:15px;">
+          <ion-label style=" font-size:20pt; --background:primary;">
+              {{ this.perfil.user}}</ion-label>
+        </div>
     </ion-toolbar>
+  </ion-header>
+  <ion-header *ngIf="!usuario" color="primary">
+      <ion-toolbar color="primary">
+          <ion-title>
+              ZeroD
+            </ion-title>
+      </ion-toolbar>
   </ion-header>
   <ion-content>
       <ion-item *ngIf="!usuario" (click)="loginRegister()">
           <ion-label>{{ "loginregister" | translate }}</ion-label>
-      </ion-item>
-      
-      <ion-item *ngIf="usuario" style="margin: 0 auto;">
-        <ion-label style="height:30px; font-size:20pt;">
-        {{ this.perfil.user}}</ion-label>
-      </ion-item>
-      <ion-item *ngIf="usuario">
-          <ion-label style="height:30px; font-size:17pt;">{{ "activealert" | translate }} </ion-label>
-          <ion-badge color="primary" style="font-size:17pt;">{{this.activeAlert}}</ion-badge>
-      </ion-item>
-      <ion-label *ngIf="usuario">{{ "settingapp" | translate }}</ion-label>
-    <ion-item *ngIf="usuario">
-        <ion-label>Distancia de avisos a mostrar</ion-label>
-      <ion-range min="50" pin="true" step="10" max="1000" id="valorKM" [(ngModel)]="valueKM" (ionChange)="setValueKM(valueKM)" color="secondary">
-        <ion-label slot="start">50Km</ion-label>
-        <ion-label slot="end">1000Km</ion-label>
-      </ion-range>
-    </ion-item>
-    <ion-item *ngIf="usuario">
-      <ion-label>{{ "nightmode" | translate }}</ion-label>
-        <ion-toggle color="primary" [(ngModel)]="night" checked="{{this.night}}" disabled="{{this.toggle}}" (ionChange)="manualMode(night)"></ion-toggle>
-    </ion-item>
-    <ion-item *ngIf="usuario">
-      <ion-label>{{ "autonightmode" | translate }}</ion-label>
-        <ion-toggle color="primary" [(ngModel)]="autoNight" checked="{{this.autoNight}}" (ionChange)="autoMode(autoNight)"></ion-toggle>
-    </ion-item>
-    <ion-item *ngIf="usuario" (click)="logout()">
-    <ion-label >Logout</ion-label>
-    </ion-item>
+      </ion-item>      
+        <ion-item> 
+                <ion-label class="sc-ion-label-ios-h sc-ion-label-ios-s ios hydrated">
+                        <h2>Alerta</h2>
+                </ion-label>
+            <ion-range min="50" pin="true" step="10" max="1000" id="valorKM" [(ngModel)]="valueKM" (ionChange)="setValueKM(valueKM)" color="secondary">
+                <ion-label slot="start">50Km</ion-label>
+                <ion-label slot="end">1000Km</ion-label>
+            </ion-range> 
+        </ion-item>
+        <ion-item>
+            <ion-label>{{ "activealert" | translate }} </ion-label>    
+            <ion-badge color="primary">{{this.activeAlert}}</ion-badge>       
+        </ion-item>
 
+        <ion-item>
+                <ion-label class="sc-ion-label-ios-h sc-ion-label-ios-s ios hydrated">
+                        <h2>{{ "nightmode" | translate }}</h2>
+                        <p>Alterna entre el tema claro y el oscuro</p>
+                </ion-label>
+            <ion-toggle color="primary" [(ngModel)]="night" checked="{{this.night}}" disabled="{{this.toggle}}" (ionChange)="manualMode(night)"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+                <ion-label class="sc-ion-label-ios-h sc-ion-label-ios-s ios hydrated">
+                        <h2>{{ "autonightmode" | translate }}</h2>
+                        <p>Se ajusta a la luz de ambiente automáticamente</p>
+                </ion-label>
+            <ion-toggle color="primary" [(ngModel)]="autoNight" checked="{{this.autoNight}}" (ionChange)="autoMode(autoNight)"></ion-toggle> 
+        </ion-item>
+
+    <ion-item *ngIf="usuario" (click)="logout()">
+        <ion-label >Logout</ion-label>
+        </ion-item>
     
 
   </ion-content>

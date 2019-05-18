@@ -42,7 +42,7 @@
     "LSGPS": "Low GPS signal, please retry other time",
     "failPass": "Password does not match",
     "loginregister": "Login/Register",
-    "activealert": "Active alerts = ",
+    "activealert": "Active alerts ",
     "noUser": "Please register or login to add new Alert",
     "GPSS": "For the use of that app is necessary GPS permission, change this in mobil setting",
     "settingapp": "App settings",

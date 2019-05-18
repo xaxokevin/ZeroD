@@ -13,7 +13,7 @@
       {{ "TAB2" | translate }}
     </ion-tab-button>
 
-    <ion-tab-button tab="tab3">
+    <ion-tab-button *ngIf="plataforma" tab="tab3">
       <ion-icon name="md-settings"></ion-icon>
       {{ "TAB3" | translate }}
     </ion-tab-button>
