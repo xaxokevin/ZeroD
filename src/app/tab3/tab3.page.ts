@@ -23,7 +23,6 @@ export class Tab3Page {
   perfil: any;
   activeAlert;
   toggle:boolean;
-  profileTema:boolean=false;
 
   constructor(
     private loading: CustomLoading,
@@ -71,13 +70,11 @@ export class Tab3Page {
 
             this.themeS.changeSkin(9);
             this.night = true;
-            this.profileTema= true;
 
           } else{
 
             this.themeS.changeSkin(11);
             this.night = false;
-            this.profileTema= false;
 
           }
         }).catch(e => {
@@ -144,7 +141,6 @@ export class Tab3Page {
         console.log('Tema establecido a dark en manual');
         this.themeS. changeSkin(9);
         this.night= true;
-        this.profileTema= true;
       }
       ).catch(e => {
         console.log(e);
@@ -154,7 +150,6 @@ export class Tab3Page {
         console.log('Tema establecido a light en manual');
         this.themeS. changeSkin(11);
         this.night= false;
-        this.profileTema= false;
       }
       ).catch(e => {
         console.log(e);
