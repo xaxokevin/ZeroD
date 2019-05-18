@@ -50,7 +50,16 @@ export class AppComponent {
     this.platform.ready().then(() => {
 
       // Establecemos el color de inicio de la barra de estado
-      this.bar.backgroundColorByHexString('#71A1F0');
+
+      this.nativeStorage.getItem('theme').then(d =>{
+        if(d === 'dark'){
+          this.themeS.changeSkin(9);
+        }else{
+          this.themeS.changeSkin(11);
+        }
+      }).catch(e =>{
+        this.themeS.changeSkin(11);
+      });
 
       /*Comprobamos el idioma del dispositivo
       Si el dispositivo esta en español, la aplicacion se inicia en español
@@ -120,7 +129,7 @@ initSensor() {
 
   setInterval(() => {
 
-    this.nativeStorage.getItem('autoNight').then(e => {
+    this.nativeStorage.getItem('themeAuto').then(e => {
 
       if (e.autoNight === true) {
 

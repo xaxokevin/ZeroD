@@ -1,6 +1,6 @@
 <ion-header *ngIf="usuario" no-border>
   <!--Todo esto es necesario para el cambio de tema de la toolbar-->
-  <ion-toolbar *ngIf="profileTema" style="--background:linear-gradient(to bottom,  #71A1F0 0%,#71A1F0 65%,#fafafa 65%,#fafafa 100%);">
+  <ion-toolbar *ngIf="!profileTema" style="">
     <ion-avatar  >
         <img [src]="imgV " style="height:200px; width:200px" style="border:5px solid #fafafa">
     </ion-avatar>
@@ -9,15 +9,6 @@
             {{ this.perfil.user}}</ion-label>
       </div>
   </ion-toolbar>
-
-  <ion-toolbar *ngIf="!profileTema"  style="--background:linear-gradient(to bottom,  #354B70 0%,#354B70 65%,#576070 65%,#576070 100%);">
-    <ion-avatar  >
-          <img [src]="imgV " style="height:200px; width:200px" style="border:5px solid #576070">
-    </ion-avatar>
-    <div class="ion-text-center" style="margin-top:15px;">
-        <ion-label style=" font-size:20pt; color:var( --ion-color-dark);">{{ this.perfil.user}}</ion-label>
-    </div>
-    </ion-toolbar>
   </ion-header>
 
   <ion-header *ngIf="!usuario">

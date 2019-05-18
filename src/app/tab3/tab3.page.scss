@@ -8,6 +8,10 @@ ion-avatar{
 
 }
 
+ion-toolbar{
+    --background:linear-gradient(to bottom,  var(--ion-color-primary) 0%,var(--ion-color-primary) 65%,var(--ion-color-light-shade) 65%, var(--ion-color-light-shade) 100%);
+}
+
 ion-item{
     --background: none;
 }

@@ -16,14 +16,14 @@ import { ThemingService } from '../servicios/theming.service';
 })
 export class Tab3Page {
   valueKM: number;
-  nigth: boolean;
+  night: boolean;
   autoNight:boolean;
-  usuario: boolean = true
+  usuario: boolean = false;
   imgV: any;
   perfil: any;
   activeAlert;
   toggle:boolean;
-  profileTema;
+  profileTema:boolean=false;
 
   constructor(
     private loading: CustomLoading,
@@ -67,16 +67,16 @@ export class Tab3Page {
 
         this.nativeStorage.getItem('themeManual').then(n => {
 
-          if (n) {
+          if (n.night === true) {
 
-            this.themeS. changeSkin(9);
-            this.nigth = true;
+            this.themeS.changeSkin(9);
+            this.night = true;
             this.profileTema= true;
 
           } else{
 
-            this.themeS. changeSkin(11);
-            this.nigth = false;
+            this.themeS.changeSkin(11);
+            this.night = false;
             this.profileTema= false;
 
           }
@@ -105,7 +105,7 @@ export class Tab3Page {
     // si el usuario no existe
     }).catch(error => {
 
-      this.usuario = false;
+      console.log('No hay usuario aun')
 
     });
   }
@@ -143,7 +143,8 @@ export class Tab3Page {
       this.nativeStorage.setItem('themeManual', {night: night}).then(d => {
         console.log('Tema establecido a dark en manual');
         this.themeS. changeSkin(9);
-        this.nigth= true;
+        this.night= true;
+        this.profileTema= true;
       }
       ).catch(e => {
         console.log(e);
@@ -152,7 +153,8 @@ export class Tab3Page {
       this.nativeStorage.setItem('themeManual', {night: night}).then(d => {
         console.log('Tema establecido a light en manual');
         this.themeS. changeSkin(11);
-        this.nigth= false;
+        this.night= false;
+        this.profileTema= false;
       }
       ).catch(e => {
         console.log(e);

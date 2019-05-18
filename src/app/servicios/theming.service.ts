@@ -31,7 +31,7 @@ export class ThemingService {
 
 
   private themes: Theme[] = [];
-  private firstTheme: String = 'light';
+  private firstTheme: String = 'dark';
 
 
   constructor(private domCtrl: DomController, @Inject(DOCUMENT) private document,public bar: StatusBar, private nativeStorage: NativeStorage) { 
