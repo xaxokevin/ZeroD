@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { DomController } from '@ionic/angular';
 import { DOCUMENT } from '@angular/common';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 
 interface Theme {
@@ -33,14 +34,14 @@ export class ThemingService {
   private firstTheme: String = 'light';
   private toolbar :Boolean = true;
 
-  constructor(private domCtrl: DomController, @Inject(DOCUMENT) private document,public bar: StatusBar) { 
+  constructor(private domCtrl: DomController, @Inject(DOCUMENT) private document,public bar: StatusBar, private nativeStorage: NativeStorage) { 
 
-    //Almacenamos los colores de los temas
+    // Almacenamos los colores de los temas
     this.themes = [
       {
         name: 'light',
         styles: [
-          { themeVariable: '--ion-color-primary', value: '#71A1F0'}, 
+          { themeVariable: '--ion-color-primary', value: '#71A1F0'},
           /*
           Color del header y toolbar
           Color del formulario
@@ -82,7 +83,10 @@ export class ThemingService {
         /*'
          Color del boton add
          */
-
+        { themeVariable: '--ion-color-tertiary-tint', value: '#858585'},
+          /**
+           * Color del subtexto
+           */
         ]
       },
       {
@@ -98,6 +102,7 @@ export class ThemingService {
           { themeVariable: '--ion-color-primary-shade', value: '#ffffff'},
           { themeVariable: '--ion-color-dark-shade', value: '#222442'},
           { themeVariable: '--ion-color-success-contrast', value: '#ffffff'},
+          { themeVariable: '--ion-color-tertiary-tint', value: '#D0D0D0'},
 
 
         ]
@@ -127,6 +132,12 @@ export class ThemingService {
 
     });
 
+    this.nativeStorage.setItem('theme',{theme: name} ).then(ok => {
+      console.log('Cambio de tema realizado con exito: ' + name);
+    }).catch(e => {
+      console.log('No se ha podido cambiar el tema');
+    })
+
   }
 
 /**
@@ -138,28 +149,30 @@ export class ThemingService {
  */
   changeSkin(light) {
 
-    if (light <10 && this.firstTheme === 'light') {
+    if (light < 10 && this.firstTheme === 'light') {
 
         this.setTheme('dark');
         this.firstTheme = 'dark';
         this.bar.backgroundColorByHexString('#354B70');
+        this.tabsetToolbar(true);
 
-    } else if(light >10 && this.firstTheme === 'dark') {
-     
+    } else if (light > 10 && this.firstTheme === 'dark') {
+
       this.setTheme('light');
       this.firstTheme = 'light';
       this.bar.backgroundColorByHexString('#71A1F0');
+      this.tabsetToolbar(false);
     }
 }
 
 
-tabsetToolbar(boolean){
- this.toolbar = boolean
+tabsetToolbar(boolean) {
+ this.toolbar = boolean;
 
 
 }
 
-tabgetToolbar(){
-  return this.toolbar
+tabgetToolbar() {
+  return this.toolbar;
 }
 }

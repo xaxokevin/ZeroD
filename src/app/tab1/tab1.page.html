@@ -80,7 +80,11 @@
               <ion-icon  class="iconlist" name="{{item.icon}}" slot="start" color="primary"></ion-icon>
               
                 <h5>{{item.descripcion}}</h5>
-                <p size="6">Lat: {{item.latitud}}, Long: {{item.longitud}}</p>
+                <ion-chip>
+                  <ion-icon name="pin" color="primary"></ion-icon>
+                  <ion-label> {{item.ciudad}} {{item.calle}} {{item.numCalle}}</ion-label>
+                  <ion-icon name="close"></ion-icon>
+                </ion-chip>
      
           </ion-item>
         </ion-list>

@@ -41,7 +41,7 @@ export class Tab3Page {
  * Iniciamos variables del usuario si existe
  */
   ionViewWillEnter() {
-    //si el usuario esta creado
+    // si el usuario esta creado
     this.nativeStorage.getItem('user').then(user => {
 
         this.usuario = true;
@@ -65,20 +65,25 @@ export class Tab3Page {
 
           });
 
-        this.nativeStorage.getItem('night').then(n => {
+        this.nativeStorage.getItem('themeManual').then(n => {
 
-            this.nigth = n.night;
-            this.themeS.tabsetToolbar(true)
-            this.tema = this.themeS.tabgetToolbar()
-            }).catch(e => {
+          if (n) {
 
-          this.nigth = false;
-          this.themeS.tabsetToolbar(false)
-          this.tema = this.themeS.tabgetToolbar()
+            this.themeS. changeSkin(9);
+            this.nigth = true;
 
+          } else{
+
+            this.themeS. changeSkin(11);
+            this.nigth = false;
+
+          }
+        }).catch(e => {
+
+          console.log('Aun no hay usuario o no se ha cambiado de tema');
             });
 
-        this.nativeStorage.getItem('autoNight').then(au => {
+        this.nativeStorage.getItem('themeAuto').then(au => {
 
               this.autoNight = au.autoNight;
               }).catch(e => {
@@ -98,7 +103,7 @@ export class Tab3Page {
     // si el usuario no existe
     }).catch(error => {
 
-      this.usuario = true;
+      this.usuario = false;
 
     });
   }
@@ -133,19 +138,19 @@ export class Tab3Page {
    */
   manualMode(night) {
     if (night === true) {
-      this.nativeStorage.setItem('night', {night: night}).then(d => {
-        this.themeS.setTheme('dark');
-        this.themeS.tabsetToolbar(false)
-        this.tema = this.themeS.tabgetToolbar()
+      this.nativeStorage.setItem('themeManual', {night: night}).then(d => {
+        console.log('Tema establecido a dark en manual');
+        this.themeS. changeSkin(9);
+        this.nigth= true;
       }
       ).catch(e => {
         console.log(e);
       });
     } else if (night === false ) {
-      this.nativeStorage.setItem('night', {night: night}).then(d => {
-        this.themeS.setTheme('light');
-        this.themeS.tabsetToolbar(true)
-        this.tema = this.themeS.tabgetToolbar()
+      this.nativeStorage.setItem('themeManual', {night: night}).then(d => {
+        console.log('Tema establecido a light en manual');
+        this.themeS. changeSkin(11);
+        this.nigth= false;
       }
       ).catch(e => {
         console.log(e);
@@ -163,47 +168,40 @@ export class Tab3Page {
    */
   autoMode(autoNight) {
     // almacenamos el valor que recibimos del toggle en la bd
-    this.nativeStorage.setItem('autoNight', {autoNight: autoNight}).then(
-      () => console.log('Stored item!'),
+    this.nativeStorage.setItem('themeAuto', {autoNight: autoNight}).then(
+      () => console.log('Boton tema automático'),
       error => console.error('Error storing item', error)
     );
-
     // si es falso
     // guardamos el valor del toggle en falso en la bd
     // establecemos su valor
     // comprobamos el valor del modo manual para establecer el tema
-    if(autoNight === false) {
+    if (autoNight === false) {
       this.toggle = false;
       this.nativeStorage.setItem('toggle', {toggle: false}).then(
-        () => console.log('Stored item!'),
+        () => console.log('No esta deshabilitado el modo manual'),
         error => console.error('Error storing item', error)
       );
-      this.nativeStorage.getItem('night').then(r => {
+      this.nativeStorage.getItem('themeManual').then(r => {
 
         if (r.night === true) {
 
-          this.themeS.setTheme('dark');
-          this.themeS.tabsetToolbar(false)
-          this.tema = this.themeS.tabgetToolbar()
+          this.themeS.changeSkin('9');
+
         } else if (r.night === false ) {
-          this.themeS.setTheme('light');
-          this.themeS.tabsetToolbar(true)
-          this.tema = this.themeS.tabgetToolbar()
+          this.themeS.changeSkin('11');
+
 
         }
-
-
-      });
-    } else{
+});
+    } else {
       // si es verdadero
       // almacenamos el valor en la bd del valor true del toggle
-      this.nativeStorage.setItem('toggle', {toggle: false}).then(
-        () => console.log('Stored item!'),
+      this.toggle = true;
+      this.nativeStorage.setItem('toggle', {toggle: true}).then(
+        () => console.log('Esta deshabilitado el modo manual'),
         error => console.error('Error storing item', error)
       );
-      // lo establecemos a true;
-      this.toggle = true;
-
     }
   }
 
@@ -213,14 +211,14 @@ export class Tab3Page {
    */
   logout() {
 
-    this.nativeStorage.remove('user').then(user => {
-
+    this.nativeStorage.clear().then(e => {
+      console.log(e);
       this.usuario = false;
+      this.router.navigateByUrl('/tabs/tab3');
 
     }).catch(error =>{
       console.log(error);
     });
-    this.router.navigateByUrl('/tabs/tab3');
   }
 
   updatePic() {

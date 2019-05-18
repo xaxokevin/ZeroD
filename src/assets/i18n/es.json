@@ -48,6 +48,9 @@
     "settingapp": "Ajustes de la App",
     "settinguser": "Perfil de usuario",
     "nightmode": "Modo noche",
-    "autonightmode": "Modo noche automático"
+    "autonightmode": "Modo noche automático",
+    "descripnightmode": "Alterna entre el tema claro y el oscuro",
+    "descripauto": "Se ajusta a la luz ambiente automáticamente",
+    "logout": "Cerrar sesion"
 
   }

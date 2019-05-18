@@ -48,7 +48,11 @@
     "settingapp": "App settings",
     "settinguser": "User profile",
     "nightmode": "Nigth mode",
-    "autonightmode": "Auto night mode"
+    "autonightmode": "Auto night mode",
+    "descripnightmode": "Change between light theme and dark theme",
+    "descripauto": "Adjusts to ambient light automatically",
+    "logout": "Logout"
+
 
   }
   

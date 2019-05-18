@@ -12,16 +12,14 @@ ion-item{
     --background: none;
 }
 
-ion-header{
-    border-top:none
+ion-badge{
+    margin-right:20px;
 }
 
-ion-toolbar{
-    border-top:none
+ion-range{
+    --bar-background-active:var(--ion-color-primary);
 }
 
-ion-label{
-    
-    font-size:15pt;
-}
+
+
 
