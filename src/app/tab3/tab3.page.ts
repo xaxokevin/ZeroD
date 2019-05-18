@@ -23,7 +23,7 @@ export class Tab3Page {
   perfil: any;
   activeAlert;
   toggle:boolean;
-  tema;
+  profileTema;
 
   constructor(
     private loading: CustomLoading,
@@ -71,11 +71,13 @@ export class Tab3Page {
 
             this.themeS. changeSkin(9);
             this.nigth = true;
+            this.profileTema= true;
 
           } else{
 
             this.themeS. changeSkin(11);
             this.nigth = false;
+            this.profileTema= false;
 
           }
         }).catch(e => {

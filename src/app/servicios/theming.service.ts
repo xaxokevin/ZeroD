@@ -29,10 +29,10 @@ interface ThemeStyle {
  */
 export class ThemingService {
 
-  
+
   private themes: Theme[] = [];
   private firstTheme: String = 'light';
-  private toolbar :Boolean = true;
+
 
   constructor(private domCtrl: DomController, @Inject(DOCUMENT) private document,public bar: StatusBar, private nativeStorage: NativeStorage) { 
 
@@ -154,25 +154,14 @@ export class ThemingService {
         this.setTheme('dark');
         this.firstTheme = 'dark';
         this.bar.backgroundColorByHexString('#354B70');
-        this.tabsetToolbar(true);
 
     } else if (light > 10 && this.firstTheme === 'dark') {
 
       this.setTheme('light');
       this.firstTheme = 'light';
       this.bar.backgroundColorByHexString('#71A1F0');
-      this.tabsetToolbar(false);
+
     }
 }
 
-
-tabsetToolbar(boolean) {
- this.toolbar = boolean;
-
-
-}
-
-tabgetToolbar() {
-  return this.toolbar;
-}
 }
