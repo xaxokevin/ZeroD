@@ -78,10 +78,6 @@ export class RegisterComponent implements OnInit {
 
       this.CloudS.createUser(this.image, data.user, data.email, data.pass);
       this.router.navigate(['/tabs/tab1']);
-      this.nativeStorage.setItem('night', {night: false}).then(
-        () => console.log('Stored item!'),
-        error => console.error('Error storing item', error)
-      );
       this.cancel();
 
       }
@@ -92,7 +88,7 @@ export class RegisterComponent implements OnInit {
   newPic() {
 
     const options: CameraOptions = {
-      quality: 70,
+      quality: 90,
       destinationType: this.camera.DestinationType.DATA_URL,  /*FILE_URI */
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,

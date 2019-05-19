@@ -29,6 +29,16 @@ ion-img{
   display: initial;
 }
 
+.item .sc-ion-label-md-h {
+
+  overflow: visible;
+ 
+}
+.sc-ion-label-md-s h2{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 
 ion-segment-button{
@@ -46,22 +56,20 @@ ion-icon{
   
 }
 
+.iconbadge{
+  
+  float: auto;
+  height: 15px;
+  width: 15px;
+  margin-right: 10px;
+  
+}
+
 .iconlist{
 
   height: 35px;
   width: 35px;
 
-}
-
-ion-label{
-  margin-top: 10px;
-  
-  
-}
-
-.sc-ion-label-md-h{
-
-  font-size: 20px;
 }
 
 
@@ -80,23 +88,6 @@ ion-title{
 }
 
 
-
-h5{
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  display: inline-block;
-  color:var( --ion-color-dark);
-  margin-top: -10px;
-}
-
-p{
-  position: absolute;
-  font-size: 12px;
-  margin-top: 20px;
-  color:var(--ion-color-medium-tint);
- 
-}
 .item .item-native{
 
   background-color: transparent !important;

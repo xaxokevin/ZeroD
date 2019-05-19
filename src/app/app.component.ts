@@ -11,9 +11,7 @@ import { CustomToast } from './custom-modal/custom-toast';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { Sensors, TYPE_SENSOR} from '@ionic-native/sensors/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { Router } from '@angular/router';
-import { CloudserviceService } from './servicios/cloudservice.service';
-import { iUser } from './model/iUser';
+
 
 
 
@@ -24,7 +22,7 @@ import { iUser } from './model/iUser';
 })
 export class AppComponent {
   light: number;
-  perfil: iUser[] = [];
+
 
   
   constructor(
@@ -144,7 +142,7 @@ initSensor() {
       });
     }
     }).catch(e => {
-      this.themeS.changeSkin(11);
+        console.log('aun no se ha establecido el tema automático')
     });
   }, 13000);
 

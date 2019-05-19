@@ -12,6 +12,7 @@ import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@io
 
 
 
+
 @Component({
   selector: 'app-add-alert',
   templateUrl: './add-alert.component.html',
@@ -47,10 +48,11 @@ export class AddAlertComponent implements OnInit {
     private nativeStorage: NativeStorage,
     private nativeGeocoder: NativeGeocoder ) {
 
-      // recuperamos el email del usuario
+      // recuperamos el usuario
     this.nativeStorage.getItem('user').then(e => {
 
-        this.usuario = e.email.toString();
+        this.usuario=e.email.toString();
+
 
         console.log(this.usuario);
 
