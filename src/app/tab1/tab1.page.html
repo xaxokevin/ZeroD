@@ -28,7 +28,7 @@
     (ionSlideDrag)="animateIndicator($event)">
     <ion-slide>
 
-      <ion-img *ngIf="listAvacia" src="assets/sinavisos.png"></ion-img>
+      <ion-img *ngIf="listAvacia" src="assets/sinavisos.png" style="heigh:auto; width:auto;"></ion-img>
       <div *ngIf="!listAvacia">
             <ion-refresher (ionRefresh)="this.updateAccident($event,true)">
               <ion-refresher-content pullingIcon="arrow-dropdown" 
@@ -38,10 +38,10 @@
             </ion-refresher>
 
             <ion-list > 
-              <ion-item style="--background: transparent !important;" class="item ios in-list ion-focusable item-label hydrated" *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
+              <ion-item style="--background: transparent !important;" class="item ios in-list ion-focusable item-label hydrated" *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.ciudad, item.calle)">
                 
                 <ion-avatar slot="start" class="ios hydrated">
-                  <img [src]="item.imgU">
+                  <img [src]="safeImage(item.imgU)">
                 </ion-avatar>
                 <ion-label class="sc-ion-label-ios-h sc-ion-label-ios-s ios hydrated">
                   <h2>{{item.descripcion}}</h2>
@@ -66,7 +66,7 @@
       
     </ion-slide>
     <ion-slide>
-        <ion-img *ngIf="listMvacia" src="assets/sinavisossol.png"></ion-img>
+        <ion-img *ngIf="listMvacia" src="assets/sinavisossol.png" style="heigh:auto; width:auto;"></ion-img>
 
          <div *ngIf="!listMvacia">
         <ion-refresher (ionRefresh)="this.updateMeteorology($event,true)">
@@ -78,18 +78,21 @@
         
 
         <ion-list *ngIf="!listMvacia">
-          <ion-item style="--background: transparent !important;" class="item ios in-list ion-focusable item-label hydrated" *ngFor="let item of listadoMeteorologia;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.latitud, item.longitud)">
-            <ion-icon class="iconlist" name="{{item.icon}}" slot="start" color="primary"></ion-icon>
-            <ion-label class="sc-ion-label-ios-h sc-ion-label-ios-s ios hydrated">
-              <h2>{{item.descripcion}}</h2>
-              <p>
-              <ion-chip outline="" color="primary" class="ion-color ion-color-primary md chip-outline ion-activatable hydrated">
-                <ion-icon name="pin" role="img" class="md hydrated iconbadge" aria-label="pin"></ion-icon>
-                <ion-label class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">{{item.ciudad}} {{item.calle}}</ion-label>
-              </ion-chip>
-            </p>
-            </ion-label>
-          </ion-item>
+           <ion-item style="--background: transparent !important;" class="item ios in-list ion-focusable item-label hydrated" *ngFor="let item of listadoMeteorologia;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.ciudad, item.calle)">
+                
+                <ion-avatar slot="start" class="ios hydrated">
+                  <img [src]="safeImage(item.imgU)">
+                </ion-avatar>
+                <ion-label class="sc-ion-label-ios-h sc-ion-label-ios-s ios hydrated">
+                  <h2>{{item.descripcion}}</h2>
+                  <p>
+                  <ion-chip outline="" color="primary" class="ion-color ion-color-primary md chip-outline ion-activatable hydrated">
+                    <ion-icon name="pin" role="img" class="md hydrated iconbadge" aria-label="pin"></ion-icon>
+                    <ion-label class="sc-ion-label-md-h sc-ion-label-md-s md hydrated">{{item.ciudad}} {{item.calle}}</ion-label>
+                  </ion-chip>
+                </p>
+                </ion-label>
+              </ion-item>
         </ion-list>
 
         <ion-infinite-scroll #infiniteScroll threshold="10px" (ionInfinite)="updateMeteorology($event,false)">

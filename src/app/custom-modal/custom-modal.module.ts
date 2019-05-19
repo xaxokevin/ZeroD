@@ -52,13 +52,13 @@ export class CustomModalModule { //Clase que nos crea los modales personalizados
  * @param longitud longitud de la ubicacion del aviso
  * @param callback lo que hace la cerrse el modal (this)
  */
-  async showInfo(component, descripcion, tipo, hora, latitud, longitud,  callback): Promise <any>{
+  async showInfo(component, descripcion, tipo, hora, ciudad, calle,  callback): Promise <any>{
    
     const modal = await this.modalCtrl.create({
       cssClass: "mas-info",
       backdropDismiss: true,
       component: component,  //El componente que se inyecta en la ventana modal
-      componentProps: {descripcion,tipo,hora, longitud, latitud} //Los parámetros que se le pasan a la ventana modal
+      componentProps: {descripcion,tipo,hora, ciudad, calle} //Los parámetros que se le pasan a la ventana modal
     });
     modal.onDidDismiss().then((d) => {
         if (callback.onModalClose)

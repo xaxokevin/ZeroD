@@ -2,25 +2,25 @@
 <ion-header >
     <ion-toolbar>
         <ion-icon class="cerrar" name="close-circle-outline" (click)="cancel()" ></ion-icon> 
-      <ion-title style="color:var(--ion-color-light-contrast)" >{{alert}}</ion-title>
+      <ion-title style="color:var(--ion-color-light-contrast)" >{{this.alert}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content padding style="background-color: var(--ion-color-light-shade)">
     <h6>{{ "fecha" | translate }}</h6>
     <ion-item style="--background: transparent !important;">
-        <ion-label color="dark" class="fecha" style="font-size:1.22rem">{{fechaF}}</ion-label>
+        <ion-label color="dark" class="fecha" style="font-size:1.22rem">{{this.fechaF}}</ion-label>
       </ion-item>
     <h6>{{ "desc" | translate }}</h6>
     <ion-item style="--background: transparent !important;">
-      <ion-label color="dark" class="desc">{{descripcion}}</ion-label>
+      <ion-label color="dark" class="desc">{{this.descripcion}}</ion-label>
     </ion-item>
     <h6>{{ "ltlng" | translate }}</h6>
     <ion-item  style="--background: transparent !important;" class="ltlng">
-      <ion-label color="dark"  style="font-size:1.0rem">Lat: {{latitud}} </ion-label>
+      <ion-label color="dark"  style="font-size:1.0rem">{{ "city" | translate }} {{this.ciudad}} </ion-label>
     </ion-item>
     <ion-item style="--background: transparent !important;" class="ltlng">
-      <ion-label color="dark" class="long" style="font-size:1.0rem" > Long: {{longitud}}</ion-label>
+      <ion-label color="dark" class="long" style="font-size:1.0rem" >{{ "street" | translate }} {{this.calle}}</ion-label>
     </ion-item>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" >

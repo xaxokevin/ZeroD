@@ -51,7 +51,9 @@
     "autonightmode": "Auto night mode",
     "descripnightmode": "Change between light theme and dark theme",
     "descripauto": "Adjusts to ambient light automatically",
-    "logout": "Logout"
+    "logout": "Logout",
+    "city": "City:",
+    "street": "Street:"
 
 
   }

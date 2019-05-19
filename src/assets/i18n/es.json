@@ -51,6 +51,8 @@
     "autonightmode": "Modo noche automático",
     "descripnightmode": "Alterna entre el tema claro y el oscuro",
     "descripauto": "Se ajusta a la luz ambiente automáticamente",
-    "logout": "Cerrar sesion"
+    "logout": "Cerrar sesion",
+    "city": "Ciudad:",
+    "street": "Calle:"
 
   }

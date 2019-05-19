@@ -98,5 +98,11 @@ ion-title{
   color: var(--ion-color-light-contrast);
 }
 
+.swiper-slide img {
+  width: max-content;
+  max-width: 100%;
+  height: max-content;
+  max-height: 100%;
+}
 
 

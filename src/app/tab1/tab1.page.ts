@@ -14,6 +14,7 @@ import { ScrollHideConfig } from '../directives/scroll-hide.directive';
 import { NavegacionService } from '../servicios/navegacion.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as $ from 'jquery';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -212,6 +213,7 @@ slidesOpts = {
     private router: Router,
     public modalController: ModalController,
     private geolocation: Geolocation,
+    private sanitizer: DomSanitizer,
 
   ) {}
 
@@ -274,19 +276,20 @@ slidesOpts = {
    * @param event evento que desencadena el metodo
    */
   updateAllAccident(event?) {
-  this.loading.show('');
     // Cargamos de la bd
+    this.loading.show('');
       this.cloudS.getAccident(true).then(d => {
         this.listadoAccidentes = d;
 
         this.checkListA();
+        this.updateAccident(event,true)
 
         if (event) {
           event.target.complete();
         }
+        this.loading.hide();
       });
 
-      this.loading.hide();
 
   }
 
@@ -297,9 +300,6 @@ slidesOpts = {
  * @param reload evento que activa la carga de la bd
  */
   updateAccident(event?, reload?) {
-    if (!event) {
-      this.loading.show('');
-    }
     this.cloudS.getAccident(reload).then(d => {
       if (reload) {
         this.listadoAccidentes = d;
@@ -309,9 +309,6 @@ slidesOpts = {
           this.listadoAccidentes.push(u);
 
         });
-      }
-      if (!event) {
-        this.loading.hide();
       }
       if (event) {
         event.target.complete();
@@ -330,6 +327,7 @@ slidesOpts = {
          this.listadoMeteorologia = d;
 
          this.checkListM();
+         this.updateMeteorology(event,true)
          if (event) {
            event.target.complete();
          }
@@ -344,7 +342,7 @@ slidesOpts = {
  */
    updateMeteorology(event?, reload?) {
      if (!event) {
-       this.loading.show('');
+     
      }
      this.cloudS.getMeteorology(reload).then(d => {
        if (reload) {
@@ -356,7 +354,7 @@ slidesOpts = {
          });
        }
        if (!event) {
-         this.loading.hide();
+
        }
        if (event) {
          event.target.complete();
@@ -399,14 +397,14 @@ slidesOpts = {
    * @param descripcion descripcion de la alerta
    * @param tipo tipo de alerta recibida
    * @param hora hora en la que se creo el evento
-   * @param latitud latitud de la ubicación del evento
-   * @param longitud longitud  de la ubicación del evento
+   * @param ciudad de la ubicación del evento
+   * @param calle de la ubicación del evento
    * Estas dos variables representan la ubicacion
    */
 
-  showInfo(descripcion: any, tipo: any, hora: any, latitud: any, longitud: any) {
+  showInfo(descripcion: any, tipo: any, hora: any, ciudad: any, calle: any) {
 
-    this.cmm.showInfo(ViewCardComponent, descripcion, tipo, hora, latitud, longitud, this);
+    this.cmm.showInfo(ViewCardComponent, descripcion, tipo, hora, ciudad, calle, this);
   }
 
   /**
@@ -424,5 +422,14 @@ slidesOpts = {
    presentModal() {
     this.cmm.showHelp(HelpComponent, this);
 
+  }
+
+  /**
+   * Metodo que convierte a una img segura nuestra cadena en base64
+   * @param img imagen a recibir
+   * @return this.sanitizer.bypassSecurityTrustUrl(img)
+   */
+  safeImage(img){
+    return this.sanitizer.bypassSecurityTrustUrl(img)
   }
 }

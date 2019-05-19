@@ -19,7 +19,8 @@ export class ViewCardComponent implements OnInit {
   horaS: string;
   fecha: any;
   fechaF: any;
-
+  ciudad: String;
+  calle: String;
 
   constructor(public modalcontroller: ModalController,public navparams:
     NavParams, public router: Router, private openM: NavegacionService) { 
@@ -29,10 +30,10 @@ export class ViewCardComponent implements OnInit {
       this.descripcion=this.navparams.get('descripcion');
       this.alert=this.navparams.get('tipo');
       //Formateo de la longitud
-      this.longitud=this.navparams.get('longitud');
+      this.calle=this.navparams.get('calle');
       
       //Formateo de la latitud
-      this.latitud=this.navparams.get('latitud');
+      this.ciudad=this.navparams.get('ciudad');
       
       
       //Formateo de la fecha

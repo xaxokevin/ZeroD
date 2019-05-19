@@ -88,7 +88,7 @@ export class RegisterComponent implements OnInit {
   newPic() {
 
     const options: CameraOptions = {
-      quality: 90,
+      quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,  /*FILE_URI */
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
