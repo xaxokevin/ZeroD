@@ -38,6 +38,7 @@ export class AppComponent {
     public sensor: Sensors,
     public bar: StatusBar,
     private nativeStorage: NativeStorage,
+    private back: BackbuttonService
   ) {
     this.light = 0;
     this.initializeApp();

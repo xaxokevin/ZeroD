@@ -7,6 +7,7 @@ export interface iMeteorology{
     hora?:any,
     icon?:any,
     user?:any,
+    imgU?:any,
     areaAdministrativa?: any, 
     codigoPostal?: any 
     ciudad?: any,

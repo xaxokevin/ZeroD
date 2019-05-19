@@ -64,24 +64,6 @@ export class Tab3Page {
 
           });
 
-        this.nativeStorage.getItem('themeManual').then(n => {
-
-          if (n.night === true) {
-
-            this.themeS.changeSkin(9);
-            this.night = true;
-
-          } else{
-
-            this.themeS.changeSkin(11);
-            this.night = false;
-
-          }
-        }).catch(e => {
-
-          console.log('Aun no hay usuario o no se ha cambiado de tema');
-            });
-
         this.nativeStorage.getItem('themeAuto').then(au => {
 
               this.autoNight = au.autoNight;
@@ -99,6 +81,26 @@ export class Tab3Page {
                 this.toggle = false;
 
                 });
+        if(!this.toggle){
+          this.nativeStorage.getItem('themeManual').then(n => {
+
+            if (n.night === true) {
+  
+              this.themeS.changeSkin(9);
+              this.night = true;
+  
+            } else{
+  
+              this.themeS.changeSkin(11);
+              this.night = false;
+  
+            }
+          }).catch(e => {
+  
+            console.log('Aun no hay usuario o no se ha cambiado de tema');
+              });
+
+        }
     // si el usuario no existe
     }).catch(error => {
 

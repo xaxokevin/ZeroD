@@ -29,6 +29,7 @@ export class AddAlertComponent implements OnInit {
     subHeader: this.translate.instant('TypeS'),
   };
   usuario: String;
+  imgUsuario: String;
   options: NativeGeocoderOptions = {
     useLocale: true,
     maxResults: 5
@@ -51,7 +52,8 @@ export class AddAlertComponent implements OnInit {
       // recuperamos el usuario
     this.nativeStorage.getItem('user').then(e => {
 
-        this.usuario=e.email.toString();
+        this.usuario = e.email.toString();
+        this.imgUsuario = e.img.toString();
 
 
         console.log(this.usuario);
@@ -109,6 +111,7 @@ export class AddAlertComponent implements OnInit {
           latitud: this.latitud,
           hora: new Date().valueOf(),
           user: this.usuario,
+          imgU: this.imgUsuario,
           icon: '',
           areaAdministrativa: result[0]['administrativeArea'],
           codigoPostal: result[0]['postalCode'],
@@ -157,19 +160,19 @@ export class AddAlertComponent implements OnInit {
             break;
           }
           case 'viento' : {
-  
+
             data.icon = 'swap';
             this.addMeteorology(data);
             break;
           }
           case 'olas' : {
-  
+
             data.icon = 'boat';
             this.addMeteorology(data);
             break;
           }
           case 'niebla' : {
-  
+
             data.icon = 'cloudy';
             this.addMeteorology(data);
             break;
@@ -180,9 +183,7 @@ export class AddAlertComponent implements OnInit {
           }
        }
       }
-        )
-      
-      
+        );
     }
   }
 
