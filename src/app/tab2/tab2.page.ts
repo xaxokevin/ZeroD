@@ -587,7 +587,13 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
         }
     }).catch(e => {
 
-      this.toast.show(this.translate.instant('noUser'));
+      if(!this.platform.is('android')){
+        this.toast.show(this.translate.instant('browser'));
+      }else{
+        this.toast.show(this.translate.instant('noUser'));
+      }
+      
+      
     });
 
   }

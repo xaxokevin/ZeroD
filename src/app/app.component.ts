@@ -51,8 +51,8 @@ export class AppComponent {
       // Establecemos el color de inicio de la barra de estado
 
       this.nativeStorage.getItem('theme').then(d =>{
-        if(d === 'dark'){
-          this.themeS.changeSkin(9);
+        if(d.theme === 'dark'){
+          this.themeS.setTheme('dark')
         }else{
           this.themeS.changeSkin(11);
         }
