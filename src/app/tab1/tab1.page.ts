@@ -402,9 +402,9 @@ slidesOpts = {
    * Estas dos variables representan la ubicacion
    */
 
-  showInfo(descripcion: any, tipo: any, hora: any, ciudad: any, calle: any) {
+  showInfo(descripcion: any, tipo: any, hora: any, ciudad: any, calle: any, latitud:any, longitud: any) {
 
-    this.cmm.showInfo(ViewCardComponent, descripcion, tipo, hora, ciudad, calle, this);
+    this.cmm.showInfo(ViewCardComponent, descripcion, tipo, hora, ciudad, calle, latitud,longitud,this);
   }
 
   /**

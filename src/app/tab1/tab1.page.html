@@ -38,7 +38,8 @@
             </ion-refresher>
 
             <ion-list > 
-              <ion-item style="--background: transparent !important;" class="item ios in-list ion-focusable item-label hydrated" *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.ciudad, item.calle)">
+              <!--Se puede mejorar el uso de la funcion de showInfo y por lo consiguiente todo lo que es el modal, si solo pasamos el item entero y luego sacamos la información necesaria-->
+              <ion-item style="--background: transparent !important;" class="item ios in-list ion-focusable item-label hydrated" *ngFor="let item of listadoAccidentes;let i = index" (click)="showInfo(item.descripcion, item.alert, item.hora, item.ciudad, item.calle, item.latitud, item.longitud)">
                 
                 <ion-avatar slot="start" class="ios hydrated">
                   <img [src]="safeImage(item.imgU)">

@@ -29,21 +29,16 @@ export class ViewCardComponent implements OnInit {
 
       this.descripcion=this.navparams.get('descripcion');
       this.alert=this.navparams.get('tipo');
-      //Formateo de la longitud
       this.calle=this.navparams.get('calle');
-      
-      //Formateo de la latitud
       this.ciudad=this.navparams.get('ciudad');
-      
-      
+      this.latitud=this.navparams.get('latitud');
+      this.longitud=this.navparams.get('longitud');
       //Formateo de la fecha
       this.hora= new Date(this.navparams.get('hora'));
       this.horaS= this.hora.toString();
       this.fecha=this.horaS.split(" ",5)
       this.fechaF=this.fecha[0]+" "+this.fecha[1]+" "+this.fecha[2]+" "+this.fecha[3]+" "+this.fecha[4]
-      
 
-      
     }
 
   ngOnInit() {
@@ -53,6 +48,7 @@ export class ViewCardComponent implements OnInit {
    * metodo que nos redirige hacia el mapa con la ubicacion de esa alerta
    */
   openMap(){
+    console.log(this.longitud +"hola")
     this.openM.recibeUbicacion(this.latitud,this.longitud);
     this.openM.cargaMapa(true);
     this.router.navigate(['/tabs/tab2']);
