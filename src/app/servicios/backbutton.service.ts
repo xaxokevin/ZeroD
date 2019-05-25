@@ -19,9 +19,7 @@ export class BackbuttonService {
 
     this.platform.backButton.subscribe(() => {
       // code that is executed when the user pressed the back button
-   
       if(!this.openModal){
-       
         if (this.currentURL == "/" || this.currentURL == "/tabs/tab1"){
 
           /*En caso de estar en la pestaña tab1 si se pulsa atrás se cierra la aplicación*/
@@ -29,31 +27,21 @@ export class BackbuttonService {
         }else{
 
           this.pressback=true;
+          this.navCtrl.back();
         }
     }
-      
     });
-    
 
 
     this.router.events.subscribe((event) => {
- 
       if (event instanceof NavigationEnd) { 
-   
          //es lanzado cuando se termina de navegar
         this.currentURL = event.url;
-       
-         if(this.pressback) {  //Este no debe ser alcanzado nunca, es por si acaso
-            this.navCtrl.navigateRoot(['/'], { animationDirection: "back" });
-            this.pressback = false; 
-          }
 
-        
         }
     });
 
   }
-    
 
   }
 
