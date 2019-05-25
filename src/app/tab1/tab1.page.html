@@ -28,7 +28,7 @@
     (ionSlideDrag)="animateIndicator($event)">
     <ion-slide>
 
-      <ion-img *ngIf="listAvacia" src="assets/sinavisos.png" style="heigh:auto; width:auto;"></ion-img>
+      <ion-img *ngIf="listAvacia" src="assets/OK.png" style="heigh:auto; width:auto;"></ion-img>
       <div *ngIf="!listAvacia">
             <ion-refresher (ionRefresh)="this.updateAccident($event,true)">
               <ion-refresher-content pullingIcon="arrow-dropdown" 
@@ -67,7 +67,7 @@
       
     </ion-slide>
     <ion-slide>
-        <ion-img *ngIf="listMvacia" src="assets/sinavisossol.png" style="heigh:auto; width:auto;"></ion-img>
+        <ion-img *ngIf="listMvacia" src="assets/OK.png" style="heigh:auto; width:auto;"></ion-img>
 
          <div *ngIf="!listMvacia">
         <ion-refresher (ionRefresh)="this.updateMeteorology($event,true)">
