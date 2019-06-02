@@ -46,7 +46,9 @@ export class RegisterLoginPage implements OnInit {
       });
   }
 
-
+/**
+ * Metodo que se ejecuta cuando se hace el submit del formulario de login
+ */
   LoginForm(){
 
     if (this.netwoekS.previousStatus === 1) {
@@ -65,6 +67,9 @@ export class RegisterLoginPage implements OnInit {
 
 }
 
+/**
+ * Metodo que abre el modal del registro de usuarios
+ */
 openRegister() {
 
   this.cmm.showRegister(RegisterComponent, this);

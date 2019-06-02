@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
   imageV;
   default = true;
   public register: FormGroup;
+  user = Array;
 
   constructor(public modalcontroller: ModalController,
     private camera: Camera,
@@ -58,33 +59,53 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Sumbit del formulario de registro
+   */
   registerForm() {
     if (this.netwoekS.previousStatus === 1) {
       this.toast.show(this.translate.instant('noNetwork'));
-    } else if (this.netwoekS.previousStatus === 0) {
+    }else if (this.image == null) {
+      this.toast.show(this.translate.instant('image'));
+    }
+     else if (this.netwoekS.previousStatus === 0) {
 
 
-      const data = {
-        user: this.register.get('user').value,
-        email: this.register.get('email').value,
-        pass: this.register.get('pass').value,
-        pass2: this.register.get('pass2').value,
-      };
+      this.CloudS.getProfile(this.register.get('email').value).then(d =>{
+     
 
-      if (data.pass !== data.pass2) {
+        if(d.length > 0){
+          this.toast.show(this.translate.instant('email'));
+        }else{
+          const data = {
+            user: this.register.get('user').value,
+            email: this.register.get('email').value,
+            pass: this.register.get('pass').value,
+            pass2: this.register.get('pass2').value,
+          };
+    
+          if (data.pass !== data.pass2) {
+    
+            this.toast.show(this.translate.instant('failPass'));
+          } else {
+    
+          this.CloudS.createUser(this.image, data.user, data.email, data.pass);
+          this.router.navigate(['/tabs/tab1']);
+          this.cancel();
+    
+          }
 
-        this.toast.show(this.translate.instant('failPass'));
-      } else {
+        }
 
-      this.CloudS.createUser(this.image, data.user, data.email, data.pass);
-      this.router.navigate(['/tabs/tab1']);
-      this.cancel();
-
-      }
+      })
+      
   }
 
 }
 
+/**
+ * Metedo que ejecuta la apertura de la camara y la captura de la foto de perfil
+ */
   newPic() {
 
     const options: CameraOptions = {
@@ -118,6 +139,7 @@ export class RegisterComponent implements OnInit {
   cancel() {
     this.modalcontroller.dismiss();
   }
+
 
 
 }

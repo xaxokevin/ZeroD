@@ -8,7 +8,10 @@ import { ToastController } from '@ionic/angular';
     CommonModule
   ]
 })
-export class CustomToast { //Clase que nos crea un toast personalizado
+/**
+ * Clase que nos crea un toast personalizado
+ */
+export class CustomToast { 
   toast;
   constructor(private toastCtrl: ToastController) { }
 /**

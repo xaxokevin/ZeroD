@@ -54,6 +54,8 @@
     "logout": "Cerrar sesion",
     "city": "Ciudad:",
     "street": "Calle:",
-    "browser": "Si quiere añadir una alerta, descarga esta app desde Google Play o Apple Store"
+    "browser": "Si quiere añadir una alerta, descarga esta app desde Google Play o Apple Store",
+    "image": "Tomate una foto de perfil",
+    "email": "Este email esta en uso, porfavor use otro"
 
   }

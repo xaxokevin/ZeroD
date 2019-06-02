@@ -95,6 +95,7 @@ export class CloudserviceService {
     });
 
   }
+  
 
   /**
    * Obtiene el perfil del usuario
@@ -113,6 +114,7 @@ export class CloudserviceService {
         let x = { 'email': doc.id , ...doc.data()};
         lreq.push(x);
       });
+      console.log(lreq.length)
       resolve(lreq);
     }
       );

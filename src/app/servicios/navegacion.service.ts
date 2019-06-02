@@ -3,7 +3,10 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class NavegacionService { //Clase utilizada para la navegacion del modal hacia la marca en el mapa
+/**
+ * Clase utilizada para la navegacion del modal hacia la marca en el mapa
+ */
+export class NavegacionService { 
  private cargaM: boolean
  private latitud: any;
  private longitud: any;

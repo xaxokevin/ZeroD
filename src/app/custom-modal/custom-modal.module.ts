@@ -10,7 +10,10 @@ import { ModalController } from '@ionic/angular';
     CommonModule
   ]
 })
-export class CustomModalModule { //Clase que nos crea los modales personalizados
+/**
+ * Clase que nos crea los modales personalizados
+ */
+export class CustomModalModule {
   public changes = false;
 
   constructor(public modalCtrl: ModalController,) { }

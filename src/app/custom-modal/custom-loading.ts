@@ -13,7 +13,10 @@ import { environment } from 'src/environments/environment';
     CommonModule
   ]
 })
-export class CustomLoading { //Clase que crea nuestro loading personalizado
+/**
+ * Clase que crea nuestro loading personalizado
+ */
+export class CustomLoading {
   myloading:any;
   timeout;
 

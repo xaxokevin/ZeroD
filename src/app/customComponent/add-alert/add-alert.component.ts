@@ -187,6 +187,9 @@ export class AddAlertComponent implements OnInit {
     }
   }
 
+  /**
+   * Metodo que añade alertas de accidentes
+   */
   addAccident(data) {
 
     /* Mostramos el cargando... */
@@ -208,6 +211,9 @@ export class AddAlertComponent implements OnInit {
 
   }
 
+  /**
+   * Metodo que añade alertas de meteorología
+   */
   addMeteorology(data){
     /* Mostramos el cargando... */
     this.loading.show('');
@@ -226,7 +232,11 @@ export class AddAlertComponent implements OnInit {
       });
   }
 
- //acabar
+ /**
+  * Devuelve la ubicación de la alerta
+  * @param lat latitud
+  * @param long longitud
+  */
  reverseCoor(lat,long): Promise<NativeGeocoderResult[]>{
   return this.nativeGeocoder.reverseGeocode(lat, long, this.options)
     }

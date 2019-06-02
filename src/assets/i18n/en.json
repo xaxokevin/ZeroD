@@ -54,7 +54,9 @@
     "logout": "Logout",
     "city": "City:",
     "street": "Street:",
-    "browser": "If you want add any alert, please download app from Google Play or App Store"
+    "browser": "If you want add any alert, please download app from Google Play or App Store",
+    "image": "Please take a profile picture",
+    "email": "This email is in used, please use other email"
 
 
   }
