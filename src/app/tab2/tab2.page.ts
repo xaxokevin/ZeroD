@@ -133,10 +133,11 @@ export class Tab2Page {
   */
   ionViewWillEnter() {
     this.loading.show('');
-  /*Cambiamos el valor del color del icono de señal
-    En funcion de la calidad de gps que tengamos.
+
+  /*Cambiamos el valor del color del mapa
+    en funcion el tema establecido
  */
-    this.colorB = this.netwoekS.colorN;
+   //TODO cambiar el mapa segun el color del thema establecido
 
 
 // Se comprueba la conexión a internet y se hacen las respectivas operaciones segun tengamos o no activada la conexion
@@ -223,7 +224,12 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
     // si el mapa es abierto desde el modal de ver mas informacion de la alerta
     // se establecera la vista encima de la alerta pulsada
     if (this.openM.getCargarMapa() === true) {
-      this.map = leaflet.map('map').fitWorld().setView([this.openM.getLatitud(), this.openM.getLongitud()], 15);
+      this.map = leaflet.map('map').fitWorld();
+      this.map.setView([this.openM.getLatitud(), this.openM.getLongitud()], 14);
+      this.map.on('click', (e)=>{
+        // Este evento añade una marca a nuestro mapa cuando hacemos clic sobre el
+        this.addMark(e.latlng.lat, e.latlng.lng);
+      });
       // establecemos los valores a true para mostrar las marcas
     } else {
       // Si el mapa se ha abierto desde los tabs se establecera la vista en general sobre el mapa de españa
@@ -235,9 +241,9 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
     }
     // eliminamos el control del zoom
     this.map.removeControl(this.map.zoomControl);
-    leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attributions: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-      // Establecemos un maximo y un minimo de zoom
+    leaflet.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+    attributions: '',
+          // Establecemos un maximo y un minimo de zoom
       maxZoom: 20,
       minZoom: 5,
 
@@ -565,26 +571,8 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
 
           }
        });
-      } else {
-          // te localiza a traves del uso del GPS
-          this.map.locate({
-            setView: true, maxZoom: 15
-          }).on('locationfound', (e) => {
-            // crea una marca en la localizacion que te encuentras
-            let markerGroup = leaflet.featureGroup();
-            let marker = leaflet.marker([e.latitude, e.longitude]);
-            markerGroup.addLayer(marker);
-            this.map.addLayer(markerGroup);
-            // se llama al metodo que recibe la marca, la latitud y la longitud
-            this.touchMark(marker, e.latitude, e.longitude);
-
-          }).on('locationerror', (err) => {
-            this.toast.showTop(this.translate.instant('LSGPS'));
-            this.disablebutton = false;
-          });
       }
-
-        }
+    }
     }).catch(e => {
 
       if(!this.platform.is('android')){
@@ -633,8 +621,6 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
     }
     this.chargeAllMarkMeteorology(this.ocultaM);
 
-    // llamamos al metodo para que nos localice
-    this.locateme();
     // cerramos el modal
     this.loading.hide();
 
@@ -651,7 +637,6 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
 
      this.cmm.show(AddAlertComponent, lat, lng, this);
      this.disablebutton = false;
-     console.log(this.disablebutton);
   }
 
 

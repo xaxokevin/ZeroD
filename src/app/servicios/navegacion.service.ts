@@ -23,6 +23,7 @@ export class NavegacionService {
  * @param lng longitud de la ubicación del modal
  */
 recibeUbicacion(lat:any, lng:any){
+  console.log(lat +" "+ lng)
 
   this.latitud= lat;
   this.longitud=lng;

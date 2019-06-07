@@ -48,7 +48,6 @@ export class ViewCardComponent implements OnInit {
    * metodo que nos redirige hacia el mapa con la ubicacion de esa alerta
    */
   openMap(){
-    console.log(this.longitud +"hola")
     this.openM.recibeUbicacion(this.latitud,this.longitud);
     this.openM.cargaMapa(true);
     this.router.navigate(['/tabs/tab2']);
