@@ -6,12 +6,12 @@ export const environment = {
   production: false,
   firebaseConfig: {
 
-    apiKey: "AIzaSyB0njO8_XGXzeeA72OkV5RnVHJOt_SAZN8",
-    authDomain: "zerod-66498.firebaseapp.com",
-    databaseURL: "https://zerod-66498.firebaseio.com",
-    projectId: "zerod-66498",
-    storageBucket: "zerod-66498.appspot.com",
-    messagingSenderId: "158118334238",
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
     
     
 
