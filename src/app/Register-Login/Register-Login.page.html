@@ -4,7 +4,7 @@
 
 <ion-content padding >
 
-  <ion-img src="assets/sinavisos.png"></ion-img>
+  <ion-img src="assets/OK.png"></ion-img>
 
 
 
@@ -14,14 +14,14 @@
       <ion-input type="email"  formControlName="email"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>pass</ion-label>
+      <ion-label>contraseña</ion-label>
       <ion-input type="password"  formControlName="pass"></ion-input>
     </ion-item>
     
-    <ion-button expand="full"  color="tertiary" type="submit" [disabled]="!login.valid">Login</ion-button>
+    <ion-button expand="full"  color="tertiary" type="submit" [disabled]="!login.valid">Iniciar sesión</ion-button>
   </form>
 
 
-  <ion-button expand="full" color="primary" (click)="openRegister()">Register</ion-button>
+  <ion-button expand="full" color="primary" (click)="openRegister()">Registro</ion-button>
 
 </ion-content>

@@ -28,6 +28,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 })
 export class Tab2Page {
   @ViewChild('map') mapContainer: ElementRef;
+  mapDark:Boolean;
   ocultaA: Boolean;
   ocultaM: Boolean;
   map: any;
@@ -133,19 +134,16 @@ export class Tab2Page {
   */
   ionViewWillEnter() {
     this.loading.show('');
+    this.disablebutton=false;
 
   /*Cambiamos el valor del color del mapa
     en funcion el tema establecido
  */
+  
    //TODO cambiar el mapa segun el color del thema establecido
 
+    this.loadmap();
 
-// Se comprueba la conexión a internet y se hacen las respectivas operaciones segun tengamos o no activada la conexion
-    if (this.netwoekS.previousStatus === 1) {
-      this.loadmap();
-    } else if (this.netwoekS.previousStatus === 0) {
-
-      this.loadmap();
 /*comprueba si existe la variable ocultaA y ocultaM en la memoria del dispositivo
 Si no es asi se crea la variable en la memoria y se inicializa en la clase
 Si ya existe se obtiene el valor y se asigna a la de la clase
@@ -187,9 +185,8 @@ this.nativeStorage.getItem('ocultaM').then((d) => {
           this.addMark();
           this.openM.setAddM();
       }
-    }
+    
     this.loading.hide();
-
 
   }
 

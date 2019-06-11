@@ -54,7 +54,7 @@
             <ion-toggle [(ngModel)]="autoNight" checked="{{this.autoNight}}" (ionChange)="autoMode(autoNight)"></ion-toggle> 
         </ion-item>
 
-        <ion-item (click)="logout()">
+        <ion-item (click)="presentAlertConfirm()">
             <ion-label style="color:var( --ion-color-dark);">{{ "logout" | translate }}</ion-label>
         </ion-item>
     </div>

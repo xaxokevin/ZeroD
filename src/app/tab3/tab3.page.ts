@@ -6,6 +6,8 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { CloudserviceService } from '../servicios/cloudservice.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ThemingService } from '../servicios/theming.service';
+import { Platform, AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -31,7 +33,10 @@ export class Tab3Page {
     private camera: Camera,
     private sanitizer: DomSanitizer,
     private cloudS: CloudserviceService,
-    private themeS: ThemingService
+    private themeS: ThemingService,
+    private platform: Platform,
+    private alertController: AlertController,
+    private translate: TranslateService
 
   ) {
 
@@ -215,7 +220,8 @@ export class Tab3Page {
     this.nativeStorage.clear().then(e => {
       console.log(e);
       this.usuario = false;
-      this.router.navigateByUrl('/tabs/tab3');
+      navigator['app'].exitApp();
+     
 
     }).catch(error =>{
       console.log(error);
@@ -255,4 +261,30 @@ export class Tab3Page {
     }
   }
 
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      header: this.translate.instant('logoutH'),
+      message: this.translate.instant('logoutM'),
+      buttons: [
+        {
+          text: this.translate.instant('logoutBc'),
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: this.translate.instant('logoutBa'),
+          handler: () => {
+            this.logout();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
 }
+
+

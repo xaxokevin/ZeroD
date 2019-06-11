@@ -140,7 +140,7 @@ export class CloudserviceService {
     }).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log(errorCode + ': ' + errorMessage);
+      this.toast.show(this.translate.instant('existUser'));
     });
   }
 
